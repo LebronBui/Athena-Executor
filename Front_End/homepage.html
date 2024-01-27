@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>HomePage</title>
+    <link rel="stylesheet" rel="dns-prefetch"
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+
+<body>
+    <header role="banner">
+        <div class="container-fluid">
+            <div class="row space-bottom-wide">
+                <div class="col-xs-7 col-sm-4 col-md-3 logo-col-container">
+                    <div class="navbar-header inline-block space-top-wide">
+                        <!-- LOGO -->
+                        <a href="/" class="logo pull-left" itemprop="url">
+                            <img src="https://image.invaluable.com/static/header/IN_Red32.svg" alt="Invaluable" />
+                        </a>
+                    </div>
+                </div>
+                <div class="log-signup-container pull-right">
+                    <a id="headerHeartIcon" class="btn btn-link saved-items notifs-link" role="button">
+                        <span class="fa fa-heart"></span>
+                        <span class="space-left-sm hidden-xs hidden-sm">Saved</span>
+                    </a>
+                    <div href="/my-account/home" popover-placement="bottom" data-toggle="popover"
+                        data-container="header" data-popover="notifs-link" class="notifs-link btn hidden-xs"
+                        aria-label="Notifications Flyout" aria-expanded="false">
+                        <span class="fa fa-bell "></span>
+                        <span class="user-name notranslate hidden-sm">Notifications</span>
+                    </div>
+                    <div class="log-in-container inline-block">
+                        <button id="notifOptionsBtn" type="button"
+                            class="btn btn-modal-trigger btn-link bell-btn-sm right hidden-sm hidden-md hidden-lg"
+                            data-direction="right" aria-expanded="false" aria-label="Notifications Flyout"
+                            aria-hidden="true" data-modal-trigger="header-notifications">
+                            <span id="headerUserIconMobile" class="fa fa-bell header-bell-sm"></span>
+                        </button>
+                        <button popover-placement="bottom" data-container="header" role="button"
+                            class="btn btn-transparent login-link" id="loginLink">Log In</button>
+                        <button class="btn btn-default hidden-xs notranslate create-acct-link" id="signUpLink">Sign
+                            up</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </header>
+    <!-- NAV BAR -->
+    <nav class="navbar hidden-xs">
+        <div class="navbar-container container-fluid" style="background-color: #43c4eb;">
+            <div class="navbar-nav-links">
+                <a href="/auctions/" class="artists-link">Nhà riêng</a>
+                <a href="/auction-house" class="artists-link">Nhà mặt phố</a>
+                <a href="/artists/" class="artists-link notranslate">Nhà chung cư</a>
+                <span class="divider" style="background-color: black;"></span>
+                <a popover-placement="bottom" data-toggle="popover" data-container="nav"
+                    class="fine-art-link notranslate" data-popover="fine-art-link" data-num-cols="1"
+                    href="/fine-art/pc-SG2BIX3JPJ/" aria-expanded="false">Nhà biệt thự liền kề</a>
+                <a popover-placement="bottom" data-toggle="popover" data-container="nav"
+                    class="decorate-art-link notranslate" data-popover="decorate-art-link" data-num-cols="1"
+                    href="/decorative-art/pc-HV9SJ0PETO/" aria-expanded="false">Đất</a>
+                <a popover-placement="bottom" data-toggle="popover" data-container="nav"
+                    class="jewelry-link notranslate" data-popover="jewelry-link" data-num-cols="2"
+                    href="/jewelry/pc-YKGNZXS2MH/" aria-expanded="false">Đất nền dự án</a>
+                <a popover-placement="bottom" data-toggle="popover" data-container="nav"
+                    class="collectibles-link hidden-sm notranslate" data-popover="collectibles-link" data-num-cols="2"
+                    href="/collectibles/pc-BQWOG3FLWY/" aria-expanded="false">Cửa hàng, ki ốt</a>
+                <a popover-placement="bottom" data-toggle="popover" data-container="nav"
+                    class="furniture-link hidden-sm notranslate" data-popover="furniture-link" data-num-cols="2"
+                    href="/furniture/pc-66MNH3RVXU/" aria-expanded="false">
+                    <span class>Văn phòng</span>
+                </a>
+                <button popover-placement="bottom" data-toggle="popover" aria-label="More Categories"
+                    data-container="nav" class="btn more-link notranslate" data-popover="more-link"
+                    aria-expanded="false">
+                    <span class="fa fa-bars"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+</body>
+
+</html>
