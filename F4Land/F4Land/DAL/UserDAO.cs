@@ -1,4 +1,4 @@
-﻿using Microsoft.DotNet.Scaffolding.Shared.Messaging;
+﻿
 using RealEstateAuction.Models;
 
 namespace RealEstateAuction.DAL
