@@ -1,4 +1,4 @@
-namespace F4Land.Models
+namespace RealEstateAuction.Models
 {
     public class ErrorViewModel
     {

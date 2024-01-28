@@ -9,39 +9,55 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = F4Land
 build_property.RootNamespace = F4Land
-build_property.ProjectDir = D:\Work\FU_Support\Quang_Minh\Fall2024\Temp\SWP391_F4Land\F4Land\F4Land\
+build_property.ProjectDir = C:\Users\PC\Desktop\SWP391_F4Land\F4Land\F4Land\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\Work\FU_Support\Quang_Minh\Fall2024\Temp\SWP391_F4Land\F4Land\F4Land
+build_property.MSBuildProjectDirectory = C:\Users\PC\Desktop\SWP391_F4Land\F4Land\F4Land
 build_property._RazorSourceGeneratorDebug = 
 
-[D:/Work/FU_Support/Quang_Minh/Fall2024/Temp/SWP391_F4Land/F4Land/F4Land/Views/Home/Index.cshtml]
+[C:/Users/PC/Desktop/SWP391_F4Land/F4Land/F4Land/Views/Authentication/EnterOtp.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aGVudGljYXRpb25cRW50ZXJPdHAuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/PC/Desktop/SWP391_F4Land/F4Land/F4Land/Views/Authentication/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aGVudGljYXRpb25cTG9naW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/PC/Desktop/SWP391_F4Land/F4Land/F4Land/Views/Authentication/ResetPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aGVudGljYXRpb25cUmVzZXRQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/PC/Desktop/SWP391_F4Land/F4Land/F4Land/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Work/FU_Support/Quang_Minh/Fall2024/Temp/SWP391_F4Land/F4Land/F4Land/Views/Home/Privacy.cshtml]
+[C:/Users/PC/Desktop/SWP391_F4Land/F4Land/F4Land/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Work/FU_Support/Quang_Minh/Fall2024/Temp/SWP391_F4Land/F4Land/F4Land/Views/Shared/Error.cshtml]
+[C:/Users/PC/Desktop/SWP391_F4Land/F4Land/F4Land/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Work/FU_Support/Quang_Minh/Fall2024/Temp/SWP391_F4Land/F4Land/F4Land/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/PC/Desktop/SWP391_F4Land/F4Land/F4Land/Views/Shared/Layout02.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXExheW91dDAyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/PC/Desktop/SWP391_F4Land/F4Land/F4Land/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Work/FU_Support/Quang_Minh/Fall2024/Temp/SWP391_F4Land/F4Land/F4Land/Views/_ViewImports.cshtml]
+[C:/Users/PC/Desktop/SWP391_F4Land/F4Land/F4Land/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Work/FU_Support/Quang_Minh/Fall2024/Temp/SWP391_F4Land/F4Land/F4Land/Views/_ViewStart.cshtml]
+[C:/Users/PC/Desktop/SWP391_F4Land/F4Land/F4Land/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Work/FU_Support/Quang_Minh/Fall2024/Temp/SWP391_F4Land/F4Land/F4Land/Views/Shared/_Layout.cshtml]
+[C:/Users/PC/Desktop/SWP391_F4Land/F4Land/F4Land/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-cl243tga5p
