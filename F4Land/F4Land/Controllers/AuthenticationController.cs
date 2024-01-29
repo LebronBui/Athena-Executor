@@ -9,6 +9,7 @@ using System.Security.Claims;
 
 namespace RealEstateAuction.Controllers
 {
+    //authenlogin
     public class AuthenticationController : Controller
     {
         UserDAO userDAO = new UserDAO();
