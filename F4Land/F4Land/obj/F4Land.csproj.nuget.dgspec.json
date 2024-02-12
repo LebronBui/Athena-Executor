@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\PC\\Desktop\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj": {}
+    "C:\\Users\\ASUS\\OneDrive\\Documents\\GitHub\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj": {}
   },
   "projects": {
-    "C:\\Users\\PC\\Desktop\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj": {
+    "C:\\Users\\ASUS\\OneDrive\\Documents\\GitHub\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\PC\\Desktop\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj",
+        "projectUniqueName": "C:\\Users\\ASUS\\OneDrive\\Documents\\GitHub\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj",
         "projectName": "F4Land",
-        "projectPath": "C:\\Users\\PC\\Desktop\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj",
-        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\PC\\Desktop\\SWP391_F4Land\\F4Land\\F4Land\\obj\\",
+        "projectPath": "C:\\Users\\ASUS\\OneDrive\\Documents\\GitHub\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj",
+        "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ASUS\\OneDrive\\Documents\\GitHub\\SWP391_F4Land\\F4Land\\F4Land\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -40,6 +40,14 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[12.0.1, )"
+            },
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[12.0.1, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[7.0.15, )"
@@ -78,7 +86,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }
