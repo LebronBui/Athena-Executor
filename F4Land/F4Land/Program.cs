@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using RealEstateAuction.AutoMapperProfile;
 using RealEstateAuction.Services;
 internal class Program
 {
@@ -6,7 +7,11 @@ internal class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        // Add automapper service
+        builder.Services.AddAutoMapper(typeof(DataModelToModel).Assembly, typeof(ModelToDataModel).Assembly);
+
         builder.Services.AddTransient<IEmailSender, EmailSender>();
+
 
         // Add services to the container.
         builder.Services.AddControllersWithViews();
