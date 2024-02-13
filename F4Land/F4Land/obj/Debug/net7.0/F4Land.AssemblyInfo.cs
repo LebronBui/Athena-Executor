@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("F4Land")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b814e953b4f5f006dad257aba9b42854aa2c3ec4")]
 [assembly: System.Reflection.AssemblyProductAttribute("F4Land")]
 [assembly: System.Reflection.AssemblyTitleAttribute("F4Land")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
