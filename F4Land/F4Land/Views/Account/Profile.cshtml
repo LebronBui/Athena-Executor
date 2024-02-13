@@ -1,0 +1,46 @@
+﻿@model RealEstateAuction.DataModel.UserDatalModel
+@{
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+    ViewData["Title"] = "Profile";
+}
+<h2>Edit Profile</h2>
+<hr>
+<h5 class="mt-4">Account Info</h5>
+@using (Html.BeginForm("Profile", "Account", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-6">
+            <div class="input-group mt-3">
+                <span class="input-group-text">Họ và tên</span>
+                <input type="text" name="FullName" class="form-control" value="@Model.FullName">
+            </div>
+            @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+
+            <div class="input-group mt-3">
+                <span class="input-group-text">Email</span>
+                <input type="text" name="Email" class="form-control" value="@Model.Email" readonly />
+            </div>
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+
+            <div class="input-group mt-3">
+                <span class="input-group-text">Số điện thoại</span>
+                <input type="text" name="Phone" class="form-control" value="@Model.Phone">
+            </div>
+            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+
+            <div class="input-group mt-3">
+                <span class="input-group-text">Ngày sinh</span>
+                <input type="date" name="Dob" class="form-control" value="@Model.Dob.ToString("yyyy-MM-dd")">
+            </div>
+            @Html.ValidationMessageFor(model => model.Dob, "", new { @class = "text-danger" })
+
+            <div class="input-group mt-3">
+                <span class="input-group-text">Địa chỉ</span>
+                <input type="text" name="Address" class="form-control" value="@Model.Address">
+            </div>
+            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+
+        </div>
+    </div>
+    <button class="btn btn-primary mt-3">Lưu lại</button>
+}
