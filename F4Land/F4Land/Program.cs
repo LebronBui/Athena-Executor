@@ -19,7 +19,7 @@ internal class Program
             .AddCookie(options =>
             {
                 options.LoginPath = "/home";
-                options.AccessDeniedPath = "/home/Error/";
+                options.AccessDeniedPath = "/access-denied";
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
             });
         builder.Services.AddSession(options =>
