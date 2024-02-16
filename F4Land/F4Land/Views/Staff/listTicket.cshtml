@@ -1,0 +1,56 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model X.PagedList.IPagedList<Ticket>
+<h1>Ticket List</h1>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Title</th>
+            <th scope="col">Username</th>
+            <th scope="col">Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count != 0)
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th>@item.Id</th>
+                    <td>@item.Title</td>
+                    <td>@item.User.FullName</td>
+                    <td>@item.Status</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+@if (Model.Count != 0)
+{
+    <div class="text-center">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+                    <a class="page-link" href="@Url.Action("tickets", new { page = Model.PageNumber - 1 })">Previous</a>
+                </li>
+                @for (int i = Model.PageNumber - 5; i <= Model.PageNumber + 5; i++)
+                {
+                    if (i > 0 && i <= Model.PageCount)
+                    {
+                        <li class="page-item @(Model.PageNumber == i ? "disabled active" : "")">
+                            <a class="page-link" href="@Url.Action("tickets", new { page = i })">@i</a>
+                        </li>
+                    }
+                }
+                <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+                    <a class="page-link" href="@Url.Action("tickets", new { page = Model.PageNumber + 1 })">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+}
