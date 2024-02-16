@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\SWP391_F4Land\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj": {}
+    "C:\\Users\\TRAN ANH KIET\\OneDrive\\Documents\\GitHub\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj": {}
   },
   "projects": {
-    "D:\\SWP391_F4Land\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj": {
+    "C:\\Users\\TRAN ANH KIET\\OneDrive\\Documents\\GitHub\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\SWP391_F4Land\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj",
+        "projectUniqueName": "C:\\Users\\TRAN ANH KIET\\OneDrive\\Documents\\GitHub\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj",
         "projectName": "F4Land",
-        "projectPath": "D:\\SWP391_F4Land\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj",
-        "packagesPath": "C:\\Users\\alvin\\.nuget\\packages\\",
-        "outputPath": "D:\\SWP391_F4Land\\SWP391_F4Land\\F4Land\\F4Land\\obj\\",
+        "projectPath": "C:\\Users\\TRAN ANH KIET\\OneDrive\\Documents\\GitHub\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj",
+        "packagesPath": "C:\\Users\\TRAN ANH KIET\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\TRAN ANH KIET\\OneDrive\\Documents\\GitHub\\SWP391_F4Land\\F4Land\\F4Land\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\alvin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\TRAN ANH KIET\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,8 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "C:\\Program Files\\dotnet\\library-packs": {}
         },
         "frameworks": {
           "net7.0": {
@@ -39,6 +38,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -93,7 +97,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200\\RuntimeIdentifierGraph.json"
         }
       }
     }

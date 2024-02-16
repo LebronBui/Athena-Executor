@@ -3,13 +3,14 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Diagnostics;
 using RealEstateAuction.DAL;
+using RealEstateAuction.Enums;
 using RealEstateAuction.Models;
 using RealEstateAuction.Services;
+using System.Data;
 using System.Security.Claims;
 
 namespace RealEstateAuction.Controllers
 {
-
     public class AuthenticationController : Controller
     {
         UserDAO userDAO = new UserDAO();
@@ -34,19 +35,26 @@ namespace RealEstateAuction.Controllers
 
             var user = userDAO.GetUserByEmailAndPassword(email, password);
 
+            var roles = new Dictionary<Roles, string>
+            {
+                { Roles.Admin, "Admin" },
+                { Roles.Staff, "Staff" },
+                { Roles.Customer, "Customer" }
+            };
+
             Console.WriteLine(user);
             if (user != null)
             {
                 List<Claim> claims = new List<Claim>() {
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                    new Claim("FullName", user.FullName),
-                    new Claim("Email", user.Email),
-                    new Claim("Phone", user.Phone),
-                    new Claim("Dob", user.Dob.ToString()),
-                    new Claim("Address", user.Address),
+                    new Claim(ClaimTypes.Role, roles[(Roles) user.RoleId]),
+                    //new Claim("FullName", user.FullName),
+                    //new Claim("Email", user.Email),
+                    //new Claim("Phone", user.Phone),
+                    //new Claim("Dob", user.Dob.ToString()),
+                    //new Claim("Address", user.Address),
                     new Claim("Avatar", user.Avatar==null?"":"oke"),
-                    new Claim("RoleId", user.RoleId.ToString()),
-                    new Claim("Description", user.Description==null?"":"oke"),
+                    //new Claim("Description", user.Description==null?"":"oke"),
                 };
 
 
@@ -67,7 +75,15 @@ namespace RealEstateAuction.Controllers
                                                           new ClaimsPrincipal(claimsIdentity), properties);
 
                 TempData["Message"] = "Login successful!";
-                return Redirect("home");
+                switch (user.RoleId)
+                {
+                    case (int)Roles.Admin:
+                        return Redirect("admin");
+                    case (int)Roles.Staff:
+                        return Redirect("staff");
+                    default:
+                        return Redirect("home");
+                }
             }
             else
             {
@@ -199,6 +215,12 @@ namespace RealEstateAuction.Controllers
         {
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Redirect("home");
+        }
+
+        [Route("access-denied")]
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }
