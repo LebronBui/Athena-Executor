@@ -31,6 +31,8 @@ public partial class RealEstateContext : DbContext
 
     public virtual DbSet<Ticket> Tickets { get; set; }
 
+    public virtual DbSet<TicketComment> TicketComments { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -38,8 +40,8 @@ public partial class RealEstateContext : DbContext
         var builder = new ConfigurationBuilder()
                         .SetBasePath(Directory.GetCurrentDirectory())
                         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-                        IConfigurationRoot configuration = builder.Build();
-                        optionsBuilder.UseSqlServer(configuration.GetConnectionString("connection"));
+        IConfigurationRoot configuration = builder.Build();
+        optionsBuilder.UseSqlServer(configuration.GetConnectionString("connection"));
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -172,6 +174,18 @@ public partial class RealEstateContext : DbContext
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Ticket_User");
+        });
+
+        modelBuilder.Entity<TicketComment>(entity =>
+        {
+            entity.ToTable("TicketComment");
+
+            entity.Property(e => e.Comment).HasColumnType("ntext");
+
+            entity.HasOne(d => d.Ticket).WithMany(p => p.TicketComments)
+                .HasForeignKey(d => d.TicketId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_TicketComment_Ticket");
         });
 
         modelBuilder.Entity<User>(entity =>

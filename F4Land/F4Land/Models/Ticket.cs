@@ -19,5 +19,7 @@ public partial class Ticket
 
     public virtual User? Staff { get; set; }
 
+    public virtual ICollection<TicketComment> TicketComments { get; set; } = new List<TicketComment>();
+
     public virtual User User { get; set; } = null!;
 }
