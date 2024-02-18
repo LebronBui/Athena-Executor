@@ -1,237 +1,250 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-<main id="mainContent">
-    <section class="homepage-container">
-        <!--carousel-->
-        <div class="w3-content w3-display-container" style="max-width:1500px">
-            <img class="mySlides"
-                 src="https://cdnmedia.baotintuc.vn/Upload/DmtgOUlHWBO5POIHzIwr1A/files/2020/02/28/06-datcong01.jpg"
-                 style="width:100%;max-height: 500px;">
-            <img class="mySlides" src="https://www.w3schools.com/w3css/img_snow_wide.jpg"
-                 style="width:100%;max-height: 500px;">
-            <img class="mySlides" src="https://www.w3schools.com/w3css/img_mountains_wide.jpg"
-                 style="width:100%;max-height: 500px;">
-            <div class=" w3-center w3-container w3-section w3-large w3-text-white w3-display-bottommiddle"
-                 style="width:100%">
-                <div class="w3-left w3-hover-text-khaki" onclick="plusDivs(-1)">&#10094;</div>
-                <div class="w3-right w3-hover-text-khaki" onclick="plusDivs(1)">&#10095;</div>
-                <span class="w3-badge demo w3-border w3-transparent w3-hover-white"
-                      onclick="currentDiv(1)"></span>
-                <span class="w3-badge demo w3-border w3-transparent w3-hover-white"
-                      onclick="currentDiv(2)"></span>
-                <span class="w3-badge demo w3-border w3-transparent w3-hover-white"
-                      onclick="currentDiv(3)"></span>
+<div class="max-width-section">
+    <div class="d-flex gap-4 align-items-center">
+        <h3 class="fw-lighter mb-0">Curated Collections</h3>
+        <button class="btn btn-outline-secondary rounded-pill fs-6">
+            View All
+        </button>
+    </div>
+    <div class="mt-3 row">
+        <div class="col-md-2 col-sm-4 col-6">
+            <div class="ratio ratio-1x1 rounded-2">
+                <img class="object-fit-cover w-100 rounded-2"
+                     src="https://www.invaluable.com/inv/discover/wp-content/uploads/sites/87/2023/05/Collections-Category-Flawsome.jpg"
+                     alt="">
+            </div>
+            <div class="fs-6 fw-bold mt-2">
+                SUMMER
             </div>
         </div>
-        <div class="container-fluid space-top-wide">
-            <div class="space-top-wide bordered-bottom">
-                <h1 class="space-bottom-none">Upcoming Online Auctions</h1>
+        <div class="col-md-2 col-sm-4 col-6">
+            <div class="ratio ratio-1x1 rounded-2">
+                <img class="object-fit-cover w-100 rounded-2"
+                     src="https://www.invaluable.com/inv/discover/wp-content/uploads/sites/87/2023/05/Collections-Category-Bazaar.jpg"
+                     alt="">
             </div>
-            <div id="UpcomingAuctionsHomepage" class="featured-auctions">
-                <div class="bordered-bottom padding-bottom-wide">
-                    <div class="space-top-wide row">
-                        <div class="col-md-3 col-sm-2 col-xs-3">
-                            <div class="thumb-container">
-                                <div class="thumb">
-                                    <a href="/catalog/3n0n3rqcje"
-                                       aria-label="Go to ORIENTAL ART HAMMER AUCTION 18 JANUARY 2024">
-                                        <img src="https://image.invaluable.com/housePhotos/OrientalArt/71/762671/H20312-C358681590.jpg"
-                                             alt="ORIENTAL ART HAMMER AUCTION 18 JANUARY 2024"
-                                             class="lazyloaded" />
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-9 col-sm-10 col-xs-9">
-                            <div class="row">
-                                <div class="col-md-8 col-sm-8 col-xs-12">
-                                    <h3 class="space-bottom-none space-top-none">
-                                        <a href="/catalog/3n0n3rqcje">
-                                            ORIENTAL ART HAMMER AUCTION 18 JANUARY
-                                            2024
-                                        </a>
-                                    </h3>
-                                    <p class="space-top-sm">
-                                        <a href="/auction-house/oriental-art-auctions-fqo0wf0wto"
-                                           class="link-color-black">
-                                            by
-                                            <!-- -->
-                                            Oriental Art Auctions
-                                        </a>
-                                    </p>
-                                    <p class="space-bottom-none">
-                                        <span class="localized-date hide d-none">
-                                            January 18, 2024 10:00 AM CET
-                                            <!-- -->
-                                        </span>
-                                        <span class="non-localized-date">January 18, 2024 10:00 AM CET</span>
-                                    </p>
-                                    <p>Hattemerbroek, Netherlands</p>
-                                </div>
-                                <div class="col-md-4 col-sm-4">
-                                    <div>
-                                        <p>
-                                            <i class="fa fa-feed"></i>
-                                            Live
-                                            <!-- -->
-                                            Auction
-                                        </p>
-                                        <p>
-                                            <a role="button" class="btn btn-live full-width">
-                                                Enter Live
-                                                Auction
-                                            </a>
-                                        </p>
-                                        <p class="flush-right-left-text">
-                                            <a role="button" class="registerToBidLogin link" tabindex="0"
-                                               data-rfa-link="/bidNow/reqForApproval?catalogRef=3N0N3RQCJE"
-                                               rel="nofollow">Register to bid</a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="d-flex w-100 align-content-center" style="margin-top:15px"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="bordered-bottom padding-bottom-wide">
-                    <div class="space-top-wide row">
-                        <div class="col-md-3 col-sm-2 col-xs-3">
-                            <div class="thumb-container">
-                                <div class="thumb">
-                                    <a href="/catalog/roqq9lb04y"
-                                       aria-label="Go to Asian Art Discoveries Day 2 - Chinese Art Discoveries">
-                                        <img src="https://image.invaluable.com/housePhotos/zacke/77/762077/H2703-C357790077.jpg"
-                                             alt="Asian Art Discoveries Day 2 - Chinese Art Discoveries"
-                                             class="lazyloaded" />
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-9 col-sm-10 col-xs-9">
-                            <div class="row">
-                                <div class="col-md-8 col-sm-8 col-xs-12">
-                                    <h3 class="space-bottom-none space-top-none">
-                                        <a href="/catalog/roqq9lb04y">
-                                            Asian Art Discoveries Day 2 - Chinese Art
-                                            Discoveries
-                                        </a>
-                                    </h3>
-                                    <p class="space-top-sm">
-                                        <a href="/auction-house/galerie-zacke-ipl6tbvlv4"
-                                           class="link-color-black">
-                                            by
-                                            <!-- -->
-                                            Galerie Zacke
-                                        </a>
-                                    </p>
-                                    <p class="space-bottom-none">
-                                        <span class="localized-date hide d-none">
-                                            January 18, 2024 11:00 AM CET
-                                            <!-- -->
-                                        </span>
-                                        <span class="non-localized-date">January 18, 2024 11:00 AM CET</span>
-                                    </p>
-                                    <p>Vienna, Austria</p>
-                                </div>
-                                <div class="col-md-4 col-sm-4">
-                                    <div>
-                                        <p>
-                                            <i class="fa fa-feed"></i>
-                                            Live
-                                            <!-- -->
-                                            Auction
-                                        </p>
-                                        <p>
-                                            <a role="button" class="btn btn-live full-width">
-                                                Enter Live
-                                                Auction
-                                            </a>
-                                        </p>
-                                        <p class="flush-right-left-text">
-                                            <a role="button" class="registerToBidLogin link" tabindex="0"
-                                               data-rfa-link="/bidNow/reqForApproval?catalogRef=ROQQ9LB04Y"
-                                               rel="nofollow">Register to bid</a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="d-flex w-100 align-content-center" style="margin-top:15px"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="bordered-bottom padding-bottom-wide">
-                    <div class="space-top-wide row">
-                        <div class="col-md-3 col-sm-2 col-xs-3">
-                            <div class="thumb-container">
-                                <div class="thumb">
-                                    <a href="/catalog/xnorlts5g5" aria-label="Go to Old Stocks and Bonds">
-                                        <img src="https://image.invaluable.com/housePhotos/HWPH/80/762080/H4032-C357763607.jpg"
-                                             alt="Old Stocks and Bonds" class="lazyloaded" />
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-9 col-sm-10 col-xs-9">
-                            <div class="row">
-                                <div class="col-md-8 col-sm-8 col-xs-12">
-                                    <h3 class="space-bottom-none space-top-none">
-                                        <a href="/catalog/xnorlts5g5">Old Stocks and Bonds</a>
-                                    </h3>
-                                    <p class="space-top-sm">
-                                        <a href="/auction-house/hwph-historisches-wertpapierhaus-ag-0uiot3zhfn"
-                                           class="link-color-black">
-                                            by
-                                            <!-- -->
-                                            HWPH Historisches Wertpapierhaus AG
-                                        </a>
-                                    </p>
-                                    <p class="space-bottom-none">
-                                        <span class="localized-date hide d-none">
-                                            January 18, 2024 12:00 PM CET
-                                            <!-- -->
-                                        </span>
-                                        <span class="non-localized-date">January 18, 2024 12:00 PM CET</span>
-                                    </p>
-                                    <p>Zorneding, Germany</p>
-                                </div>
-                                <div class="col-md-4 col-sm-4">
-                                    <div>
-                                        <p>
-                                            <i class="fa fa-feed"></i>
-                                            Live
-                                            <!-- -->
-                                            Auction
-                                        </p>
-                                        <p>
-                                            <a role="button" class="btn btn-live full-width">
-                                                Enter Live
-                                                Auction
-                                            </a>
-                                        </p>
-                                        <p class="flush-right-left-text">
-                                            <a role="button" class="registerToBidLogin link" tabindex="0"
-                                               data-rfa-link="/bidNow/reqForApproval?catalogRef=XNORLTS5G5"
-                                               rel="nofollow">Register to bid</a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="d-flex w-100 align-content-center" style="margin-top:15px"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="text-center space-top-wide">
-                <a href="/auctions/">View all upcoming live and timed auctions</a>
+            <div class="fs-6 fw-bold mt-2">
+                SUMMER
             </div>
         </div>
-    </section>
-</main>
+        <div class="col-md-2 col-sm-4 col-6">
+            <div class="ratio ratio-1x1 rounded-2">
+                <img class="object-fit-cover w-100 rounded-2"
+                     src="https://www.invaluable.com/inv/discover/wp-content/uploads/sites/87/2023/05/Collections-Category-Flawsome.jpg"
+                     alt="">
+            </div>
+            <div class="fs-6 fw-bold mt-2">
+                SUMMER
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-4 col-6">
+            <div class="ratio ratio-1x1 rounded-2">
+                <img class="object-fit-cover w-100 rounded-2"
+                     src="https://www.invaluable.com/inv/discover/wp-content/uploads/sites/87/2023/05/Collections-Category-Bazaar.jpg"
+                     alt="">
+            </div>
+            <div class="fs-6 fw-bold mt-2">
+                SUMMER
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-4 col-6">
+            <div class="ratio ratio-1x1 rounded-2">
+                <img class="object-fit-cover w-100 rounded-2"
+                     src="https://www.invaluable.com/inv/discover/wp-content/uploads/sites/87/2023/05/Collections-Category-Flawsome.jpg"
+                     alt="">
+            </div>
+            <div class="fs-6 fw-bold mt-2">
+                SUMMER
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-4 col-6">
+            <div class="ratio ratio-1x1 rounded-2">
+                <img class="object-fit-cover w-100 rounded-2"
+                     src="https://www.invaluable.com/inv/discover/wp-content/uploads/sites/87/2023/05/Collections-Category-Bazaar.jpg"
+                     alt="">
+            </div>
+            <div class="fs-6 fw-bold mt-2">
+                SUMMER
+            </div>
+        </div>
+    </div>
+    <div class="d-flex gap-4 align-items-center mt-5">
+        <h3 class="fw-lighter mb-0">Promoted Auctions</h3>
+    </div>
+    <div class="mt-2 pt-3" style="border-top: 1px solid #dde2e4;">
+        <div class="row">
+            <div class="col-xs-12 col-sm-4 py-2">
+                <div class="row" style="border: 1px solid #bac4c9;">
+                    <div class="col-6 position-relative">
+                        <img style="max-height: 180px;" class=""
+                             src="https://image.invaluable.com/housePhotos/Potter_Potter/14/761614/H4052-L359265632_mid.jpg"
+                             alt="">
+                    </div>
+                    <div class="col-6">
+                        <div class="fs-6 fw-semibold truncate-2-line">
+                            DAF HAR YRYR AYRYR YRYR DAF HAR YRYR AYRYR YRYR DAF HAR YRYR AYRYR YRYR
+                        </div>
+                        <div class="fs-6 fw-lighter truncate-2-line mt-1">
+                            By: Potter
+                        </div>
+                        <div class="fs-6 fw-light truncate-2-line mt-2">
+                            FEB 15:20
+                        </div>
+                        <button class="btn btn-danger-secondary mt-3 w-100">
+                            View Items
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-4 py-2">
+                <div class="row" style="border: 1px solid #bac4c9;">
+                    <div class="col-6 position-relative">
+                        <img style="max-height: 180px;" class=""
+                             src="https://image.invaluable.com/housePhotos/Potter_Potter/14/761614/H4052-L359265632_mid.jpg"
+                             alt="">
+                        <div style="position: absolute; top: 0px; left: 12px;">
+                            <img style="height: 54px; width: 40px; object-fit: contain;"
+                                 src="https://cdn.evergage.com/evergage-content/invaluable/BP_Badge.png"
+                                 alt="">
+                        </div>
+                    </div>
+                    <div class="col-6 position-relative">
+                        <div class="fs-6 fw-semibold truncate-2-line">
+                            DAF HAR YRYR AYRYR YRYR DAF HAR YRYR AYRYR YRYR DAF HAR YRYR AYRYR YRYR
+                        </div>
+                        <div class="fs-6 fw-lighter truncate-2-line mt-1">
+                            By: Potter
+                        </div>
+                        <div class="fs-6 fw-light truncate-2-line mt-2">
+                            FEB 15:20
+                        </div>
+                        <button class="btn btn-danger-secondary mt-3 w-100">
+                            View Items
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-4 py-2">
+                <div class="row" style="border: 1px solid #bac4c9;">
+                    <div class="col-6">
+                        <img style="max-height: 180px;" class=""
+                             src="https://image.invaluable.com/housePhotos/Potter_Potter/14/761614/H4052-L359265632_mid.jpg"
+                             alt="">
+                    </div>
+                    <div class="col-6">
+                        <div class="fs-6 fw-semibold truncate-2-line">
+                            DAF HAR YRYR AYRYR YRYR DAF HAR YRYR AYRYR YRYR DAF HAR YRYR AYRYR YRYR
+                        </div>
+                        <div class="fs-6 fw-lighter truncate-2-line mt-1">
+                            By: Potter
+                        </div>
+                        <div class="fs-6 fw-light truncate-2-line mt-2">
+                            FEB 15:20
+                        </div>
+                        <button class="btn btn-danger-secondary mt-3 w-100">
+                            View Items
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h2 class="mt-5 mb-2 fw-light">Upcoming Online Auctions</h2>
+    <div>
+        <!-- Array of upcomming auctions -->
+        <div class="pt-3" style="border-top: 1px solid #dde2e4;">
+            <div class="row pb-3">
+                <div class="col-md-3 col-sm-2 col-xs-3">
+                    <div class="w-100 ratio ratio-1x1" style="border: 1px solid #dde2e4;">
+                        <img class="object-fit-contain"
+                             src="https://image.invaluable.com/housePhotos/RosesAntiques/84/764984/H21800-C363114226.jpg"
+                             alt="">
+                    </div>
+                </div>
+                <div class="col-md-9 col-sm-10 col-xs-9">
+                    <div class="row">
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                            <div class="fs-6 fw-semibold truncate-2-line">
+                                DAF HAR YRYR AYRYR YRYR DAF HAR YRYR AYRYR YRYR DAF HAR YRYR AYRYR YRYR
+                            </div>
+                            <div class="fs-6 fw-lighter truncate-2-line mt-1">
+                                By: Potter
+                            </div>
+                            <div class="fs-6 fw-light truncate-2-line mt-2">
+                                FEB 15:20
+                            </div>
+                            <div class="fs-6 fw-light truncate-2-line mt-2">
+                                Potomac, MD, US
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <div class="d-flex align-items-center">
+                                <i class="fa-regular fa-clock"></i>
+                                <div class="fs-6 fw-light truncate-2-line">
+                                    Timed Auction
+                                </div>
+                            </div>
+                            <button class="btn btn-danger mt-3 w-100">
+                                Happening Now
+                            </button>
+                            <a class="text-decoration-none cursor-pointer mt-3">
+                                Register to bid
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pt-3" style="border-top: 1px solid #dde2e4;">
+            <div class="row pb-3">
+                <div class="col-md-3 col-sm-2 col-xs-3">
+                    <div class="w-100 ratio ratio-1x1" style="border: 1px solid #dde2e4;">
+                        <img class="object-fit-contain"
+                             src="https://image.invaluable.com/housePhotos/hildas/24/765024/H23015-C362955358.jpg"
+                             alt="">
+                    </div>
+                </div>
+                <div class="col-md-9 col-sm-10 col-xs-9">
+                    <div class="row">
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                            <div class="fs-6 fw-semibold truncate-2-line">
+                                DAF HAR YRYR AYRYR YRYR DAF HAR YRYR AYRYR YRYR DAF HAR YRYR AYRYR YRYR
+                            </div>
+                            <div class="fs-6 fw-lighter truncate-2-line mt-1">
+                                By: Potter
+                            </div>
+                            <div class="fs-6 fw-light truncate-2-line mt-2">
+                                FEB 15:20
+                            </div>
+                            <div class="fs-6 fw-light truncate-2-line mt-2">
+                                Potomac, MD, US
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <div class="d-flex align-items-center">
+                                <i class="fa-solid fa-wifi"></i>
+                                <div class="fs-6 fw-light truncate-2-line">
+                                    Live Auction
+                                </div>
+                            </div>
+                            <button class="btn btn-danger mt-3 w-100">
+                                Enter Live Auction
+                            </button>
+                            <a class="text-decoration-none cursor-pointer mt-3">
+                                Register to bid
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pt-3 d-flex justify-content-center align-items-center"
+         style="border-top: 1px solid #dde2e4;">
+        <a href="/" class="text-decoration-none cursor-pointer cursor-pointer">
+            View all upcoming live and timed auctions
+        </a>
+    </div>
+</div>

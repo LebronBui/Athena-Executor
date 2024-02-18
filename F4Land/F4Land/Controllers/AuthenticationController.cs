@@ -6,7 +6,6 @@ using RealEstateAuction.DAL;
 using RealEstateAuction.Enums;
 using RealEstateAuction.Models;
 using RealEstateAuction.Services;
-using System.Data;
 using System.Security.Claims;
 
 namespace RealEstateAuction.Controllers
@@ -48,13 +47,11 @@ namespace RealEstateAuction.Controllers
                 List<Claim> claims = new List<Claim>() {
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(ClaimTypes.Role, roles[(Roles) user.RoleId]),
-                    //new Claim("FullName", user.FullName),
+                    new Claim("FullName", user.FullName),
                     //new Claim("Email", user.Email),
                     //new Claim("Phone", user.Phone),
                     //new Claim("Dob", user.Dob.ToString()),
                     //new Claim("Address", user.Address),
-                    new Claim("Avatar", user.Avatar==null?"":"oke"),
-                    //new Claim("Description", user.Description==null?"":"oke"),
                 };
 
 

@@ -1,11 +1,11 @@
 ﻿@model RealEstateAuction.DataModel.UserDatalModel
 @{
     Layout = "~/Views/Shared/UserLayout.cshtml";
-    ViewData["Title"] = "Profile";
+    ViewData["Title"] = "Thông tin cá nhân";
 }
-<h2>Edit Profile</h2>
+<h2>Chỉnh sửa hồ sơ</h2>
 <hr>
-<h5 class="mt-4">Account Info</h5>
+<h5 class="mt-4">Thông tin tài khoản</h5>
 @using (Html.BeginForm("Profile", "Account", FormMethod.Post))
 {
     <div class="row">

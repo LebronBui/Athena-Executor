@@ -1,9 +1,8 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RealEstateAuction.Models;
 using System.Diagnostics;
 
-namespace F4Land.Controllers
+namespace RealEstateAuction.Controllers
 {
     public class HomeController : Controller
     {
@@ -14,6 +13,8 @@ namespace F4Land.Controllers
             _logger = logger;
         }
 
+        [Route("")]
+        [Route("home")]
         public IActionResult Index()
         {
             return View();

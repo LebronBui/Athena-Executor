@@ -7,17 +7,355 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" rel="dns-prefetch"
-          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Auction</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="~/css/styles.css" type="text/css" />
 </head>
-<body>
+
+<body class="overflow-x-hidden">
     <!-- Display message here -->
     <div id="snackbar"></div>
 
+    <div class="sticky-top background-color">
+        <header class="px-5 py-3 row justify-content-between border-bottom">
+            <a href="/"
+               class="d-flex align-items-center col-md-2 mb-2 mb-md-0 text-dark text-decoration-none cursor-pointer">
+                <!-- LOGO -->
+                <img src="~/img/logo.jpg" alt="Invaluable" />
+            </a>
+
+            <div class="col-12 col-md-5 mb-2 justify-content-center mb-md-0 gap-md-5">
+                <form action="/search" method="get" class="input-group">
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1">
+                            <i class="fa-solid fa-magnifying-glass primary-color"></i>
+                        </span>
+                        <input type="text" class="form-control" placeholder="Search items & sellers" aria-label="search"
+                               aria-describedby="basic-addon1">
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-md-auto justify-content-end d-flex align-items-center gap-3">
+                <div class="gap-4 d-flex align-items-center">
+                    <button type="button" class="btn btn-outline-none text-nowrap">
+                        <i class="fa-solid fa-heart primary-color me-1"></i>
+                        Lưu trữ
+                    </button>
+                    <button type="button" class="btn btn-outline-none text-nowrap">
+                        <i class="fa-solid fa-bell primary-color me-1"></i>
+                        Thông báo
+                    </button>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <!-- If DO NOT login, show this   -->
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <button type="button" class="btn btn-outline-none text-nowrap" data-bs-toggle="modal"
+                                data-bs-target="#loginModal">
+                            Đăng nhập
+                        </button>
+
+                        <button type="button" class="btn btn-outline-secondary text-nowrap" data-bs-toggle="modal"
+                                data-bs-target="#registerModal">
+                            Đăng ký
+                        </button>
+                    }
+                    else
+                    {
+                        <!-- If login, show this -->
+                        <div class="dropdown">
+                            <a href="#" class="d-flex align-items-center link-dark text-decoration-none cursor-pointer dropdown-toggle"
+                               id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-user me-2 primary-color"></i>
+                                Hello:&ensp;<strong>@fullName</strong>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/profile">Thông tin cá nhân</a></li>
+                                <li><a class="dropdown-item" href="/manage-auction">Quản lý đấu giá</a></li>
+                                <li><a class="dropdown-item" href="/change-password">Đổi mật khẩu</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <form action="/logout">
+                                <li><a class="dropdown-item" href="/logout">Đăng xuất</a></li>
+                                </form>
+                            </ul>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </header>
+
+        <section class="px-5 py-2 d-md-block d-none" id="menu" style="background-color: #43c4eb">
+            <div class="d-flex justify-content-between align-items-center">
+                <a class="text-decoration-none cursor-pointer text-danger" href="/auctions">AUCTIONS</a>
+                <a class="text-decoration-none cursor-pointer text-danger" href="/auctions-house">AUCTION HOUSE</a>
+                <a class="text-decoration-none cursor-pointer text-danger" href="/artists">ARTISTS</a>
+                <div class="separated-line"></div>
+                <div class="dropdown">
+                    <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
+                         data-bs-toggle="dropdown" aria-expanded="false">
+                        FINE ART
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
+                         data-bs-toggle="dropdown" aria-expanded="false">
+                        DECORATION ART
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
+                         data-bs-toggle="dropdown" aria-expanded="false">
+                        JEWELRY
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
+                         data-bs-toggle="dropdown" aria-expanded="false">
+                        COLLECTIBLES
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
+                         data-bs-toggle="dropdown" aria-expanded="false">
+                        FURNITURES
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
+                         data-bs-toggle="dropdown" aria-expanded="false">
+                        ASIAN ARTS
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div id="body">
+        @if (!User.Identity.IsAuthenticated)
+        {
+            @await Html.PartialAsync("Modals/ForgotPassword")
+            @await Html.PartialAsync("Modals/SignIn")
+            @await Html.PartialAsync("Modals/SignUp")
+        }
+
+        <section id="banner">
+            <!-- Carousel wrapper -->
+            <div id="carousel-starter" class="carousel slide" data-bs-slide="carousel">
+                <div class="carousel-inner carousel-starter">
+                    <div class="carousel-item active">
+                        <div class="position-relative">
+                            <img src="https://tieudung.kinhtedothi.vn/upload_images/images/2021/10/07/gom.jpg"
+                                 alt="bg-blog" style="object-fit: cover; height: 420px; width: 100%;">
+                            <div class="responsive-banner-home">
+                                <div class="px-3 py-4 d-flex flex-column justify-content-center align-items-center"
+                                     style="background-color: #ffffff99">
+                                    <div class="fs-5 fw-normal">FEB 18 | 11 AM PST</div>
+                                    <div class="fs-5 fw-semibold mt-2">Chara Schrerry Collection Part II</div>
+                                    <div class="fs-5 fw-normal">FINE EST INC</div>
+                                    <button class="btn text-white mt-3 rounded-0" style="background-color: #a36b0c;">
+                                        Show Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="position-relative">
+                            <img src="https://gotrangtri.vn/wp-content/uploads/2020/12/mua-do-su-dep-o-dau-1-1.jpg"
+                                 alt="bg-blog" style="object-fit: cover; height: 420px; width: 100%;">
+                            <div class="responsive-banner-home">
+                                <div class="px-3 py-4 d-flex flex-column justify-content-center align-items-center"
+                                     style="background-color: #ffffff99">
+                                    <div class="fs-5 fw-normal">FEB 18 | 11 AM PST</div>
+                                    <div class="fs-5 fw-semibold mt-2">Chara Schrerry Collection Part II</div>
+                                    <div class="fs-5 fw-normal">FINE EST INC</div>
+                                    <button class="btn text-white mt-3 rounded-0" style="background-color: #a36b0c;">
+                                        Show Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="position-relative">
+                            <img src="https://tieudung.kinhtedothi.vn/upload_images/images/2021/10/07/gom.jpg"
+                                 alt="bg-blog" style="object-fit: cover; height: 420px; width: 100%;">
+                            <div class="responsive-banner-home">
+                                <div class="px-3 py-4 d-flex flex-column justify-content-center align-items-center"
+                                     style="background-color: #ffffff99">
+                                    <div class="fs-5 fw-normal">FEB 18 | 11 AM PST</div>
+                                    <div class="fs-5 fw-semibold mt-2">Chara Schrerry Collection Part II</div>
+                                    <div class="fs-5 fw-normal">FINE EST INC</div>
+                                    <button class="btn text-white mt-3 rounded-0" style="background-color: #a36b0c;">
+                                        Show Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carousel-starter"
+                        data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carousel-starter"
+                        data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </section>
+
+        <section id="main-content" class="border-1 border-top border-black py-4 px-5">
+            @RenderBody()
+        </section>
+
+        <!-- USED FOR FOOTER, COPY THIS TO SEPARATED FILE TO USE LATER -->
+        <footer>
+            <div class="d-flex flex-md-row flex-column justify-content-center align-items-center gap-3 sub-background pt-4 pb-2">
+                <img src="https://image.invaluable.com/static/invaluable/footer/footer2-devices.png" alt="footer"
+                     class="" style="width: 220px; object-fit: cover;">
+                <div class="d-flex flex-column gap-3">
+                    <div class="fs-5 fw-bolder">
+                        Get Invaluable on Your Phone
+                    </div>
+                    <div class="fs-6 fw-light" style="max-width:450px;">
+                        Download the app via text link to get instantly notified if you're outbid and receive auction
+                        reminders so you never miss out!
+                    </div>
+                    <div class="d-flex gap-2">
+                        <a class="btn btn-outline-none" target="_blank"
+                           href="https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=944415329&mt=8">
+                            <img src="https://image.invaluable.com/static/invaluable/footer/apple-store-badge.svg"
+                                 alt="appstore" style="height: 40px; object-fit: contain;">
+                        </a>
+                        <a class="btn btn-outline-none" target="_blank"
+                           href="https://play.google.com/store/apps/details?id=com.invaluable.invaluable&referrer=utm_source%3DInvaluable%20Footer%26utm_medium%3Dwebsite%26utm_campaign%3DGoogle%20Play%20App%20Download">
+                            <img src="https://image.invaluable.com/static/invaluable/footer/google-play-badge.svg"
+                                 alt="appstore" style="height: 40px; object-fit: contain;">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center align-items-center gap-4 px-2 py-4"
+                 style="background-color: #43c4eb;">
+                <a target="_blank" rel="noreferrer" href="https://www.facebook.com/InvaluableOfficial/">
+                    <i class="fa fa-facebook" style="color: white; font-size: 24px;"></i>
+                </a>
+                <a target="_blank" rel="noreferrer" href="https://twitter.com/invaluablelive">
+                    <i class="fa fa-twitter" style="color: white; font-size: 24px;"></i>
+                </a>
+                <a target="_blank" rel="noreferrer" href="https://www.instagram.com/invaluableofficial/">
+                    <i class="fa fa-instagram" style="color: white; font-size: 24px;"></i>
+                </a>
+                <a target="_blank" rel="noreferrer" href="https://www.pinterest.com/invaluable/">
+                    <i class="fa fa-pinterest-p" style="color: white; font-size: 24px;"></i>
+                </a>
+            </div>
+            <div style="background-color: #222222;">
+                <div class="px-5" style="color: #fff;">
+                    <div class="row py-4">
+                        <div class="col-12 col-md-5 col-lg-5">
+                            <div class="d-flex align-items-center gap-3">
+                                <a class="text-decoration-none cursor-pointer text-white" href="/blog/">Blog</a>
+                                <div style="height: 14px; width: 1px; background-color: #fff;"></div>
+                                <a class="text-decoration-none cursor-pointer text-white"
+                                   href="/inv/about-us/">About</a>
+                                <div style="height: 14px; width: 1px; background-color: #fff;"></div>
+                                <a class="text-decoration-none cursor-pointer text-white"
+                                   href="/invaluable/contact.cfm">Contact</a>
+                                <div style="height: 14px; width: 1px; background-color: #fff;"></div>
+                                <a class="text-decoration-none cursor-pointer text-white"
+                                   href="/inv/about-us/careers/">Careers</a>
+                            </div>
+                            <div class="mt-4 row">
+                                <div class="col-6 col-xs-6 col-sm-6 col-lg-4 text-decoration-none cursor-pointer text-white"
+                                     href="/invaluable/subOverview.cfm">
+                                    Subscriptions</a>
+                                </div>
+                                <div class="col-6 col-xs-6 col-sm-6 col-lg-4 text-decoration-none cursor-pointer text-white"
+                                     href="/artists/">
+                                    Artist
+                                    Database</a>
+                                </div>
+                                <div class="col-6 col-xs-6 col-sm-6 col-lg-4 text-decoration-none cursor-pointer text-white"
+                                     href="/press">
+                                    Press</a>
+                                </div>
+                                <div class="col-6 col-xs-6 col-sm-6 col-lg-4 text-decoration-none cursor-pointer text-white mt-2"
+                                     href="/catalog/advancedSearch.cfm?srchScope=p">
+                                    Price Archive</a>
+                                </div>
+                                <div class="col-6 col-xs-6 col-sm-6 col-lg-4 text-decoration-none cursor-pointer text-white mt-2"
+                                     target="_blank" rel="noreferrer" href="/inv/sell-with-invaluable/">
+                                    Sell on
+                                    Invaluable</a>
+                                </div>
+                                <div class="col-6 col-xs-6 col-sm-6 col-lg-4 text-decoration-none cursor-pointer text-white mt-2"
+                                     href="/invaluable/help.cfm">
+                                    Help</a>
+                                </div>
+                                <div class="col-6 col-xs-6 col-sm-6 col-lg-4 text-decoration-none cursor-pointer text-white mt-2"
+                                     href="/inv/auctionnews">
+                                    Auction
+                                    News</a>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 mt-4">
+                                    <button class="btn btn-outline-secondary d-flex gap-2 align-items-center"
+                                            style="color: white !important;">
+                                        <i class="fa fa-comment"></i>Live
+                                        Chat
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-7 col-lg-7">
+                            <div class="">
+                                <img class="_logo-img_a506i_11"
+                                     src="~/img/logo.jpg"
+                                     alt="Invaluable Logo">
+                                <p class="mt-4">
+                                    As the world's leading online auction marketplace, thousands of auction
+                                    houses use Invaluable to deepen relationships with millions of clients
+                                    around the world. Stay connected to the things you love with curated items
+                                    and auctions sent to your inbox.
+                                </p>
+                            </div>
+                            <form action="/sign-up" method="post" class="input-group" style="max-width: 630px;">
+                                <div class="form-floating">
+                                    <input type="email" class="form-control" id="floatingInput" placeholder="Email" />
+                                    <label for="floatingInput" style="color: #222222;">Email</label>
+                                </div>
+                                <button id="signup-button" type="button" class="btn"
+                                        style="background-color: #43c4eb; color: white;">
+                                    Sign Up
+                                </button>
+                            </form>
+                            <p class="mb-0">
+                                You can unsubscribe at any time. View
+                                our <a href="/inv/agreements/privacy-policy/">Privacy Policy.</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center justify-content-center p-3"
+                     style="border-top: 1px solid #555555;">
+                    <p class="mb-0 text-white">
+                        © 1986-2024 F4Land, LLC. and participating auction houses. All Rights
+                        Reserved.
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="https://kit.fontawesome.com/8d39de38b8.js" crossorigin="anonymous"></script>
     <script>
         // Check if TempData contains a message
         var message = '@TempData["Message"]';
@@ -31,374 +369,32 @@
             }, 3000);
         }
     </script>
+    <script>
+        $(document).ready(function () {
+            $('#carousel-starter').carousel({
+                interval: 5000
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#forgotModal').on('show.bs.modal', function () {
+                $('#loginModal').modal('hide');
+                $('#registerModal').modal('hide');
+            });
 
-    <header role="banner">
-        <div class="container-fluid">
-            <div class="row space-bottom-wide">
-                <div class="col-xs-7 col-sm-4 col-md-3 logo-col-container">
-                    <div class="navbar-header inline-block space-top-wide">
-                        <!-- LOGO -->
-                        <a href="/" class="logo pull-left" itemprop="url">
-                            <img src="https://image.invaluable.com/static/header/IN_Red32.svg" alt="Invaluable" />
-                        </a>
-                    </div>
-                </div>
-                <div class="log-signup-container pull-right">
-                    <a id="headerHeartIcon" class="btn btn-link saved-items notifs-link" role="button">
-                        <span class="fa fa-heart"></span>
-                        <span class="space-left-sm hidden-xs hidden-sm">Saved</span>
-                    </a>
-                    <div href="/my-account/home" popover-placement="bottom" data-toggle="popover"
-                         data-container="header" data-popover="notifs-link" class="notifs-link btn hidden-xs"
-                         aria-label="Notifications Flyout" aria-expanded="false">
-                        <span class="fa fa-bell "></span>
-                        <span class="user-name notranslate hidden-sm">Notifications</span>
-                    </div>
-                    <div class="log-in-container inline-block">
-                        <button id="notifOptionsBtn" type="button"
-                                class="btn btn-modal-trigger btn-link bell-btn-sm right hidden-sm hidden-md hidden-lg"
-                                data-direction="right" aria-expanded="false" aria-label="Notifications Flyout"
-                                aria-hidden="true" data-modal-trigger="header-notifications">
-                            <span id="headerUserIconMobile" class="fa fa-bell header-bell-sm"></span>
-                        </button>
-                        @if (!User.Identity.IsAuthenticated)
-                        {
-                            <button popover-placement="bottom" data-container="header" role="button"
-                                    class="btn btn-transparent login-link" id="loginLink">
-                                Log In
-                            </button>
+            $('#loginModal').on('show.bs.modal', function () {
+                $('#forgotModal').modal('hide');
+                $('#registerModal').modal('hide');
+            });
 
-                            <button class="btn btn-default hidden-xs notranslate create-acct-link" id="signUpLink">
-                                Sign
-                                up
-                            </button>
-                        }
-                        else
-                        {
-                            <form action="/logout">
-                                <div class="log-in-container inline-block d-flex">
-                                    <p style="margin-right:15px; margin-top:15px; font-weight:bold">@fullName</p>
-                                    <button class="btn btn-default hidden-xs notranslate create-acct-link" id="signUpLink">
-                                        Log out
-                                    </button>
-                                </div>
-                            </form>
-                        }
-                        <!--Login modal-->
-                        <div id="loginModal" class="modal">
-                            <div class="modal-content">
-                                <span class="close">&times;</span>
-                                <div class="modal-title modal-title-text text-center">Welcome back</div>
-                                <div class="modal-subheader text-center">
-                                    Log in to view your account and personalized
-                                    recommendations.
-                                </div>
-                                <form action="/login" method="post">
-                                    <input type="email" placeholder="Enter email address"
-                                           class="form-control space-top email-login" name="email">
-                                    <input type="password" placeholder="Password" class="form-control space-top email-login"
-                                           name="pwd">
-                                    <button class="btn btn-primary modal-login-btn space-top log-in-memory continue-btn">
-                                        Login
-                                    </button>
-                                </form>
+            $('#registerModal').on('show.bs.modal', function () {
+                $('#forgotModal').modal('hide');
+                $('#loginModal').modal('hide');
+            });
+        });
+    </script>
 
-                                <div class="social-separator">
-                                    <div class="social-line"></div>
-                                    <span>OR</span>
-                                    <div class="social-line"></div>
-                                </div>
-                                <div class="clearfix space-bottom text-center space-top-30">
-                                    <span class="dark-gray-text">Don't have an account?</span>
-                                    <a id="signUpBtn" class="create-acct-link">Sign up</a>
-                                </div>
-                                <div class="clearfix space-bottom text-center space-top-30">
-                                    <span class="dark-gray-text">Or you forgot password?</span>
-                                    <a id="forgotBtn" class="create-acct-link">Forgot password</a>
-                                </div>
-                                <div class="clearfix space-bottom text-center" style="font-size: 12px;">
-                                    <span class="dark-gray-text">
-                                        By continuing with Google, you agree to Invaluable's <a href="/agreements/userTerms.cfm" target="_blank">terms of service</a> and <a href="/agreements/privacy.cfm" target="_blank">privacy policy</a>.
-                                        Invaluable may send you communications; you can set your preferences in your
-                                        account.
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <!--Forgot password modal-->
-                        <div id="forgotPassword" class="modal">
-                            <div class="modal-content">
-                                <span class="close">&times;</span>
-                                <div class="modal-title modal-title-text text-center">Enter you Email!</div>
-                                <div class="modal-subheader text-center">
-                                    Find back your account to make bidding fast & easy.
-                                </div>
-                                <form action="forgot-password" method="post">
-                                    <input type="email" placeholder="Enter email address"
-                                           class="form-control space-top email-login" name="email" required>
-                                    <button class="btn btn-primary modal-login-btn space-top log-in-memory continue-btn">
-                                        Continue
-                                    </button>
-                                </form>
-                                <div class="clearfix space-bottom text-center space-top-30">
-                                    <span class="dark-gray-text">Already have an account?</span>
-                                    <a id="logInForgotBtn" class="create-acct-link">Log in</a>
-                                </div>
-                                <div class="clearfix space-bottom text-center" style="font-size: 12px;">
-                                    <span class="dark-gray-text">
-                                        By signing up with Google, you agree to Invaluable's <a href="#" target="_blank">terms of service</a> and <a href="/agreements/privacy.cfm" target="_blank">privacy policy</a>.
-                                        Invaluable may send you communications; you can set your preferences in your
-                                        account.
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <!--Sign up modal-->
-                        <div id="signupModal" class="modal">
-                            <div class="modal-content">
-                                <span class="close">&times;</span>
-                                <div class="modal-title modal-title-text text-center">Get Started</div>
-                                <div class="modal-subheader text-center">
-                                    Create an account to make bidding fast & easy.
-                                </div>
-                                <form action="register" method="post">
-                                    <input type="text" placeholder="Enter your full name"
-                                           class="form-control space-top email-login" name="fullName" required>
-                                    <input type="email" placeholder="Enter email address"
-                                           class="form-control space-top email-login" name="email" required>
-                                    <input type="password" placeholder="Enter password" class="form-control space-top email-login"
-                                           name="pwd" required>
-                                    <input type="tel" placeholder="Enter phone number" class="form-control space-top email-login"
-                                           name="phone" pattern="[0-9]{10}" required>
-                                    <input type="date" placeholder="Date of birth" class="form-control space-top email-login"
-                                           name="dob" required>
-                                    <input type="text" placeholder="Enter address" class="form-control space-top email-login"
-                                           name="address" required>
-                                    <button class="btn btn-primary modal-login-btn space-top log-in-memory continue-btn">
-                                        Sign Up
-                                    </button>
-                                </form>
-                                <div class="clearfix space-bottom text-center space-top-30">
-                                    <span class="dark-gray-text">Already have an account?</span>
-                                    <a id="logInBtn" class="create-acct-link">Log in</a>
-                                </div>
-                                <div class="clearfix space-bottom text-center" style="font-size: 12px;">
-                                    <span class="dark-gray-text">
-                                        By signing up with Google, you agree to Invaluable's <a href="/agreements/userTerms.cfm" target="_blank">terms of service</a> and <a href="/agreements/privacy.cfm" target="_blank">privacy policy</a>.
-                                        Invaluable may send you communications; you can set your preferences in your
-                                        account.
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-    </header>
-    <!-- NAV BAR -->
-    <nav class="navbar hidden-xs">
-        <div class="navbar-container container-fluid" style="background-color: #43c4eb;">
-            <div class="navbar-nav-links">
-                <a href="/auctions/" class="artists-link">Nhà riêng</a>
-                <a href="/auction-house" class="artists-link">Nhà mặt phố</a>
-                <a href="/artists/" class="artists-link notranslate">Nhà chung cư</a>
-                <span class="divider" style="background-color: black;"></span>
-                <a popover-placement="bottom" data-toggle="popover" data-container="nav"
-                   class="fine-art-link notranslate" data-popover="fine-art-link" data-num-cols="1"
-                   href="/fine-art/pc-SG2BIX3JPJ/" aria-expanded="false">Nhà biệt thự liền kề</a>
-                <a popover-placement="bottom" data-toggle="popover" data-container="nav"
-                   class="decorate-art-link notranslate" data-popover="decorate-art-link" data-num-cols="1"
-                   href="/decorative-art/pc-HV9SJ0PETO/" aria-expanded="false">Đất</a>
-                <a popover-placement="bottom" data-toggle="popover" data-container="nav"
-                   class="jewelry-link notranslate" data-popover="jewelry-link" data-num-cols="2"
-                   href="/jewelry/pc-YKGNZXS2MH/" aria-expanded="false">Đất nền dự án</a>
-                <a popover-placement="bottom" data-toggle="popover" data-container="nav"
-                   class="collectibles-link hidden-sm notranslate" data-popover="collectibles-link" data-num-cols="2"
-                   href="/collectibles/pc-BQWOG3FLWY/" aria-expanded="false">Cửa hàng, ki ốt</a>
-                <a popover-placement="bottom" data-toggle="popover" data-container="nav"
-                   class="furniture-link hidden-sm notranslate" data-popover="furniture-link" data-num-cols="2"
-                   href="/furniture/pc-66MNH3RVXU/" aria-expanded="false">
-                    <span class>Văn phòng</span>
-                </a>
-                <button popover-placement="bottom" data-toggle="popover" aria-label="More Categories"
-                        data-container="nav" class="btn more-link notranslate" data-popover="more-link"
-                        aria-expanded="false">
-                    <span class="fa fa-bars"></span>
-                </button>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container">
-        @RenderBody()
-    </div>
-
-    <div class="_main-footer-section_11xsz_3">
-        <div class="_app-section_1sbed_3">
-            <div class="_app-section-content-holder_1sbed_9 _flex-container_1sbed_90">
-                <div class="_devices-img_1sbed_14">
-                    <picture>
-                        <img src="https://image.invaluable.com/static/invaluable/footer/footer2-devices.png"
-                             alt="Devices" loading="lazy" class="_devices-img_1sbed_14" />
-                    </picture>
-                </div>
-                <div class="_app-section-content_1sbed_9">
-                    <div class="text-me-a-link-control">
-                        <h3 class="_bid-on-go_1sbed_53">Bid On-the-Go!</h3>
-                        <p>
-                            Download the Invaluable app and never miss an auction from your iOS or Android device.
-                        </p>
-                    </div>
-                    <div class="_app-badge-buttons_1sbed_71">
-                        <a target="blank"
-                           href="https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=944415329&amp;mt=8">
-                            <img src="https://image.invaluable.com/static/invaluable/footer/apple-store-badge.svg"
-                                 alt="App Store badge" />
-                        </a>
-                        <a target="blank"
-                           href="https://play.google.com/store/apps/details?id=com.invaluable.invaluable&amp;referrer=utm_source%3DInvaluable%20Footer%26utm_medium%3Dwebsite%26utm_campaign%3DGoogle%20Play%20App%20Download">
-                            <img src="https://image.invaluable.com/static/invaluable/footer/google-play-badge.svg"
-                                 alt="Google Play badge" />
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- FOOTER -->
-        <div class="_social-widget_l1mfk_9 _flex-container_l1mfk_3">
-            <a target="_blank" rel="noreferrer" href="https://www.facebook.com/InvaluableOfficial/">
-                <i class="fa fa-facebook"></i>
-            </a>
-            <a target="_blank" rel="noreferrer" href="https://twitter.com/invaluablelive">
-                <i class="fa fa-twitter"></i>
-            </a>
-            <a target="_blank" rel="noreferrer" href="https://www.instagram.com/invaluableofficial/">
-                <i class="fa fa-instagram"></i>
-            </a>
-            <a target="_blank" rel="noreferrer" href="https://www.pinterest.com/invaluable/">
-                <i class="fa fa-pinterest-p"></i>
-            </a>
-        </div>
-        <div class="_footer_11xsz_35">
-            <div class="container _container_11xsz_8">
-                <div class="_footer-inner_11xsz_41">
-                    <div class="row _custom-row_11xsz_44">
-                        <div class="col-12 col-md-5 col-lg-5 _custom-sm-col-5_11xsz_53">
-                            <div>
-                                <div class="_footer-link-primary_es2dk_3">
-                                    <ul class="_footer-link-primary-list_es2dk_17">
-                                        <li>
-                                            <a href="/blog/">Blog</a>
-                                        </li>
-                                        <li>
-                                            <a href="/inv/about-us/">About</a>
-                                        </li>
-                                        <li>
-                                            <a href="/invaluable/contact.cfm">Contact</a>
-                                        </li>
-                                        <li>
-                                            <a href="/inv/about-us/careers/">Careers</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="_footer-link-secondary-holder_es2dk_53">
-                                    <div class="_footer-link-secondary_es2dk_53">
-                                        <div class="row">
-                                            <div class="col-6 col-xs-6 col-sm-6 col-lg-4">
-                                                <a href="/invaluable/subOverview.cfm">Subscriptions</a>
-                                            </div>
-                                            <div class="col-6 col-xs-6 col-sm-6 col-lg-4">
-                                                <a href="/artists/">Artist Database</a>
-                                            </div>
-                                            <div class="col-6 col-xs-6 col-sm-6 col-lg-4">
-                                                <a href="/press">Press</a>
-                                            </div>
-                                            <div class="col-6 col-xs-6 col-sm-6 col-lg-4">
-                                                <a href="/catalog/advancedSearch.cfm?srchScope=p">Price Archive</a>
-                                            </div>
-                                            <div class="col-6 col-xs-6 col-sm-6 col-lg-4">
-                                                <a target="_blank" rel="noreferrer"
-                                                   href="/inv/sell-with-invaluable/">Sell on Invaluable</a>
-                                            </div>
-                                            <div class="col-6 col-xs-6 col-sm-6 col-lg-4">
-                                                <a href="/invaluable/help.cfm">Help</a>
-                                            </div>
-                                            <div class="col-6 col-xs-6 col-sm-6 col-lg-4">
-                                                <a href="/inv/auctionnews">Auction News</a>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-12">
-                                                <div class="_live-chat_hbe81_3">
-                                                    <button>
-                                                        <i class="fa fa-comment"></i>
-                                                        Live Chat
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="_yotpo-stars-container_1yyfk_3">
-                                <a class="_yotpo-stars-link_1yyfk_18" href="/reviews">
-                                    <div class="yotpo bottomLine" data-product-id="yotpo_site_reviews"></div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-7 col-lg-7 _custom-sm-col-7_11xsz_60">
-                            <div>
-                                <div class="_footer-logo_a506i_3">
-                                    <img class="_logo-img_a506i_11"
-                                         src="https://image.invaluable.com/static/invaluable/footer/logo.svg"
-                                         alt="Invaluable Logo" />
-                                    <p>
-                                        As the world &#x27;s leading online auction marketplace, thousands of auction
-                                        houses use Invaluable to deepen relationships with millions of clients
-                                        around the world. Stay connected to the things you love with curated items
-                                        and auctions sent to your inbox.
-                                    </p>
-                                </div>
-                                <form class="_footer-signup-form_a506i_27">
-                                    <input type="text" class placeholder="Email" value />
-                                    <button class="_btn_a506i_65 btn btn-secondary" type="submit">Sign Up</button>
-                                </form>
-                                <p class="_unsubscribe-policy-text_a506i_90">
-                                    You can unsubscribe at any time. View our<a href="/inv/agreements/privacy-policy/">Privacy Policy.</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="_sub-footer_1vo11_3">
-                <p>
-                    © 1986-
-                    <!-- -->
-                    2024
-                    <!-- -->
-                    Invaluable, LLC. and participating auction houses. All Rights Reserved.
-                </p>
-                <div class="_sub-footer-links_1vo11_31">
-                    <a target="_blank" href="/inv/agreements/terms-of-use/" rel="noreferrer">Terms</a>
-                    <a target="_blank" href="/inv/agreements/subscription-agreement/" rel="noreferrer">
-                        Subscription
-                        Agreement
-                    </a>
-                    <a target="_blank" href="/inv/agreements/privacy-policy/" rel="noreferrer">Privacy Policy</a>
-                    <a target="_blank" href="/inv/agreements/copyright-usage/" rel="noreferrer">Copyright</a>
-                    <a target="_blank" rel="noreferrer" href="/inv/gdpr/">GDPR Info</a>
-                    <a target="_blank" rel="noreferrer" href="/inv/agreements/cookie-policy/">
-                        <img src="https://image.invaluable.com/static/invaluable/footer/privacy-choice.svg"
-                             alt="Privacy Choice" class="_mr_1vo11_51" />
-                        <span>Your Privacy Choices</span>
-                    </a>
-                    <a target="_blank" href="/sitemap">Site Map</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="~/js/site.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

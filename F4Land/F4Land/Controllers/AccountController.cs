@@ -29,8 +29,8 @@ namespace RealEstateAuction.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            string email = User.FindFirstValue("Email");
-            User user = userDAO.GetUserByEmail(email);
+            int id = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            User user = userDAO.GetUserById(id);
 
             //map user to user data model
             UserDatalModel userData = _mapper.Map<User, UserDatalModel>(user);
@@ -85,8 +85,8 @@ namespace RealEstateAuction.Controllers
             }
             else
             {
-                string email = User.FindFirstValue("Email");
-                User user = userDAO.GetUserByEmail(email);
+                int id = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                User user = userDAO.GetUserById(id);
                 if (!user.Password.Equals(passwordData.Password))
                 {
                     ModelState.AddModelError("Password", "Mật khẩu cũ không đúng!");
@@ -94,12 +94,48 @@ namespace RealEstateAuction.Controllers
                 }
                 else
                 {
-                    userDAO.UpdatePassword(email, passwordData.NewPassword);
+                    userDAO.UpdatePassword(user.Email, passwordData.NewPassword);
 
                     TempData["Message"] = "Change password successful!";
                     return View();
                 }
             }
+        }
+
+        [HttpGet]
+        [Route("manage-auction")]
+        public IActionResult ManageAuction()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                TempData["Message"] = "Please login to manage auction!";
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+
+        [HttpGet]
+        [Route("create-auction")]
+        public IActionResult CreateAuction()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                TempData["Message"] = "Please login to manage auction!";
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+
+        [HttpPost]
+        [Route("create-auction")]
+        public IActionResult CreateAuction(Auction auction)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                TempData["Message"] = "Please login to manage auction!";
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
         }
     }
 }
