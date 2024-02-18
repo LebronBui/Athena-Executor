@@ -1,0 +1,15 @@
+ .sidebar{
+    height: 100vh;
+  }
+  
+  .bi {
+    vertical-align: -.125em;
+    pointer-events: none;
+    fill: currentColor;
+  }
+  
+  .dropdown-toggle { outline: 0; }
+  
+  .item-user-sidebar{
+    font-size: large;
+  }

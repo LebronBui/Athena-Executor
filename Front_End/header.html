@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <title>Headers</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+
+
+    <!-- Custom styles for this template -->
+    <link href="/header.css" rel="stylesheet">
+</head>
+
+<body>
+    <header class="p-3 border-bottom" style="height: 100px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-2">
+                    <a href="/" class="top-left-header d-flex align-items-center text-dark text-decoration-none">
+                        <img src="logo.jpg" alt="Bootstrap">
+                    </a>
+                </div>
+                <div class="col-8 text-end">
+                    <div class="w-100">
+                        Advanced
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <form class="col-8 mb-3">
+                            <div class="input-group flex-nowrap gap-3 border p-2">
+                                <span id="addon-wrapping"><i class="fa fa-search" aria-hidden="true"></i></span>
+                                <input class="w-100 border-0" type="text"
+                                    placeholder="Tìm kiếm sản phẩm & thương hiệu..." aria-label="Search"
+                                    aria-describedby="addon-wrapping">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="top-right-header d-flex">
+                        <div class="me-2 mt-1 icon-saved"><span class="icon-header icon-saved me-2"><i
+                                    class="fa fa-heart" aria-hidden="true"></i></span>Lưu</div>
+                        <div class="me-2 mt-1"><span class="icon-header me-2"><i class="fa fa-bell"
+                                    aria-hidden="true"></i></span>Thông báo</div>
+                        <button type="button" class="btn me-2 m-2">Đăng nhập</button>
+                        <button type="button" class="btn-signup border border-dark round-0">Đăng ký</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="">
+        <div class="d-flex flex-column flex-shrink-0 p-3 bg-light sidebar" style="width: 280px;">
+            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                <svg class="bi me-2" width="40" height="32">
+                    <use xlink:href="#bootstrap" />
+                </svg>
+                <span class="fs-4">Sidebar</span>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active" aria-current="page">
+                        <svg class="bi me-2" width="16" height="16">
+                            <use xlink:href="#home" />
+                        </svg>
+                        OKE
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link link-dark">
+                        <svg class="bi me-2" width="16" height="16">
+                            <use xlink:href="#speedometer2" />
+                        </svg>
+                        Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link link-dark">
+                        <svg class="bi me-2" width="16" height="16">
+                            <use xlink:href="#table" />
+                        </svg>
+                        Orders
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link link-dark">
+                        <svg class="bi me-2" width="16" height="16">
+                            <use xlink:href="#grid" />
+                        </svg>
+                        Products
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link link-dark">
+                        <svg class="bi me-2" width="16" height="16">
+                            <use xlink:href="#people-circle" />
+                        </svg>
+                        Customers
+                    </a>
+                </li>
+            </ul>
+            <hr>
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
+                    id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <strong>mdo</strong>
+                </a>
+                <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                    <li><a class="dropdown-item" href="#">New project...</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="#">Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

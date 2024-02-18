@@ -43,8 +43,63 @@
                         </button>
                         <button popover-placement="bottom" data-container="header" role="button"
                             class="btn btn-transparent login-link" id="loginLink">Log In</button>
+                        <div id="loginModal" class="modal">
+                            <div class="modal-content">
+                                <span class="close">&times;</span>
+                                <div class="modal-title modal-title-text text-center">Enter Your Email</div>
+                                <div class="modal-subheader text-center">Log in to view your account and personalized
+                                    recommendations.</div>
+                                <input type="email" placeholder="Enter email address"
+                                    class="form-control space-top email-login" name="email">
+                                <input type="password" placeholder="Password" class="form-control space-top email-login"
+                                    name="pwd">
+                                <button class="btn btn-primary modal-login-btn space-top log-in-memory continue-btn"
+                                    style="background-color: #43c4eb;color: black;">Login</button>
+
+                                <div class="social-separator">
+                                    <div class="social-line"></div>
+                                    <span>OR</span>
+                                    <div class="social-line"></div>
+                                </div>
+                                <div class="clearfix space-bottom text-center space-top-30">
+                                    <span class="dark-gray-text">Don't have an account?</span>
+                                    <a href="/login/" id="signUpBtn" class="create-acct-link">Sign up</a>
+                                </div>
+                                <div class="clearfix space-bottom text-center" style="font-size: 12px;">
+                                    <span class="dark-gray-text">By continuing with Google, you agree to Invaluable's <a
+                                            href="/agreements/userTerms.cfm" target="_blank">terms of service</a> and <a
+                                            href="/agreements/privacy.cfm" target="_blank">privacy policy</a>.
+                                        Invaluable may send you communications; you can set your preferences in your
+                                        account.</span>
+                                </div>
+                            </div>
+                        </div>
                         <button class="btn btn-default hidden-xs notranslate create-acct-link" id="signUpLink">Sign
                             up</button>
+                        <div id="signupModal" class="modal">
+                            <div class="modal-content">
+                                <span class="close">&times;</span>
+                                <div class="modal-title modal-title-text text-center">Create Your Account</div>
+                                <div class="modal-subheader text-center">Sign up to view your account and personalized
+                                    recommendations.</div>
+                                <input type="email" placeholder="Enter email address"
+                                    class="form-control space-top email-login" name="email">
+                                <input type="password" placeholder="Password" class="form-control space-top email-login"
+                                    name="pwd">
+                                <button class="btn btn-primary modal-login-btn space-top log-in-memory continue-btn">Sign Up</button>
+                                <div class="clearfix space-bottom text-center space-top-30">
+                                    <span class="dark-gray-text">Already have an account?</span>
+                                    <a href="/login/" id="logInBtn" class="create-acct-link">Log in</a>
+                                </div>
+                                <div class="clearfix space-bottom text-center" style="font-size: 12px;">
+                                    <span class="dark-gray-text">By signing up with Google, you agree to Invaluable's <a
+                                            href="/agreements/userTerms.cfm" target="_blank">terms of service</a> and <a
+                                            href="/agreements/privacy.cfm" target="_blank">privacy policy</a>.
+                                        Invaluable may send you communications; you can set your preferences in your
+                                        account.</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -84,7 +139,384 @@
             </div>
         </div>
     </nav>
+    <!--Home Page-->
+    <div id="mainContentContainer">
+        <main id="mainContent">
+            <section class="homepage-container">
+                <!--carousel-->
+                <div class="w3-content w3-display-container" style="max-width:1500px">
+                    <img class="mySlides"
+                        src="https://cdnmedia.baotintuc.vn/Upload/DmtgOUlHWBO5POIHzIwr1A/files/2020/02/28/06-datcong01.jpg"
+                        style="width:100%;max-height: 500px;">
+                    <img class="mySlides" src="https://www.w3schools.com/w3css/img_snow_wide.jpg"
+                        style="width:100%;max-height: 500px;">
+                    <img class="mySlides" src="https://www.w3schools.com/w3css/img_mountains_wide.jpg"
+                        style="width:100%;max-height: 500px;">
+                    <div class=" w3-center w3-container w3-section w3-large w3-text-white w3-display-bottommiddle"
+                        style="width:100%">
+                        <div class="w3-left w3-hover-text-khaki" onclick="plusDivs(-1)">&#10094;</div>
+                        <div class="w3-right w3-hover-text-khaki" onclick="plusDivs(1)">&#10095;</div>
+                        <span class="w3-badge demo w3-border w3-transparent w3-hover-white"
+                            onclick="currentDiv(1)"></span>
+                        <span class="w3-badge demo w3-border w3-transparent w3-hover-white"
+                            onclick="currentDiv(2)"></span>
+                        <span class="w3-badge demo w3-border w3-transparent w3-hover-white"
+                            onclick="currentDiv(3)"></span>
+                    </div>
+                </div>
 
+                <div class="container-fluid space-top-wide">
+                    <div class="space-top-wide bordered-bottom">
+                        <h1 class="space-bottom-none">Upcoming Online Auctions</h1>
+                    </div>
+                    <div id="UpcomingAuctionsHomepage" class="featured-auctions">
+                        <div class="bordered-bottom padding-bottom-wide">
+                            <div class="space-top-wide row">
+                                <div class="col-md-3 col-sm-2 col-xs-3">
+                                    <div class="thumb-container">
+                                        <div class="thumb">
+                                            <a href="/catalog/3n0n3rqcje"
+                                                aria-label="Go to ORIENTAL ART HAMMER AUCTION 18 JANUARY 2024">
+                                                <img src="https://image.invaluable.com/housePhotos/OrientalArt/71/762671/H20312-C358681590.jpg"
+                                                    alt="ORIENTAL ART HAMMER AUCTION 18 JANUARY 2024"
+                                                    class="lazyloaded" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-9 col-sm-10 col-xs-9">
+                                    <div class="row">
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <h3 class="space-bottom-none space-top-none">
+                                                <a href="/catalog/3n0n3rqcje">ORIENTAL ART HAMMER AUCTION 18 JANUARY
+                                                    2024</a>
+                                            </h3>
+                                            <p class="space-top-sm">
+                                                <a href="/auction-house/oriental-art-auctions-fqo0wf0wto"
+                                                    class="link-color-black">by
+                                                    <!-- -->
+                                                    Oriental Art Auctions</a>
+                                            </p>
+                                            <p class="space-bottom-none">
+                                                <span class="localized-date hide d-none">January 18, 2024 10:00 AM CET
+                                                    <!-- -->
+                                                </span>
+                                                <span class="non-localized-date">January 18, 2024 10:00 AM CET</span>
+                                            </p>
+                                            <p>Hattemerbroek, Netherlands</p>
+                                        </div>
+                                        <div class="col-md-4 col-sm-4">
+                                            <div>
+                                                <p>
+                                                    <i class="fa fa-feed"></i>
+                                                    Live
+                                                    <!-- -->
+                                                    Auction
+                                                </p>
+                                                <p>
+                                                    <a role="button" class="btn btn-live full-width">Enter Live
+                                                        Auction</a>
+                                                </p>
+                                                <p class="flush-right-left-text">
+                                                    <a role="button" class="registerToBidLogin link" tabindex="0"
+                                                        data-rfa-link="/bidNow/reqForApproval?catalogRef=3N0N3RQCJE"
+                                                        rel="nofollow">Register to bid</a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="d-flex w-100 align-content-center" style="margin-top:15px"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bordered-bottom padding-bottom-wide">
+                            <div class="space-top-wide row">
+                                <div class="col-md-3 col-sm-2 col-xs-3">
+                                    <div class="thumb-container">
+                                        <div class="thumb">
+                                            <a href="/catalog/roqq9lb04y"
+                                                aria-label="Go to Asian Art Discoveries Day 2 - Chinese Art Discoveries">
+                                                <img src="https://image.invaluable.com/housePhotos/zacke/77/762077/H2703-C357790077.jpg"
+                                                    alt="Asian Art Discoveries Day 2 - Chinese Art Discoveries"
+                                                    class="lazyloaded" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-9 col-sm-10 col-xs-9">
+                                    <div class="row">
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <h3 class="space-bottom-none space-top-none">
+                                                <a href="/catalog/roqq9lb04y">Asian Art Discoveries Day 2 - Chinese Art
+                                                    Discoveries</a>
+                                            </h3>
+                                            <p class="space-top-sm">
+                                                <a href="/auction-house/galerie-zacke-ipl6tbvlv4"
+                                                    class="link-color-black">by
+                                                    <!-- -->
+                                                    Galerie Zacke</a>
+                                            </p>
+                                            <p class="space-bottom-none">
+                                                <span class="localized-date hide d-none">January 18, 2024 11:00 AM CET
+                                                    <!-- -->
+                                                </span>
+                                                <span class="non-localized-date">January 18, 2024 11:00 AM CET</span>
+                                            </p>
+                                            <p>Vienna, Austria</p>
+                                        </div>
+                                        <div class="col-md-4 col-sm-4">
+                                            <div>
+                                                <p>
+                                                    <i class="fa fa-feed"></i>
+                                                    Live
+                                                    <!-- -->
+                                                    Auction
+                                                </p>
+                                                <p>
+                                                    <a role="button" class="btn btn-live full-width">Enter Live
+                                                        Auction</a>
+                                                </p>
+                                                <p class="flush-right-left-text">
+                                                    <a role="button" class="registerToBidLogin link" tabindex="0"
+                                                        data-rfa-link="/bidNow/reqForApproval?catalogRef=ROQQ9LB04Y"
+                                                        rel="nofollow">Register to bid</a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="d-flex w-100 align-content-center" style="margin-top:15px"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bordered-bottom padding-bottom-wide">
+                            <div class="space-top-wide row">
+                                <div class="col-md-3 col-sm-2 col-xs-3">
+                                    <div class="thumb-container">
+                                        <div class="thumb">
+                                            <a href="/catalog/xnorlts5g5" aria-label="Go to Old Stocks and Bonds">
+                                                <img src="https://image.invaluable.com/housePhotos/HWPH/80/762080/H4032-C357763607.jpg"
+                                                    alt="Old Stocks and Bonds" class="lazyloaded" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-9 col-sm-10 col-xs-9">
+                                    <div class="row">
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <h3 class="space-bottom-none space-top-none">
+                                                <a href="/catalog/xnorlts5g5">Old Stocks and Bonds</a>
+                                            </h3>
+                                            <p class="space-top-sm">
+                                                <a href="/auction-house/hwph-historisches-wertpapierhaus-ag-0uiot3zhfn"
+                                                    class="link-color-black">by
+                                                    <!-- -->
+                                                    HWPH Historisches Wertpapierhaus AG</a>
+                                            </p>
+                                            <p class="space-bottom-none">
+                                                <span class="localized-date hide d-none">January 18, 2024 12:00 PM CET
+                                                    <!-- -->
+                                                </span>
+                                                <span class="non-localized-date">January 18, 2024 12:00 PM CET</span>
+                                            </p>
+                                            <p>Zorneding, Germany</p>
+                                        </div>
+                                        <div class="col-md-4 col-sm-4">
+                                            <div>
+                                                <p>
+                                                    <i class="fa fa-feed"></i>
+                                                    Live
+                                                    <!-- -->
+                                                    Auction
+                                                </p>
+                                                <p>
+                                                    <a role="button" class="btn btn-live full-width">Enter Live
+                                                        Auction</a>
+                                                </p>
+                                                <p class="flush-right-left-text">
+                                                    <a role="button" class="registerToBidLogin link" tabindex="0"
+                                                        data-rfa-link="/bidNow/reqForApproval?catalogRef=XNORLTS5G5"
+                                                        rel="nofollow">Register to bid</a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="d-flex w-100 align-content-center" style="margin-top:15px"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center space-top-wide">
+                        <a href="/auctions/">View all upcoming live and timed auctions</a>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <div class="_main-footer-section_11xsz_3">
+            <div class="_app-section_1sbed_3">
+                <div class="_app-section-content-holder_1sbed_9 _flex-container_1sbed_90">
+                    <div class="_devices-img_1sbed_14">
+                        <picture>
+                            <img src="https://image.invaluable.com/static/invaluable/footer/footer2-devices.png"
+                                alt="Devices" loading="lazy" class="_devices-img_1sbed_14" />
+                        </picture>
+                    </div>
+                    <div class="_app-section-content_1sbed_9">
+                        <div class="text-me-a-link-control">
+                            <h3 class="_bid-on-go_1sbed_53">Bid On-the-Go!</h3>
+                            <p>Download the Invaluable app and never miss an auction from your iOS or Android device.
+                            </p>
+                        </div>
+                        <div class="_app-badge-buttons_1sbed_71">
+                            <a target="blank"
+                                href="https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=944415329&amp;mt=8">
+                                <img src="https://image.invaluable.com/static/invaluable/footer/apple-store-badge.svg"
+                                    alt="App Store badge" />
+                            </a>
+                            <a target="blank"
+                                href="https://play.google.com/store/apps/details?id=com.invaluable.invaluable&amp;referrer=utm_source%3DInvaluable%20Footer%26utm_medium%3Dwebsite%26utm_campaign%3DGoogle%20Play%20App%20Download">
+                                <img src="https://image.invaluable.com/static/invaluable/footer/google-play-badge.svg"
+                                    alt="Google Play badge" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- FOOTER -->
+            <div class="_social-widget_l1mfk_9 _flex-container_l1mfk_3">
+                <a target="_blank" rel="noreferrer" href="https://www.facebook.com/InvaluableOfficial/">
+                    <i class="fa fa-facebook"></i>
+                </a>
+                <a target="_blank" rel="noreferrer" href="https://twitter.com/invaluablelive">
+                    <i class="fa fa-twitter"></i>
+                </a>
+                <a target="_blank" rel="noreferrer" href="https://www.instagram.com/invaluableofficial/">
+                    <i class="fa fa-instagram"></i>
+                </a>
+                <a target="_blank" rel="noreferrer" href="https://www.pinterest.com/invaluable/">
+                    <i class="fa fa-pinterest-p"></i>
+                </a>
+            </div>
+            <div class="_footer_11xsz_35">
+                <div class="container _container_11xsz_8">
+                    <div class="_footer-inner_11xsz_41">
+                        <div class="row _custom-row_11xsz_44">
+                            <div class="col-12 col-md-5 col-lg-5 _custom-sm-col-5_11xsz_53">
+                                <div>
+                                    <div class="_footer-link-primary_es2dk_3">
+                                        <ul class="_footer-link-primary-list_es2dk_17">
+                                            <li>
+                                                <a href="/blog/">Blog</a>
+                                            </li>
+                                            <li>
+                                                <a href="/inv/about-us/">About</a>
+                                            </li>
+                                            <li>
+                                                <a href="/invaluable/contact.cfm">Contact</a>
+                                            </li>
+                                            <li>
+                                                <a href="/inv/about-us/careers/">Careers</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="_footer-link-secondary-holder_es2dk_53">
+                                        <div class="_footer-link-secondary_es2dk_53">
+                                            <div class="row">
+                                                <div class="col-6 col-xs-6 col-sm-6 col-lg-4">
+                                                    <a href="/invaluable/subOverview.cfm">Subscriptions</a>
+                                                </div>
+                                                <div class="col-6 col-xs-6 col-sm-6 col-lg-4">
+                                                    <a href="/artists/">Artist Database</a>
+                                                </div>
+                                                <div class="col-6 col-xs-6 col-sm-6 col-lg-4">
+                                                    <a href="/press">Press</a>
+                                                </div>
+                                                <div class="col-6 col-xs-6 col-sm-6 col-lg-4">
+                                                    <a href="/catalog/advancedSearch.cfm?srchScope=p">Price Archive</a>
+                                                </div>
+                                                <div class="col-6 col-xs-6 col-sm-6 col-lg-4">
+                                                    <a target="_blank" rel="noreferrer"
+                                                        href="/inv/sell-with-invaluable/">Sell on Invaluable</a>
+                                                </div>
+                                                <div class="col-6 col-xs-6 col-sm-6 col-lg-4">
+                                                    <a href="/invaluable/help.cfm">Help</a>
+                                                </div>
+                                                <div class="col-6 col-xs-6 col-sm-6 col-lg-4">
+                                                    <a href="/inv/auctionnews">Auction News</a>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12">
+                                                    <div class="_live-chat_hbe81_3">
+                                                        <button>
+                                                            <i class="fa fa-comment"></i>
+                                                            Live Chat
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="_yotpo-stars-container_1yyfk_3">
+                                    <a class="_yotpo-stars-link_1yyfk_18" href="/reviews">
+                                        <div class="yotpo bottomLine" data-product-id="yotpo_site_reviews"></div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-7 col-lg-7 _custom-sm-col-7_11xsz_60">
+                                <div>
+                                    <div class="_footer-logo_a506i_3">
+                                        <img class="_logo-img_a506i_11"
+                                            src="https://image.invaluable.com/static/invaluable/footer/logo.svg"
+                                            alt="Invaluable Logo" />
+                                        <p>As the world &#x27;s leading online auction marketplace, thousands of auction
+                                            houses use Invaluable to deepen relationships with millions of clients
+                                            around the world. Stay connected to the things you love with curated items
+                                            and auctions sent to your inbox. </p>
+                                    </div>
+                                    <form class="_footer-signup-form_a506i_27">
+                                        <input type="text" class placeholder="Email" value />
+                                        <button class="_btn_a506i_65 btn btn-secondary" type="submit">Sign Up</button>
+                                    </form>
+                                    <p class="_unsubscribe-policy-text_a506i_90">
+                                        You can unsubscribe at any time. View our<a
+                                            href="/inv/agreements/privacy-policy/">Privacy Policy.</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="_sub-footer_1vo11_3">
+                    <p>© 1986-
+                        <!-- -->
+                        2024
+                        <!-- -->
+                        Invaluable, LLC. and participating auction houses. All Rights Reserved.
+                    </p>
+                    <div class="_sub-footer-links_1vo11_31">
+                        <a target="_blank" href="/inv/agreements/terms-of-use/" rel="noreferrer">Terms</a>
+                        <a target="_blank" href="/inv/agreements/subscription-agreement/" rel="noreferrer">Subscription
+                            Agreement</a>
+                        <a target="_blank" href="/inv/agreements/privacy-policy/" rel="noreferrer">Privacy Policy</a>
+                        <a target="_blank" href="/inv/agreements/copyright-usage/" rel="noreferrer">Copyright</a>
+                        <a target="_blank" rel="noreferrer" href="/inv/gdpr/">GDPR Info</a>
+                        <a target="_blank" rel="noreferrer" href="/inv/agreements/cookie-policy/">
+                            <img src="https://image.invaluable.com/static/invaluable/footer/privacy-choice.svg"
+                                alt="Privacy Choice" class="_mr_1vo11_51" />
+                            <span>Your Privacy Choices</span>
+                        </a>
+                        <a target="_blank" href="/sitemap">Site Map</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+<script src="bundle.js"></script>
 
 </html>

@@ -1,0 +1,51 @@
+.top-right-header {
+  position: fixed;
+  top: 35px;
+  right: 10px;
+  display: block;
+}
+
+.top-left-header {
+  position: fixed;
+  top: 25px;
+  left: 10px;
+}
+
+
+.btn-signup{
+  border-radius: 0px;
+  padding: 0px 10px;
+  background-color: white;
+}
+
+.btn-signup:hover{
+  background-color: black;
+  color: white;
+}
+
+.icon-header{
+  font-size: 25px;
+  color: black;
+}
+
+.text-icon{
+  font-size: 25px;
+  color: black;
+}
+
+.icon-saved{
+  color: red;
+}
+
+.sidebar{
+  height: 100vh;
+}
+
+.bi {
+  vertical-align: -.125em;
+  pointer-events: none;
+  fill: currentColor;
+}
+
+.dropdown-toggle { outline: 0; }
+
