@@ -1,0 +1,62 @@
+﻿@model RealEstateAuction.DataModel.UserDatalModel
+@{
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+    ViewData["Title"] = "Quản lý đấu giá";
+}
+<h2>Quản lý đấu giá</h2>
+<hr>
+<div class="w-100 d-flex justify-content-end mb-3 mt-2">
+    <a class="btn btn-success" href="/create-auction">Tạo mới</a>
+</div>
+<!-- display list auction -->
+<table class="table mb-3">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Tiêu đề</th>
+            <th>Giá khởi điểm</th>
+            <th>Giá kết thúc</th>
+            <th>Thời gian bắt đầu</th>
+            <th>Thời gian kết thúc</th>
+            <th>Địa chỉ</th>
+            <th>Trạng thái</th>
+            <th>Chi tiết</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Data 1</td>
+            <td>Data 2</td>
+            <td>Data 3</td>
+            <td>Data 1</td>
+            <td>Data 2</td>
+            <td>Data 3</td>
+            <td>Data 1</td>
+            <td>Data 2</td>
+            <td>
+                <button class="btn btn-primary">Xem</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- this is pagination of auctions -->
+<div class="d-flex justify-content-center align-items-center mt-4">
+    <nav aria-label="Page navigation example col-12">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
