@@ -1,0 +1,62 @@
+﻿<!--Đăng ký modal-->
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="register" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Đăng ký</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-2">
+                    <h1>Bắt đầu</h1>
+                    <span><h5>Tạo tài khoản để thực hiện đấu giá nhanh chóng và dễ dàng.</h5></span>
+                </div>
+                <form action="register" method="post" class="text-center">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="fullName" name="fullName" required>
+                        <label for="fullName">Họ và tên</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control" id="email" name="email" required>
+                        <label for="email">Địa chỉ email</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="pwd" name="pwd" required>
+                        <label for="pwd">Mật khẩu</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{10}" required>
+                        <label for="phone">Số điện thoại</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="date" class="form-control" id="dob" name="dob" required>
+                        <label for="dob">Ngày sinh</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="address" name="address" required>
+                        <label for="address">Địa chỉ</label>
+                    </div>
+                    <button class="btn btn-primary modal-login-btn space-top log-in-memory continue-btn">
+                        Đăng ký
+                    </button>
+                </form>
+                <div class="social-separator">
+                    <div class="social-line"></div>
+                    <span>HOẶC</span>
+                    <div class="social-line"></div>
+                </div>
+                <div class="clearfix space-bottom text-center space-top-30">
+                    <span class="dark-gray-text">Đã có tài khoản?</span>
+                    <a data-bs-toggle="modal"
+                       data-bs-target="#loginModal" href="#">Đăng nhập</a>
+                </div>
+                <div class="clearfix space-bottom text-center" style="font-size: 12px;">
+                    <span class="dark-gray-text">
+                        Bằng cách đăng ký với Google, bạn đồng ý với <a href="/agreements/userTerms.cfm" target="_blank">điều khoản dịch vụ</a> và <a href="/agreements/privacy.cfm" target="_blank">chính sách bảo mật</a> của Invaluable.
+                        Invaluable có thể gửi cho bạn các thông báo; bạn có thể thiết lập ưu tiên trong tài khoản của mình.
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

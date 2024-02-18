@@ -1,0 +1,62 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!--Login modal-->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="register" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Chào mừng trở lại</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="modal-subheader text-center">
+                        <h5>Đăng nhập để xem tài khoản và gợi ý cá nhân.</h5>
+                    </div>
+                    <form action="/login" method="post">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" placeholder="Nhập địa chỉ email"
+                                   class="form-control" name="email" id="email">
+                        </div>
+                        <div class="mb-3">
+                            <label for="pwd" class="form-label">Mật khẩu</label>
+                            <input type="password" placeholder="Mật khẩu"
+                                   class="form-control" name="pwd" id="pwd">
+                        </div>                 
+                        <div class="text-center">
+                            <button class="btn btn-primary">
+                                Đăng nhập
+                            </button>
+                        </div>                     
+                    </form>
+
+                    <div class="social-separator">
+                        <div class="social-line"></div>
+                        <span>HOẶC</span>
+                        <div class="social-line"></div>
+                    </div>
+                    <div class="clearfix space-bottom text-center space-top-30">
+                        <span class="dark-gray-text">Chưa có tài khoản?</span>
+                        <a data-bs-toggle="modal"
+                           data-bs-target="#registerModal" href="#">Đăng ký</a>
+                    </div>
+                    <div class="clearfix space-bottom text-center space-top-30">
+                        <span class="dark-gray-text">Quên mật khẩu?</span>
+                        <a data-bs-toggle="modal"
+                           data-bs-target="#forgotModal" href="#">Quên mật khẩu</a>
+                    </div>
+                    <div class="clearfix space-bottom text-center" style="font-size: 12px;">
+                        <span class="dark-gray-text">
+                            Tiếp tục với Google, bạn đồng ý với <a href="/agreements/userTerms.cfm" target="_blank">điều khoản dịch vụ</a> và <a href="/agreements/privacy.cfm" target="_blank">chính sách bảo mật</a> của Invaluable.
+                            Invaluable có thể gửi cho bạn các thông báo; bạn có thể thiết lập ưu tiên trong tài khoản của mình.
+                        </span>
+                    </div>
+                </div>              
+            </div>
+        </div>
+    </div>
+</div>
