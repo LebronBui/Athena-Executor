@@ -23,6 +23,8 @@ public partial class RealEstateContext : DbContext
 
     public virtual DbSet<Category> Categories { get; set; }
 
+    public virtual DbSet<Image> Images { get; set; }
+
     public virtual DbSet<Notification> Notifications { get; set; }
 
     public virtual DbSet<Payment> Payments { get; set; }
@@ -38,8 +40,8 @@ public partial class RealEstateContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         var builder = new ConfigurationBuilder()
-                        .SetBasePath(Directory.GetCurrentDirectory())
-                        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                            .SetBasePath(Directory.GetCurrentDirectory())
+                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
         IConfigurationRoot configuration = builder.Build();
         optionsBuilder.UseSqlServer(configuration.GetConnectionString("connection"));
     }
@@ -50,11 +52,10 @@ public partial class RealEstateContext : DbContext
         {
             entity.ToTable("Auction");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Address).HasMaxLength(255);
             entity.Property(e => e.CreatedTime).HasColumnType("datetime");
             entity.Property(e => e.Description).HasColumnType("ntext");
-            entity.Property(e => e.Drirection).HasMaxLength(255);
+            entity.Property(e => e.Direction).HasMaxLength(255);
             entity.Property(e => e.EndPrice).HasColumnType("money");
             entity.Property(e => e.EndTime).HasColumnType("datetime");
             entity.Property(e => e.StartPrice).HasColumnType("money");
@@ -64,6 +65,7 @@ public partial class RealEstateContext : DbContext
 
             entity.HasOne(d => d.Approver).WithMany(p => p.AuctionApprovers)
                 .HasForeignKey(d => d.ApproverId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Auction_User1");
 
             entity.HasOne(d => d.User).WithMany(p => p.AuctionUsers)
@@ -121,6 +123,28 @@ public partial class RealEstateContext : DbContext
             entity.ToTable("Category");
 
             entity.Property(e => e.Name).HasMaxLength(255);
+        });
+
+        modelBuilder.Entity<Image>(entity =>
+        {
+            entity.Property(e => e.Url).HasColumnType("ntext");
+
+            entity.HasMany(d => d.Auctions).WithMany(p => p.Images)
+                .UsingEntity<Dictionary<string, object>>(
+                    "AuctionImage",
+                    r => r.HasOne<Auction>().WithMany()
+                        .HasForeignKey("AuctionId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK_AuctionImage_Auction"),
+                    l => l.HasOne<Image>().WithMany()
+                        .HasForeignKey("ImageId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK_Auction_Image_Images"),
+                    j =>
+                    {
+                        j.HasKey("ImageId", "AuctionId");
+                        j.ToTable("Auction_Image");
+                    });
         });
 
         modelBuilder.Entity<Notification>(entity =>

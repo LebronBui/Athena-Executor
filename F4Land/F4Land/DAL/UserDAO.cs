@@ -1,4 +1,5 @@
 ﻿using Microsoft.DotNet.Scaffolding.Shared.Messaging;
+using RealEstateAuction.Enums;
 using RealEstateAuction.Models;
 
 namespace RealEstateAuction.DAL
@@ -73,6 +74,29 @@ namespace RealEstateAuction.DAL
             catch (Exception)
             {
                 throw;
+            }
+        }
+
+        //Get random staff
+        public User GetRandomStaff()
+        {
+            try
+            {
+                //Get user with roleId is staff ( staff = 2 )
+                List<User> staffs = context.Users.Where(x => x.RoleId == (int)Roles.Staff).ToList();
+
+                Random rand = new Random();
+                // Generate a random index within the bounds of the list
+                int randomIndex = rand.Next(0, staffs.Count);
+
+                //get random staff
+                User staff = staffs[randomIndex];
+
+                return staff;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
     }
