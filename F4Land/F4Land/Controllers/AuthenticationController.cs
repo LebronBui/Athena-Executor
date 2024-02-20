@@ -38,7 +38,7 @@ namespace RealEstateAuction.Controllers
             {
                 { Roles.Admin, "Admin" },
                 { Roles.Staff, "Staff" },
-                { Roles.Customer, "Customer" }
+                { Roles.Member, "Member" }
             };
 
             Console.WriteLine(user);

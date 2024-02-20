@@ -68,8 +68,12 @@
                         @statusName
                     </td>
                     <td>
-                        <a href="/edit-auction?id=@item.Id" class="btn btn-info">Cập nhật</a>
-                        <a href="/delete-auction?id=@item.Id" class="btn btn-danger">Xóa</a>
+                        <a href="/details-auction?auctionId=@item.Id" class="btn btn-info">Xem</a>
+                        @if (item.Status == 1)
+                        {
+                            <a href="/approve-auction?auctionId=@item.Id&status=2" class="btn btn-success">Chấp nhận</a>
+                            <a href="/approve-auction?auctionId=@item.Id&status=3" class="btn btn-danger">Từ chối</a>
+                        }
                     </td>
                 </tr>
             }

@@ -1,0 +1,102 @@
+﻿@model RealEstateAuction.Models.Auction
+@{
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+    ViewData["Title"] = "Cập nhật phiên đấu giá";
+}
+<h2>Cập nhật phiên đấu giá</h2>
+<hr>
+@using (Html.BeginForm("EditAuction", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="row">
+        <div class="col-6">
+            <div class="input-group mt-3">
+                <span class="input-group-text">Tiêu đề</span>
+                <input asp-for=Title type="text" class="form-control" readonly>
+            </div>
+
+            <div class="input-group mt-3">
+                <span class="input-group-text">Giá khời điểm (VNĐ)</span>
+                <input asp-for=StartPrice type="text" class="form-control" value="@Model.StartPrice.ToString("N1", System.Globalization.CultureInfo.InvariantCulture)" readonly />
+            </div>
+
+            <div class="input-group mt-3">
+                <span class="input-group-text">Giá kết thúc (VNĐ)</span>
+                <input asp-for=EndPrice type="text" class="form-control" value="@Model.EndPrice.ToString("N1", System.Globalization.CultureInfo.InvariantCulture)" readonly>
+            </div>
+
+            <div class="input-group mt-3">
+                <span class="input-group-text">Diện tích (m2)</span>
+                <input asp-for=Area type="text" class="form-control" readonly>
+            </div>
+
+            <div class="input-group mt-3">
+                <span class="input-group-text">Địa chỉ</span>
+                <input asp-for=Address type="text" class="form-control" readonly>
+            </div>
+
+            <div class="input-group mt-3">
+                <span class="input-group-text">
+                    Mặt tiền (m)
+                </span>
+                <input asp-for=Facade type="text" class="form-control" readonly>
+            </div>
+
+            <div class="input-group mt-3">
+                <span class="input-group-text">
+                    Hướng bất động sản
+                </span>
+                <input asp-for=Direction type="text" class="form-control" readonly>
+            </div>
+
+            <div class="input-group mt-3">
+                <span class="input-group-text">
+                    Mô tả
+                </span>
+                <textarea asp-for=Description rows="10" class="form-control" disabled></textarea>
+            </div>
+
+            <div class="input-group mt-3">
+                <span class="input-group-text">
+                    Ảnh
+                </span>
+            </div>
+
+            <!--Display image of auction-->
+            <div class="mt-3 d-flex gap-3">
+                @foreach (var image in Model.Images)
+                {
+                    <img src="@Url.Content(image.Url)" height="150" width="150">
+                }
+            </div>
+
+            <div class="input-group mt-3">
+                <span class="input-group-text">
+                    Thời gian bắt đầu
+                </span>
+                <input asp-for=StartTime type="datetime-local" class="form-control" readonly>
+            </div>
+
+            <div class="input-group mt-3">
+                <span class="input-group-text">
+                    Thời gian kết thúc
+                </span>
+                <input asp-for=EndTime type="datetime-local" class="form-control" readonly>
+            </div>
+
+
+            @if (Model.Status == 1)
+            {
+                <div class="w-100 d-flex justify-content-center mt-3 gap-3">
+                    <a href="/approve-auction?auctionId=@Model.Id&status=2" class="btn btn-success">Chấp nhận</a>
+                    <a href="/approve-auction?auctionId=@Model.Id&status=3" class="btn btn-danger">Từ chối</a>
+                </div>
+            }
+
+            <div class="w-100 d-flex justify-content-center">
+                <a class="btn btn-primary mt-3" onclick="GoBack()">Quay lại</a>
+            </div>
+
+        </div>
+
+    </div>
+}
