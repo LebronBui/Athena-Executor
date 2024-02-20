@@ -1,35 +1,36 @@
-﻿@model RealEstateAuction.DataModel.AuctionDataModel
+﻿@model RealEstateAuction.DataModel.AuctionEditDataModel
 @{
     Layout = "~/Views/Shared/UserLayout.cshtml";
-    ViewData["Title"] = "Tạo phiên đấu giá";
+    ViewData["Title"] = "Cập nhật phiên đấu giá";
 }
-<h2>Tạo phiên đấu giá</h2>
+<h2>Cập nhật phiên đấu giá</h2>
 <hr>
-@using (Html.BeginForm("CreateAuction", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("EditAuction", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="row">
         <div class="col-6">
+            <input asp-for=Id type="hidden">
             <div class="input-group mt-3">
                 <span class="input-group-text">Tiêu đề</span>
-                <input asp-for=Title type="text" class="form-control" placeholder="Tiêu đề tối thiểu 15 ký tự.">
+                <input asp-for=Title type="text" class="form-control">
             </div>
             @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
 
             <div class="input-group mt-3">
                 <span class="input-group-text">Giá khời điểm (VNĐ)</span>
-                <input asp-for=StartPrice type="text" class="form-control" placeholder="Giá khởi điểm phải lớn hơn 0." />
+                <input asp-for=StartPrice type="text" class="form-control" value="@Model.StartPrice.ToString("N1", System.Globalization.CultureInfo.InvariantCulture)" />
             </div>
             @Html.ValidationMessageFor(model => model.StartPrice, "", new { @class = "text-danger" })
 
             <div class="input-group mt-3">
                 <span class="input-group-text">Giá kết thúc (VNĐ)</span>
-                <input asp-for=EndPrice type="text" class="form-control" placeholder="Giá kết thúc phải lớn hơn 0.">
+                <input asp-for=EndPrice type="text" class="form-control" value="@Model.EndPrice.ToString("N1", System.Globalization.CultureInfo.InvariantCulture)">
             </div>
             @Html.ValidationMessageFor(model => model.EndPrice, "", new { @class = "text-danger" })
 
             <div class="input-group mt-3">
                 <span class="input-group-text">Diện tích (m2)</span>
-                <input asp-for=Area type="text" class="form-control" placeholder="Diện tích phải lớn hơn 0.">
+                <input asp-for=Area type="text" class="form-control">
             </div>
             @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
 
@@ -43,7 +44,7 @@
                 <span class="input-group-text">
                     Mặt tiền (m)
                 </span>
-                <input asp-for=Facade type="text" class="form-control" placeholder="Mặt tiền phải lớn hơn 0.">
+                <input asp-for=Facade type="text" class="form-control">
             </div>
             @Html.ValidationMessageFor(model => model.Facade, "", new { @class = "text-danger" })
 
@@ -71,6 +72,14 @@
             </div>
             @Html.ValidationMessageFor(model => model.ImageFiles, "", new { @class = "text-danger" })
 
+            <!--Display image of auction-->
+            <div class="mt-3 d-flex gap-3">
+                @foreach (var image in Model.Images)
+                {
+                    <img src="@Url.Content(image.Url)" height="150" width="150">
+                }
+            </div>
+
             <div class="input-group mt-3">
                 <span class="input-group-text">
                     Thời gian bắt đầu
@@ -88,7 +97,7 @@
             @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
 
             <div class="w-100 d-flex justify-content-center">
-                <button class="btn btn-primary mt-3">Tạo mới</button>
+                <button class="btn btn-primary mt-3">Cập nhật</button>
             </div>
 
         </div>
