@@ -3,8 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RealEstateAuction.DataModel
 {
-    public class AuctionDataModel
+    public class AuctionEditDataModel
     {
+        public int? Id { get; set; }
+
         [Required(ErrorMessage = "Vui lòng nhập tiêu đề phiên đấu giá")]
         [MinLength(15, ErrorMessage = "Tiêu đề tối thiểu 15 ký tự.")]
         public string Title { get; set; }
@@ -14,11 +16,11 @@ namespace RealEstateAuction.DataModel
         public decimal StartPrice { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập giá kết thúc")]
-        [Range(0.1, double.MaxValue, ErrorMessage = "Giá khởi điểm phải lớn hơn 0.")]
+        [Range(0.1, double.MaxValue, ErrorMessage = "Giá kết thúc phải lớn hơn 0.")]
         public decimal EndPrice { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập diện tích")]
-        [Range(0.1, double.MaxValue, ErrorMessage = "Giá khởi điểm phải lớn hơn 0.")]
+        [Range(0.1, double.MaxValue, ErrorMessage = "Diện tích phải lớn hơn 0.")]
         public double Area { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập địa chỉ")]
@@ -51,9 +53,7 @@ namespace RealEstateAuction.DataModel
         public DateTime? CreatedTime { get; set; }
 
         public DateTime? UpdatedTime { get; set; }
-
-        [Required(ErrorMessage = "Vui lòng tải ảnh bất động sản")]
-        public ICollection<IFormFile> ImageFiles { get; set; }
+        public ICollection<IFormFile>? ImageFiles { get; set; }
 
         public ICollection<Image>? Images { get; set; }
     }

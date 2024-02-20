@@ -363,3 +363,5 @@ MigrationBackup/
 FodyWeavers.xsd
 
 F4Land/F4Land/appsettings.json
+F4Land/F4Land/obj/F4Land.csproj.nuget.dgspec.json
+F4Land/F4Land/appsettings.json

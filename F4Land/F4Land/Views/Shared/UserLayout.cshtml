@@ -21,7 +21,7 @@
 
     <div class="sticky-top background-color">
         <header class="px-5 py-3 row justify-content-between border-bottom">
-            <a href="/"
+            <a href="/home"
                class="d-flex align-items-center col-md-2 mb-2 mb-md-0 text-dark text-decoration-none cursor-pointer">
                 <!-- LOGO -->
                 <img src="~/img/logo.jpg" alt="Invaluable" />
@@ -75,7 +75,6 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="/profile">Thông tin cá nhân</a></li>
-                                <li><a class="dropdown-item" href="/manage-auction">Quản lý đấu giá</a></li>
                                 <li><a class="dropdown-item" href="/change-password">Đổi mật khẩu</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <form action="/logout">
@@ -137,16 +136,28 @@
     <main>
         <div class="d-flex" style="margin-bottom: 100px">
             <div class="d-flex flex-column flex-shrink-0 p-3 sidebar" style="width: 280px;">
-                <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                <a href="/home" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
                     <span class="fs-4 fw-bold">F4 Land</span>
                 </a>
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
-                    <li class="nav-item item-user-sidebar">
-                        <a href="/manage-auction" class="nav-link link-dark" aria-current="page">
-                            Quản lý đấu giá
-                        </a>
-                    </li>
+                    @if (User.FindFirstValue(ClaimTypes.Role) == "Member")
+                    {
+                        <li class="nav-item item-user-sidebar">
+                            <a href="/manage-auction" class="nav-link link-dark" aria-current="page">
+                                Quản lý đấu giá
+                            </a>
+                        </li>
+                    }
+                    @if (User.FindFirstValue(ClaimTypes.Role) == "Staff")
+                    {
+                        <li class="nav-item item-user-sidebar">
+                            <a href="/list-auction-staff" class="nav-link link-dark" aria-current="page">
+                                Phê duyệt đấu giá
+                            </a>
+                        </li>
+                    }
+
                     <li class="nav-item item-user-sidebar">
                         <a href="/profile" class="nav-link link-dark" aria-current="page">
                             Thông tin cá nhân
@@ -311,7 +322,7 @@
     <script src="https://kit.fontawesome.com/8d39de38b8.js" crossorigin="anonymous"></script>
     <script>
         // Check if TempData contains a message
-        var message = '@TempData["Message"]';
+        var message = '@Html.Raw(TempData["Message"])';
 
         if (message) {
             var x = document.getElementById("snackbar");
@@ -349,5 +360,6 @@
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)
+    <script src="~/js/site.js"></script>
 </body>
 </html>
