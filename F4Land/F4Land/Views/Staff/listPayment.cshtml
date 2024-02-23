@@ -1,4 +1,22 @@
 ﻿@{
+    @using RealEstateAuction.Enums
+@{
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+    ViewData["Title"] = "Quản lý thanh toán";
+    var status = new Dictionary<PaymentStatus, string>
+        {
+            { PaymentStatus.Pending, "Đang chờ" },
+            { PaymentStatus.Approve, "Đã phê duyệt" },
+            { PaymentStatus.Refund, "Đã hoàn trả" },
+            { PaymentStatus.Reject, "Đã từ chối" },
+        };
+    var statusStyle = new Dictionary<PaymentStatus, string>
+    {
+            { PaymentStatus.Pending, "badge bg-primary" },
+            { PaymentStatus.Approve, "badge bg-success" },
+            { PaymentStatus.Refund, "badge bg-warning" },
+            { PaymentStatus.Reject, "badge bg-danger" },
+        };
 }
 @model X.PagedList.IPagedList<Payment>
 <h1>Payment List</h1>
