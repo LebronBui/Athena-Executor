@@ -399,7 +399,64 @@ namespace RealEstateAuction.Controllers
 
             return Redirect("manage-auction");
         }
+        [HttpGet("join-auction")]
+        public IActionResult JoinAuction(int auctionId)
+        {
+            //check user login or not
+            if (!User.Identity.IsAuthenticated)
+            {
+                TempData["Message"] = "Vui lòng đăng nhập để tham gia đấu giá!";
+                return Redirect("/auction-details?auctionId=" + auctionId);
+            }
 
+            //get current user id
+            int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            //find user by id
+            User user = userDAO.GetUserById(userId);
+
+            //Find Auction by id
+            Auction auction = auctionDAO.GetAuctionById(auctionId);
+
+            //check if auction belong to this user
+            if (auction.UserId == userId)
+            {
+                TempData["Message"] = "Bạn không thể tham gia đấu giá phiên đấu giá của mình!";
+                return Redirect("/auction-details?auctionId=" + auctionId);
+            }
+
+            //check if auction is expired
+            if (auction.EndTime.CompareTo(DateTime.Now) < 0)
+            {
+                TempData["Message"] = "Phiên đấu giá đã kết thúc!";
+                return Redirect("/auction-details?auctionId=" + auctionId);
+            }
+
+            //check if user has joined auction
+            if (auctionDAO.IsUserJoinedAuction(user, auctionId))
+            {
+                TempData["Message"] = "Bạn đã tham gia đấu giá!";
+                return Redirect("/auction-details?auctionId=" + auctionId);
+            }
+
+            //add new user to list user join auction
+            auction.Users.Add(user);
+
+            //update Auction to database
+            bool isSuccess = auctionDAO.EditAuction(auction);
+
+            //check if join acution successfull
+            if (isSuccess)
+            {
+                TempData["Message"] = "Tham gia đấu giá thành công!";
+            }
+            else
+            {
+                TempData["Message"] = "Tham gia đấu giá thất bại!";
+            }
+
+            return Redirect("/auction-details?auctionId=" + auctionId);
+        }
         private bool ValidateAuction(AuctionDataModel auctionData)
         {
             var flag = true;
