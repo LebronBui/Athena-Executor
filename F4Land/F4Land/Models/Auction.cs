@@ -41,11 +41,11 @@ public partial class Auction
 
     public virtual User Approver { get; set; } = null!;
 
-    public virtual ICollection<AuctionParticipant> AuctionParticipants { get; set; } = new List<AuctionParticipant>();
-
     public virtual User User { get; set; } = null!;
 
     public virtual ICollection<Category> Categories { get; set; } = new List<Category>();
 
     public virtual ICollection<Image> Images { get; set; } = new List<Image>();
+
+    public virtual ICollection<User> Users { get; set; } = new List<User>();
 }

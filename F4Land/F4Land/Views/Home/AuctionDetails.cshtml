@@ -1,5 +1,201 @@
-﻿@*
+﻿@model RealEstateAuction.Models.Auction
+@using RealEstateAuction.Models
+@using RealEstateAuction.DAL
+@using System.Security.Claims
+
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    ViewData["Title"] = "Chi tiết đấu giá";
+
+    int? userId = null;
+    if (User.Identity.IsAuthenticated)
+    {
+        userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+    }
 }
+<!-- using library to display slider image -->
+<link rel="stylesheet" type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.css" />
+<link rel="stylesheet" type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick-theme.min.css" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
+
+<section class="max-width-section py-4 row" id="auction-lot-detail">
+    <div class="col-12 col-md-8 order-md-1 order-2">
+        <div class="p-5">
+            <div class="slider slider-show-image">
+                <!-- list all image you have here -->
+                @foreach (var image in Model.Images)
+                {
+                    <img style="width: 100%; height: 400px; object-fit: contain; border-radius: 8px;"
+                         src="@Url.Content(image.Url)"
+                         alt="book-shop">
+                }
+            </div>
+            <div class="slider slider-list-image">
+                <!-- list all image you have here -->
+                <!-- list all image you have here -->
+                @foreach (var image in Model.Images)
+                {
+                    <img style="width: 100%; height: 400px; object-fit: contain; border-radius: 8px;"
+                         src="@Url.Content(image.Url)"
+                         alt="book-shop">
+                }
+            </div>
+        </div>
+        <div class="section-line mt-4"></div>
+        <div>
+            <div class="section-line"></div>
+            <div class="py-4" style="border-bottom: 1px solid #bac4c9;">
+                <div class="d-flex justify-content-between align-items-center cursor-pointer"
+                     data-bs-toggle="collapse" data-bs-target="#collapseOverview" aria-expanded="false"
+                     aria-controls="collapseOverview">
+                    <div class="h3 fw-light">
+                        Mô tả
+                    </div>
+                    <i class="fa-solid fa-angle-down"></i>
+                </div>
+                <div class="collapse" id="collapseOverview">
+                    <div class="d-flex flex-column gap-3 mt-2">
+                        <div class="head-detail">
+                            @Model.Description
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-4 order-md-2 order-1">
+        <div class="mb-4" style="padding: 30px 20px; background-color: #f1f3f4; font-weight: 300;">
+            <div>
+                Giá: @Model.StartPrice.ToString("N1", System.Globalization.CultureInfo.InvariantCulture)đ
+                - @Model.EndPrice.ToString("N1", System.Globalization.CultureInfo.InvariantCulture)đ
+            </div>
+            <p class="m-0">
+                <span style="font-size: 16px;
+                        font-weight: 300;
+                        color: #666;">0 bids</span>
+            </p>
+            <div class="mt-3">
+                <div>Đặt giá:</div>
+                <select class="form-select mt-1" id="country" required="">
+                    <option value="">50</option>
+                    <option>40</option>
+                    <option>30</option>
+                </select>
+                <button class="btn btn-secondary mt-2 w-100" style="background-color: #222222;">
+                    Đấu giá
+                </button>
+                <div class="mt-1 mb-3">
+                    <span style="font-size: 12px;">
+                        <i class="fa fa-lock me-1"></i>
+                        Tham gia phiên đấu giá trước khi đặt giá
+                    </span>
+                </div>
+                <a href="#" class="text-decoration-none cursor-pointer">
+                    Tham gia đấu giá
+                </a>
+            </div>
+        </div>
+        <div class="mb-4">
+            <a style="font-size: 18px;
+                    color: #222;
+                    font-weight: 500;" href="/catalog/RQKWI3TOQN" rel="noreferrer" target="_blank">
+                Địa chỉ: @Model.Address
+            </a>
+            <div style="font-weight: 300;" class="mt-2">
+                <span class="me-3">@Model.StartTime - @Model.EndTime</span>
+            </div>
+            <div class="mt-3 mb-3">
+                <p class="m-0" style="color: #e4002b;">Tham gia đấu giá ngay!</p>
+            </div>
+            @*check if user join auction or not*@
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (Model.Users.Any(u => u.Id == userId.Value))
+                {
+                    <button class="btn btn-danger w-100" disabled>
+                        Bạn đã tham gia đấu giá
+                    </button>
+                }
+                else
+                {
+                    <button class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#myModal">
+                        Tham gia đấu giá
+                    </button>
+                }
+            }
+            else
+            {
+                <button class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#myModal">
+                    Tham gia đấu giá
+                </button>
+            }
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form method="get" action="join-auction">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Xác nhận tham gia đấu giá</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <input type="hidden" name="auctionId" value="@Model.Id" />
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                <button type="submit" class="btn btn-primary">Tham gia</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section-line mb-4"></div>
+        <div>
+            <div class="row">
+                <div class="col-3">
+                    <div class="w-100 ratio ratio-1x1" style="border: 1px solid #f1f3f4;">
+                        <img class="w-100 object-fit-contain"
+                             src="https://st3.depositphotos.com/9998432/13335/v/450/depositphotos_133352156-stock-illustration-default-placeholder-profile-icon.jpg"
+                             alt="">
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="fs-4 fw-bold">
+                        @Model.User.FullName
+                    </div>
+                    <a class="text-decoration-none cursor-pointer mt-1">View seller profile</a>
+                </div>
+            </div>
+            <div class="d-flex align-items-center gap-2 mt-2">
+                <button class="btn btn-outline-secondary">
+                    Contact
+                </button>
+                <button class="btn btn-secondary w-100">
+                    + Follow This Seller
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $('.slider-show-image').slick({
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        arrows: false,
+        fade: true,
+        asNavFor: '.slider-list-image'
+    });
+    $('.slider-list-image').slick({
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        asNavFor: '.slider-show-image',
+        focusOnSelect: true
+    });
+</script>
