@@ -40,5 +40,10 @@ namespace RealEstateAuction.DAL
                 .Include(x => x.Bank)
                 .SingleOrDefault(p => p.Id == id);
         }
+
+        public Payment getPayment(int id)
+        {
+            return context.Payments.SingleOrDefault(p => p.Id == id);
+        }
     }
 }
