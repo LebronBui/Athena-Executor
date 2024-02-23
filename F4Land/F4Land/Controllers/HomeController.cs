@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Humanizer;
+using Microsoft.AspNetCore.Mvc;
+using RealEstateAuction.DAL;
 using RealEstateAuction.Models;
 using System.Diagnostics;
 
@@ -18,7 +20,11 @@ namespace RealEstateAuction.Controllers
         public IActionResult Index()
         {
             return View();
+            / get 5 auction recently to display on hompage
+            List<Auction> auctionRecent = auctionDAO.GetAuctionRecently(5);
+
         }
+
 
         public IActionResult Privacy()
         {

@@ -86,5 +86,14 @@ namespace RealEstateAuction.DAL
         {
             return context.Auctions.Where(a => a.ApproverId == staffId && a.DeleteFlag == false).Count();
         }
+        public List<Auction> GetAuctionRecently(int number)
+        {
+            return context.Auctions
+                .Include(a => a.Images)
+                .Include(a => a.User)
+                .OrderByDescending(a => a.CreatedTime)
+                .Take(number)
+                .ToList();
+        }
     }
 }
