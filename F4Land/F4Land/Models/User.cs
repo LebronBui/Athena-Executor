@@ -29,8 +29,6 @@ public partial class User
 
     public virtual ICollection<Auction> AuctionApprovers { get; set; } = new List<Auction>();
 
-    public virtual ICollection<AuctionParticipant> AuctionParticipants { get; set; } = new List<AuctionParticipant>();
-
     public virtual ICollection<Auction> AuctionUsers { get; set; } = new List<Auction>();
 
     public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
@@ -42,4 +40,6 @@ public partial class User
     public virtual ICollection<Ticket> TicketStaffs { get; set; } = new List<Ticket>();
 
     public virtual ICollection<Ticket> TicketUsers { get; set; } = new List<Ticket>();
+
+    public virtual ICollection<Auction> Auctions { get; set; } = new List<Auction>();
 }
