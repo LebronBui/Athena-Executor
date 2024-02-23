@@ -9,6 +9,8 @@ namespace RealEstateAuction.AutoMapperProfile
         public ModelToDataModel()
         {
             CreateMap<User, UserDatalModel>();
+            CreateMap<Auction, AuctionDataModel>();
+            CreateMap<Auction, AuctionEditDataModel>();
         }
     }
 }
