@@ -1,0 +1,36 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="modal fade" id="modalConfirmStatus" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <form action="list-payment/update" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="fw-bold">Confirm</h2>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn chắc chắn muốn thay đổi trang thái?</p>
+                    <input type="hidden" id="idUpdate" name="id" value="" />
+                    <input type="hidden" id="statusUpdate" name="status" value="" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(".btnStatus").click(function () {
+            $("#idUpdate").val($(this).data("id"))
+            $("#statusUpdate").val($(this).data("status"))
+            console.log($(this).data("id"))
+        })
+    })
+</script>
+
