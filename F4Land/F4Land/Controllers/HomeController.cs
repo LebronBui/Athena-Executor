@@ -15,7 +15,8 @@ namespace RealEstateAuction.Controllers
         public HomeController(ILogger<HomeController> logger)
         {
             pagination = new Pagination();
-           _logger = logger;
+            auctionDAO = new AuctionDAO();
+            _logger = logger;
         }
 
         [Route("")]
