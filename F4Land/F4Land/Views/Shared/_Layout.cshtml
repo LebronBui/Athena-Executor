@@ -24,9 +24,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Auction</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="~/css/styles.css" type="text/css" />
 </head>
 
@@ -36,7 +35,7 @@
 
     <div class="sticky-top background-color">
         <header class="px-5 py-3 row justify-content-between border-bottom">
-            <a href="/home"
+            <a href="@homePage"
                class="d-flex align-items-center col-md-2 mb-2 mb-md-0 text-dark text-decoration-none cursor-pointer">
                 <!-- LOGO -->
                 <img src="~/img/logo.jpg" alt="Invaluable" />
@@ -105,44 +104,44 @@
 
         <section class="px-5 py-2 d-md-block d-none" id="menu" style="background-color: #43c4eb">
             <div class="d-flex justify-content-between align-items-center">
-                <a class="text-decoration-none cursor-pointer text-danger" href="/auctions">AUCTIONS</a>
-                <a class="text-decoration-none cursor-pointer text-danger" href="/auctions-house">AUCTION HOUSE</a>
-                <a class="text-decoration-none cursor-pointer text-danger" href="/artists">ARTISTS</a>
+                <a class="text-decoration-none cursor-pointer text-danger" href="">Nhà đất</a>
+                <a class="text-decoration-none cursor-pointer text-danger" href="">Nhà đất</a>
+                <a class="text-decoration-none cursor-pointer text-danger" href="">Nhà đất</a>
                 <div class="separated-line"></div>
                 <div class="dropdown">
                     <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
                          data-bs-toggle="dropdown" aria-expanded="false">
-                        FINE ART
+                        Nhà đất
                     </div>
                 </div>
                 <div class="dropdown">
                     <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
                          data-bs-toggle="dropdown" aria-expanded="false">
-                        DECORATION ART
+                        Nhà đất
                     </div>
                 </div>
                 <div class="dropdown">
                     <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
                          data-bs-toggle="dropdown" aria-expanded="false">
-                        JEWELRY
+                        Nhà đất
                     </div>
                 </div>
                 <div class="dropdown">
                     <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
                          data-bs-toggle="dropdown" aria-expanded="false">
-                        COLLECTIBLES
+                        Nhà đất
                     </div>
                 </div>
                 <div class="dropdown">
                     <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
                          data-bs-toggle="dropdown" aria-expanded="false">
-                        FURNITURES
+                        Nhà đất
                     </div>
                 </div>
                 <div class="dropdown">
                     <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
                          data-bs-toggle="dropdown" aria-expanded="false">
-                        ASIAN ARTS
+                        Nhà đất
                     </div>
                 </div>
             </div>
@@ -156,78 +155,7 @@
             @await Html.PartialAsync("Modals/SignUp")
         }
 
-        <section id="banner">
-            <!-- Carousel wrapper -->
-            <div id="carousel-starter" class="carousel slide" data-bs-slide="carousel">
-                <div class="carousel-inner carousel-starter">
-                    <div class="carousel-item active">
-                        <div class="position-relative">
-                            <img src="https://tieudung.kinhtedothi.vn/upload_images/images/2021/10/07/gom.jpg"
-                                 alt="bg-blog" style="object-fit: cover; height: 420px; width: 100%;">
-                            <div class="responsive-banner-home">
-                                <div class="px-3 py-4 d-flex flex-column justify-content-center align-items-center"
-                                     style="background-color: #ffffff99">
-                                    <div class="fs-5 fw-normal">FEB 18 | 11 AM PST</div>
-                                    <div class="fs-5 fw-semibold mt-2">Chara Schrerry Collection Part II</div>
-                                    <div class="fs-5 fw-normal">FINE EST INC</div>
-                                    <button class="btn text-white mt-3 rounded-0" style="background-color: #a36b0c;">
-                                        Show Now
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="position-relative">
-                            <img src="https://gotrangtri.vn/wp-content/uploads/2020/12/mua-do-su-dep-o-dau-1-1.jpg"
-                                 alt="bg-blog" style="object-fit: cover; height: 420px; width: 100%;">
-                            <div class="responsive-banner-home">
-                                <div class="px-3 py-4 d-flex flex-column justify-content-center align-items-center"
-                                     style="background-color: #ffffff99">
-                                    <div class="fs-5 fw-normal">FEB 18 | 11 AM PST</div>
-                                    <div class="fs-5 fw-semibold mt-2">Chara Schrerry Collection Part II</div>
-                                    <div class="fs-5 fw-normal">FINE EST INC</div>
-                                    <button class="btn text-white mt-3 rounded-0" style="background-color: #a36b0c;">
-                                        Show Now
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="position-relative">
-                            <img src="https://tieudung.kinhtedothi.vn/upload_images/images/2021/10/07/gom.jpg"
-                                 alt="bg-blog" style="object-fit: cover; height: 420px; width: 100%;">
-                            <div class="responsive-banner-home">
-                                <div class="px-3 py-4 d-flex flex-column justify-content-center align-items-center"
-                                     style="background-color: #ffffff99">
-                                    <div class="fs-5 fw-normal">FEB 18 | 11 AM PST</div>
-                                    <div class="fs-5 fw-semibold mt-2">Chara Schrerry Collection Part II</div>
-                                    <div class="fs-5 fw-normal">FINE EST INC</div>
-                                    <button class="btn text-white mt-3 rounded-0" style="background-color: #a36b0c;">
-                                        Show Now
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carousel-starter"
-                        data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carousel-starter"
-                        data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            </div>
-        </section>
-
-        <section id="main-content" class="border-1 border-top border-black py-4 px-5">
-            @RenderBody()
-        </section>
+        @RenderBody()
 
         <!-- USED FOR FOOTER, COPY THIS TO SEPARATED FILE TO USE LATER -->
         <footer>
@@ -236,7 +164,7 @@
                      class="" style="width: 220px; object-fit: cover;">
                 <div class="d-flex flex-column gap-3">
                     <div class="fs-5 fw-bolder">
-                        Get Invaluable on Your Phone
+                        Get F4Land on Your Phone
                     </div>
                     <div class="fs-6 fw-light" style="max-width:450px;">
                         Download the app via text link to get instantly notified if you're outbid and receive auction
@@ -367,6 +295,9 @@
             </div>
         </footer>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+            crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/8d39de38b8.js" crossorigin="anonymous"></script>
     <script>
         // Check if TempData contains a message
