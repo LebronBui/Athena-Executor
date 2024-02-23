@@ -30,12 +30,23 @@ namespace RealEstateAuction.Controllers
         }
 
         [Route("list-auction")]
-        public IActionResult ListAuction()
+        public IActionResult ListAuction(int? pageNumber)
         {
-            //get 5 auction recently to display on hompage
-            List<Auction> auctionRecent = auctionDAO.GetAuctionRecently(5);
+            if (pageNumber.HasValue)
+            {
+                pagination.PageNumber = pageNumber.Value;
+            }
 
-            return View(auctionRecent);
+            //get all auction approved to display on list auction page
+            List<Auction> auctions = auctionDAO.GetAllAuctionApproved(pagination);
+
+            int auctionCount = auctionDAO.CountAuctionApproved();
+            int pageSize = (int)Math.Ceiling((double)auctionCount / pagination.RecordPerPage);
+
+            ViewBag.currentPage = pagination.PageNumber;
+            ViewBag.pageSize = pageSize;
+
+            return View(auctions);
         }
 
         [Route("auction-details")]

@@ -370,6 +370,7 @@ namespace RealEstateAuction.Controllers
             }
         }
 
+
         [HttpGet]
         [Route("delete-auction")]
         public IActionResult DeleteAuction(int id)
@@ -399,6 +400,8 @@ namespace RealEstateAuction.Controllers
 
             return Redirect("manage-auction");
         }
+
+
         [HttpGet("join-auction")]
         public IActionResult JoinAuction(int auctionId)
         {
@@ -512,5 +515,6 @@ namespace RealEstateAuction.Controllers
 
             return flag;
         }
+
     }
 }

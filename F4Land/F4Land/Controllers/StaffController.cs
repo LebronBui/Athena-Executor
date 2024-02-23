@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RealEstateAuction.DAL;
 using RealEstateAuction.DataModel;
+using RealEstateAuction.Enums;
 using RealEstateAuction.Models;
 using System.Security.Claims;
 
@@ -28,8 +29,8 @@ namespace RealEstateAuction.Controllers
         }
 
         [Authorize(Roles = "Staff")]
-        [HttpGet("staff/payments")]
-        public IActionResult listPayment(int? page)
+        [HttpGet("/list-payment")]
+        public IActionResult ListPayment(int? page)
         {
             int PageNumber = (page ?? 1);
             var list = paymentDAO.list(PageNumber);
@@ -37,8 +38,34 @@ namespace RealEstateAuction.Controllers
         }
 
         [Authorize(Roles = "Staff")]
-        [HttpGet("staff/tickets")]
-        public IActionResult listTicket(int? page)
+        [HttpPost("/list-payment/update")]
+        public IActionResult UpdatePayment()
+        {
+            try
+            {
+                var payment = paymentDAO.getPayment(Int32.Parse(Request.Form["id"].ToString()));
+                if (payment != null && payment.Status == (int)PaymentStatus.Pending)
+                {
+                    payment.Status = Byte.Parse(Request.Form["status"].ToString());
+                    paymentDAO.update(payment);
+                    TempData["Message"] = "Cập nhật thành công";
+                }
+                else
+                {
+                    TempData["Message"] = "Thanh toán không tồn tại";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["Message"] = "Lỗi hệ thống, vui lòng thử lại";
+            }
+
+            return RedirectToAction("ListPayment");
+        }
+
+        [Authorize(Roles = "Staff")]
+        [HttpGet("/list-ticket")]
+        public IActionResult ListTicket(int? page)
         {
             int PageNumber = (page ?? 1);
             var list = ticketDAO.listTicket(PageNumber);
@@ -46,8 +73,8 @@ namespace RealEstateAuction.Controllers
         }
 
         [Authorize(Roles = "Staff")]
-        [HttpGet("staff/tickets/{id}")]
-        public IActionResult ticketDetail(int id)
+        [HttpGet("list-ticket/{id}")]
+        public IActionResult TicketDetail(int id)
         {
             var ticket = ticketDAO.ticketDetail(id);
             if (ticket == null)
@@ -60,7 +87,7 @@ namespace RealEstateAuction.Controllers
 
         [Authorize(Roles = "Staff")]
         [HttpPost]
-        [Route("payments/{id}/reply")]
+        [Route("list-ticket/{id}reply")]
         public IActionResult reply(Ticket ticket, int id)
         {
             return View();
@@ -114,7 +141,7 @@ namespace RealEstateAuction.Controllers
             int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             //get auction by Id
-            Auction auction = auctionDAO.GetAuctionById(auctionId);
+            Auction auction = auctionDAO.GetAuctionStaffById(auctionId);
 
             //check if staff manage this auction or not
             if (auction.ApproverId == userId)
@@ -144,7 +171,7 @@ namespace RealEstateAuction.Controllers
             int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             //get auction by Id
-            Auction auction = auctionDAO.GetAuctionById(auctionId);
+            Auction auction = auctionDAO.GetAuctionStaffById(auctionId);
 
             //check if staff manage this auction or not
             if (auction.ApproverId == userId)

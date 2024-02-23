@@ -29,6 +29,8 @@ namespace RealEstateAuction.Controllers
         [Route("login")]
         public async Task<IActionResult> Login()
         {
+            string curentUrl = HttpContext.Request.Headers["Referer"];
+
             string email = Request.Form["email"];
             string password = Request.Form["pwd"];
 
@@ -79,19 +81,22 @@ namespace RealEstateAuction.Controllers
                     case (int)Roles.Staff:
                         return Redirect("staff");
                     default:
-                        return Redirect("home");
+                        return Redirect(curentUrl);
                 }
             }
             else
             {
                 TempData["Message"] = "Login fail!";
-                return Redirect("home");
+                return Redirect(curentUrl);
             }
         }
 
         [HttpPost("register")]
         public IActionResult Register()
         {
+            //get current url
+            string curentUrl = HttpContext.Request.Headers["Referer"];
+
             string fullName = Request.Form["fullName"];
             string email = Request.Form["email"];
             string pwd = Request.Form["pwd"];
@@ -131,7 +136,7 @@ namespace RealEstateAuction.Controllers
                 }
             }
 
-            return Redirect("home");
+            return Redirect(curentUrl);
         }
 
         [HttpPost("forgot-password")]
@@ -210,8 +215,9 @@ namespace RealEstateAuction.Controllers
         [Route("logout")]
         public IActionResult Logout()
         {
+            string curentUrl = HttpContext.Request.Headers["Referer"];
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return Redirect("home");
+            return Redirect(curentUrl);
         }
 
         [Route("access-denied")]
