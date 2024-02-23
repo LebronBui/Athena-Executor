@@ -1,5 +1,4 @@
-﻿@{
-    @using RealEstateAuction.Enums
+﻿@using RealEstateAuction.Enums
 @{
     Layout = "~/Views/Shared/UserLayout.cshtml";
     ViewData["Title"] = "Quản lý thanh toán";
@@ -19,16 +18,19 @@
         };
 }
 @model X.PagedList.IPagedList<Payment>
-<h1>Payment List</h1>
+<h2>Quản lý thanh toán</h2>
+<hr>
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 <table class="table">
     <thead>
         <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Amount</th>
-            <th scope="col">Username</th>
-            <th scope="col">Status</th>
-            <th scope="col">Bank Name</th>
+            <th scope="col">ID</th>
+            <th scope="col">Số lượng</th>
+            <th scope="col">Tên người dùng</th>
+            <th scope="col">Mã Giao dịch</th>
+            <th scope="col" class="text-center">Trạng thái</th>
+            <th scope="col" class="text-center">Mã số ngân hàng nhận</th>
+            <th scope="col" class="text-center">Hành động</th>
         </tr>
     </thead>
     <tbody>
@@ -38,22 +40,66 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
             {
                 <tr>
                     <th>@item.Id</th>
-                    <td>@item.Amount</td>
+                    <td>
+                        <p>@String.Format("{0:N0}", @item.Amount)</p>
+                    </td>
                     <td>@item.User.FullName</td>
-                    <td>@item.Status</td>
-                    <td>@item.Bank.BankName</td>
+                    <td>@item.Code</td>
+                    <td class="text-center">
+                        <span class="@statusStyle[(PaymentStatus)item.Status]" style="width: 100px">
+                            @status[(PaymentStatus)item.Status]
+                        </span>
+                    </td>
+                    <td class="text-center">@item.Bank.BankAccount</td>
+                    <td class="text-center">
+                        @if ((PaymentStatus)item.Status == PaymentStatus.Pending)
+                        {
+                            <div class="dropdown">
+                                <button class="btn btn-primary btn-sm dropdown-toggle" style="width: 75px" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-solid fa-bars"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item text-success btnStatus" data-bs-toggle="modal"
+                                           data-bs-target="#modalConfirmStatus" data-id="@item.Id" data-status="@((int)PaymentStatus.Approve)">
+                                            <i class="fa-solid fa-check me-1"></i> Phê duyệt
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item text-warning btnStatus" data-bs-toggle="modal"
+                                           data-bs-target="#modalConfirmStatus" data-id="@item.Id" data-status="@((int)PaymentStatus.Refund)">
+                                            <i class="fa-solid fa-arrow-rotate-right me-1"></i>Hoàn trả
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item text-danger btnStatus" data-bs-toggle="modal"
+                                           data-bs-target="#modalConfirmStatus" data-id="@item.Id" data-status="@((int)PaymentStatus.Reject)">
+                                            <i class="fa-solid fa-xmark fa-lg me-1"></i>Từ chối
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="#">Chi tiết</a></li>
+                                </ul>
+                            </div>
+                        }
+                        else
+                        {
+                            <a class="btn btn-primary btn-sm" style="width: 75px" href="#">Chi tiết</a>
+                        }
+                    </td>
                 </tr>
             }
         }
     </tbody>
 </table>
-@if (Model.Count != 0)
+@await Html.PartialAsync("Modals/Payment/ConfirmStatus")
+@if (Model.PageCount > 1)
 {
     <div class="text-center">
         <nav aria-label="Page navigation">
             <ul class="pagination">
                 <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
-                    <a class="page-link" href="@Url.Action("payments", new { page = Model.PageNumber - 1 })">Previous</a>
+                    <a class="page-link" href="@Url.Action("payments", new { page = Model.PageNumber - 1 })">&lt;</a>
                 </li>
                 @for (int i = Model.PageNumber - 5; i <= Model.PageNumber + 5; i++)
                 {
@@ -65,7 +111,7 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
                     }
                 }
                 <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
-                    <a class="page-link" href="@Url.Action("payments", new { page = Model.PageNumber + 1 })">Next</a>
+                    <a class="page-link" href="@Url.Action("payments", new { page = Model.PageNumber + 1 })">&gt;</a>
                 </li>
             </ul>
         </nav>
