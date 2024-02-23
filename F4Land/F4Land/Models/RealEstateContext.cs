@@ -113,7 +113,7 @@ public partial class RealEstateContext : DbContext
         {
             entity.ToTable("Banking");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+           
             entity.Property(e => e.BankAccount).HasColumnType("ntext");
             entity.Property(e => e.BankName).HasColumnType("ntext");
         });
