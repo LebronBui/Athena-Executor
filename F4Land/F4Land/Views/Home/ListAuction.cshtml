@@ -1,5 +1,183 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<RealEstateAuction.Models.Auction>
 @{
+    ViewData["Title"] = "Danh sách các phiên đấu giá";
 }
+<div class="section-line"></div>
+<section id="list-auctions">
+    <div class="max-width-section py-4">
+        <h4 class="fs-3 mb-4">Danh sách đấu giá</h4>
+        <div class="section-line"></div>
+        <div class="d-flex justify-content-between align-items-center py-4">
+            <div class="fs-6 fw-semibold">
+                @Model.Count() đấu giá
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <div class="text-nowrap">
+                    Lọc
+                </div>
+                <select class="form-select" id="country" required="">
+                    <option value="">Tên</option>
+                    <option>Giá</option>
+                    <option>Địa chỉ</option>
+                </select>
+            </div>
+        </div>
+        <div class="section-line"></div>
+        <div class="d-flex gap-4">
+            <div class="d-none d-md-block" style="width: 280px;">
+                <div class="py-4" style="border-bottom: 1px solid #bac4c9;">
+                    <div style="font-weight: 600; font-size: 16px;">
+                        Dates
+                    </div>
+                    <div class="d-flex flex-column gap-2 mt-2">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                   id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Default radio
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                   id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Default radio
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="py-4" style="border-bottom: 1px solid #bac4c9;">
+                    <div style="font-weight: 600; font-size: 16px;">
+                        Auction Type
+                    </div>
+                    <div class="d-flex flex-column gap-2 mt-2">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                   id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Default radio
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                   id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Default radio
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="py-4" style="border-bottom: 1px solid #bac4c9;">
+                    <div style="font-weight: 600; font-size: 16px;">
+                        Categories
+                    </div>
+                    <div class="d-flex flex-column gap-2 mt-2">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="flexRadioDefault"
+                                   id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Default checkbox
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="flexRadioDefault"
+                                   id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Default checkbox
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="py-4 w-100">
+                <!-- Array of list auctions -->
+                <section id="array-autions">
+                    @if (Model.Count() == 0)
+                    {
+                        <div class="d-flex justify-content-center">
+                            <p class="text-danger">Không có phiên đấu giá nào</p>
+                        </div>
+                    }
+                    @foreach (var item in Model)
+                    {
+                        <div class="pt-3" style="border-bottom: 1px solid #dde2e4;">
+                            <div class="row pb-3">
+                                <div class="col-md-3 col-sm-2 col-xs-3">
+                                    <div class="w-100 ratio ratio-1x1" style="border: 1px solid #dde2e4;">
+                                        <img class="object-fit-contain"
+                                             src="@Url.Content(item.Images.ElementAt(0).Url)"
+                                             alt="">
+                                    </div>
+                                </div>
+                                <div class="col-md-9 col-sm-10 col-xs-9">
+                                    <div class="row">
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <div class="fs-6 fw-semibold truncate-2-line">
+                                                @item.Title
+                                            </div>
+                                            <div class="fs-6 fw-lighter truncate-2-line mt-1">
+                                                Người đăng: Potter
+                                            </div>
+                                            <div class="fs-6 fw-light truncate-2-line mt-2">
+                                                Thời gian đấu giá: @item.StartTime - @item.EndTime
+                                            </div>
+                                            <div class="fs-6 fw-light truncate-2-line mt-2">
+                                                Giá: @item.StartPrice.ToString("N1", System.Globalization.CultureInfo.InvariantCulture)đ - @item.EndPrice.ToString("N1", System.Globalization.CultureInfo.InvariantCulture)đ
+                                            </div>
+                                            <div class="fs-6 fw-light truncate-2-line mt-1">
+                                                @item.Address
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-4">
+                                            <div class="d-flex align-items-center">
+                                                <i class="fa-solid fa-wifi"></i>
+                                                <div class="fs-6 fw-light truncate-2-line">
+                                                    Đấu giá trực tiếp
+                                                </div>
+                                            </div>
+                                            <a class="btn btn-danger mt-3 w-100" href="/auction-details?auctionId=@item.Id">
+                                                Đang diễn ra
+                                            </a>
+                                            <a class="text-decoration-none cursor-pointer mt-3">
+                                                Tham gia đấu giá
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </section>
+                <!-- this is pagination of auctions -->
+                <div class="d-flex justify-content-center align-items-center mt-4">
+                    <!-- PAGINATION-->
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center justify-content-lg-end">
+                            @if (ViewBag.currentPage != 1)
+                            {
+                                <li class="page-item mx-1"><a class="page-link" href='/list-auction?pageNumber=@(ViewBag.currentPage-1)' aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                            }
+                            @for (var i = 1; i <= ViewBag.pageSize; i++)
+                            {
+                                @if (i == ViewBag.currentPage)
+                                {
+                                    <li class="page-item mx-1 active"><a class="page-link" href="#">@i</a></li>
+                                }
+                                else
+                                {
+                                    <li class="page-item mx-1"><a class="page-link" href='/list-auction?pageNumber=@i'>@i</a></li>
+                                }
+                            }
+                            @if (ViewBag.currentPage < ViewBag.pageSize)
+                            {
+                                <li class="page-item ms-1"><a class="page-link" href='/list-auction?pageNumber=@(ViewBag.currentPage+1)' aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                            }
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
