@@ -12,6 +12,18 @@ namespace RealEstateAuction.DAL
         {
             context = new RealEstateContext();
         }
+
+        //get all auction that have status is approved
+        public List<Auction> GetAllAuctionApproved(Pagination pagination)
+        {
+            return context.Auctions.Where(a => a.Status == (int)AuctionStatus.Chấp_nhân && a.DeleteFlag == false)
+                                   .Include(a => a.Images)
+                                   .OrderByDescending(a => a.CreatedTime)
+                                   .Skip((pagination.PageNumber - 1) * pagination.RecordPerPage)
+                                   .Take(pagination.RecordPerPage)
+                                   .ToList();
+        }
+
         public bool AddAuction(Auction auction)
         {
             try
@@ -40,20 +52,35 @@ namespace RealEstateAuction.DAL
             }
         }
 
-        public Auction GetAuctionById(int id)
+        public Auction? GetAuctionStaffById(int id)
         {
-            return context.Auctions.Include(a => a.Images).FirstOrDefault(a => a.Id == id);
+            return context.Auctions
+                .Include(a => a.Images)
+                .Include(a => a.User)
+                .Include(a => a.Users)
+                .Include(a => a.Approver)
+                .FirstOrDefault(a => a.Id == id
+                                && a.DeleteFlag == false);
+        }
+
+        public Auction? GetAuctionById(int id)
+        {
+            return context.Auctions
+                .Include(a => a.Images)
+                .Include(a => a.User)
+                .Include(a => a.Users)
+                .FirstOrDefault(a => a.Id == id
+                                && a.DeleteFlag == false
+                                && a.Status == (int)AuctionStatus.Chấp_nhân);
         }
 
         public List<Auction> GetAuctionByUserId(int userId, Pagination pagination)
         {
-            return context.Auctions
-               .Include(a => a.Images)
-               .Include(a => a.User)
-               .Include(a => a.Users)
-               .FirstOrDefault(a => a.Id == id
-                               && a.DeleteFlag == false
-                               && a.Status == (int)AuctionStatus.Chấp_nhân);
+            return context.Auctions.Where(a => a.UserId == userId && a.DeleteFlag == false)
+                                    .Include(a => a.Images)
+                                    .Skip((pagination.PageNumber - 1) * pagination.RecordPerPage)
+                                    .Take(pagination.RecordPerPage)
+                                    .ToList();
         }
 
         public int CountAuctionByUserId(int userId)
@@ -89,27 +116,30 @@ namespace RealEstateAuction.DAL
         {
             return context.Auctions.Where(a => a.ApproverId == staffId && a.DeleteFlag == false).Count();
         }
+
         public List<Auction> GetAuctionRecently(int number)
         {
             return context.Auctions
+                .Where(a => a.Status == (int)AuctionStatus.Chấp_nhân && a.DeleteFlag == false)
                 .Include(a => a.Images)
                 .Include(a => a.User)
                 .OrderByDescending(a => a.CreatedTime)
                 .Take(number)
                 .ToList();
         }
-    }
-}
-public int CountAuctionApproved()
-{
-    //count all auction that have status is approved
-    return context.Auctions
-        .Where(a => a.Status == (int)AuctionStatus.Chấp_nhân && a.DeleteFlag == false)
-        .Count();
-}
 
-public bool IsUserJoinedAuction(User user, int id)
-{
-    return context.Auctions.Where(a => a.Id == id)
-        .Any(a => a.Users.Contains(user));
+        public int CountAuctionApproved()
+        {
+            //count all auction that have status is approved
+            return context.Auctions
+                .Where(a => a.Status == (int)AuctionStatus.Chấp_nhân && a.DeleteFlag == false)
+                .Count();
+        }
+
+        public bool IsUserJoinedAuction(User user, int id)
+        {
+            return context.Auctions.Where(a => a.Id == id)
+                .Any(a => a.Users.Contains(user));
+        }
+    }
 }
