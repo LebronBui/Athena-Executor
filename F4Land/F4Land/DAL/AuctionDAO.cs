@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RealEstateAuction.DataModel;
+using RealEstateAuction.Enums;
 using RealEstateAuction.Models;
 
 namespace RealEstateAuction.DAL
@@ -46,11 +47,13 @@ namespace RealEstateAuction.DAL
 
         public List<Auction> GetAuctionByUserId(int userId, Pagination pagination)
         {
-            return context.Auctions.Where(a => a.UserId == userId && a.DeleteFlag == false)
-                                    .Include(a => a.Images)
-                                    .Skip((pagination.PageNumber - 1) * pagination.RecordPerPage)
-                                    .Take(pagination.RecordPerPage)
-                                    .ToList();
+            return context.Auctions
+               .Include(a => a.Images)
+               .Include(a => a.User)
+               .Include(a => a.Users)
+               .FirstOrDefault(a => a.Id == id
+                               && a.DeleteFlag == false
+                               && a.Status == (int)AuctionStatus.Chấp_nhân);
         }
 
         public int CountAuctionByUserId(int userId)
@@ -96,4 +99,17 @@ namespace RealEstateAuction.DAL
                 .ToList();
         }
     }
+}
+public int CountAuctionApproved()
+{
+    //count all auction that have status is approved
+    return context.Auctions
+        .Where(a => a.Status == (int)AuctionStatus.Chấp_nhân && a.DeleteFlag == false)
+        .Count();
+}
+
+public bool IsUserJoinedAuction(User user, int id)
+{
+    return context.Auctions.Where(a => a.Id == id)
+        .Any(a => a.Users.Contains(user));
 }
