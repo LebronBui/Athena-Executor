@@ -3,6 +3,19 @@
 
 @{
     var fullName = User.FindFirstValue("FullName");
+    var homePage = "";
+    @if (User.IsInRole("Admin"))
+    {
+        homePage = "/admin";
+    }
+    else if (User.IsInRole("Staff"))
+    {
+        homePage = "/staff";
+    }
+    else
+    {
+        homePage = "/home";
+    }
 }
 <!DOCTYPE html>
 <html lang="en">
