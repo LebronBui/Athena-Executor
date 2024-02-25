@@ -1,0 +1,111 @@
+﻿@{
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+    ViewData["Title"] = "Quản lý yêu cầu hỗ trợ";
+    var status = new Dictionary<TicketStatus, string>
+        {
+            { TicketStatus.Opening, "Đang mở" },
+            { TicketStatus.Closed, "Đã đóng" },
+        };
+    var statusStyle = new Dictionary<TicketStatus, string>
+        {
+            { TicketStatus.Opening, "badge bg-primary" },
+            { TicketStatus.Closed, "badge bg-danger" },
+        };
+    var modelData = ViewData["Ticket"] as Ticket;
+    var roles = new Dictionary<Roles, string>
+            {
+                { Roles.Admin, "Admin" },
+                { Roles.Staff, "Staff" },
+                { Roles.Member, "Member" }
+            };
+}
+@using RealEstateAuction.Enums
+@model RealEstateAuction.DataModel.TicketCommentDataModel
+
+<div class="row">
+    <div class="col-12 row mb-3">
+        <span class="col-2 fw-bold fs-3">Tiêu đề:</span>
+        <div class="col-10 ">
+            <div class="d-flex align-items-center h-100">
+                <span class="">@modelData.Title</span>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="col-4 row">
+        <span class="col-6 fw-bold">Tên người dùng:</span>
+        <span class="col-6">@modelData.User.FullName</span>
+    </div>
+    <div class="col-4 row mb-3">
+        <span class="col-6 fw-bold">Địa chỉ email:</span>
+        <span class="col-6">@modelData.User.Email</span>
+    </div>
+    <div class="col-4 row mb-3">
+        <span class="col-6 fw-bold">Trạng Thái:</span>
+        <span class="col-6 ">
+            <div class="d-flex align-items-center justify-content-center h-100 @statusStyle[(TicketStatus)modelData.Status]">
+                <span>@status[(TicketStatus)modelData.Status]</span>
+            </div>
+        </span>
+    </div>
+    <div class="col-12 row">
+        <span class="col-2 fw-bold">Nội dung hỗ trợ:</span>
+        <span class="col-10">@modelData.Description</span>
+    </div>
+</div>
+<hr />
+
+@if (modelData.TicketComments.Count > 0)
+{
+    @foreach (var item in modelData.TicketComments)
+    {
+        @if ((Roles)item.User.RoleId == Roles.Member)
+        {
+            <div class="input-group mb-3">
+                <span class="input-group-text">
+                    <span class="fw-bold">@item.User.FullName (@roles[(Roles)item.User.RoleId])</span>
+                </span>
+                <textarea type="text" class="form-control" readonly>@item.Comment</textarea>
+            </div>
+        }
+        else
+        {
+            <div class="input-group mb-3">
+                <textarea type="text" class="form-control" readonly>@item.Comment</textarea>
+                <span class="input-group-text">
+                    <span class="fw-bold">@item.User.FullName (@roles[(Roles)item.User.RoleId])</span>
+                </span>
+            </div>
+        }
+
+    }
+}
+else
+{
+    <span class="text-center text-danger">Hiện tại chưa có câu trả lời nào</span>
+}
+@if ((TicketStatus)modelData.Status == TicketStatus.Opening)
+{
+    @using (Html.BeginForm("reply", "Staff", FormMethod.Post))
+    {
+        <div class="row">
+            <div class="col-12">
+                <div class="input-group mt-3">
+                    <span class="input-group-text">Trả lời:</span>
+                    <textarea asp-for=Comment type="text" class="form-control" placeholder="Nội dung là bắt buộc"></textarea>
+                </div>
+                <input asp-for=UserId type="hidden" value="@ViewData["IdStaff"]" />
+                <input asp-for=TicketId type="hidden" value="@modelData.Id" />
+                <div class="form-check mt-2">
+                    <input asp-for=IsClosed type="checkbox" value="true" class="form-check-input" />
+                    <label class="form-check-label">
+                        Đóng yêu cầu hỗ trợ
+                    </label>
+                </div>
+                <div class="w-100 d-flex justify-content-center">
+                    <button class="btn btn-primary mt-3">Tạo mới</button>
+                </div>
+            </div>
+        </div>
+    }
+}
