@@ -1,0 +1,187 @@
+﻿@using RealEstateAuction.Enums
+@{
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+    ViewData["Title"] = "Quản lý thanh toán";
+    var status = new Dictionary<PaymentStatus, string>
+        {
+            { PaymentStatus.Pending, "Đang chờ" },
+            { PaymentStatus.Approve, "Đã phê duyệt" },
+            { PaymentStatus.Reject, "Đã từ chối" },
+        };
+    var statusStyle = new Dictionary<PaymentStatus, string>
+    {
+            { PaymentStatus.Pending, "badge bg-primary" },
+            { PaymentStatus.Approve, "badge bg-success" },
+            { PaymentStatus.Reject, "badge bg-danger" },
+        };
+    var statusTextStyle = new Dictionary<PaymentStatus, string>
+    {
+            { PaymentStatus.Pending, "text-primary" },
+            { PaymentStatus.Approve, "text-success" },
+            { PaymentStatus.Reject, "text-danger" },
+        };
+    var type = new Dictionary<PaymentType, string>
+        {
+            { PaymentType.TopUp, "Nạp tiền" },
+            { PaymentType.Withdraw, "Rút tiền" },
+            { PaymentType.Refund, "Hoàn tiền" },
+        };
+    var typeStyle = new Dictionary<PaymentType, string>
+    {
+            { PaymentType.TopUp, "badge bg-primary" },
+            { PaymentType.Withdraw, "badge bg-success" },
+            { PaymentType.Refund, "badge bg-warning" },
+        };
+    var typeTextStyle = new Dictionary<PaymentType, string>
+    {
+            { PaymentType.TopUp, "text-primary" },
+            { PaymentType.Withdraw, "text-success" },
+            { PaymentType.Refund, "text-warning" },
+        };
+    var list = (X.PagedList.IPagedList<Payment>)ViewData["List"];
+}
+<h2>Quản lý thanh toán</h2>
+<hr>
+<div class="w-100 d-flex justify-content-end mb-3 mt-2">
+    <a class="btn btn-primary me-2" href="#" data-bs-toggle="modal"
+       data-bs-target="#modalCreatePayment">Tạo giao dịch</a>
+</div>
+Page @(list.PageCount < list.PageNumber ? 0 : list.PageNumber) of @(list.PageCount)
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Số lượng</th>
+            <th scope="col">Tên người dùng</th>
+            <th scope="col">Mã Giao dịch</th>
+            <th scope="col" class="text-center">Trạng thái</th>
+            <th scope="col" class="text-center">Loại Giao Dịch</th>
+            <th scope="col" class="text-center">Mã số ngân hàng nhận</th>
+            <th scope="col" class="text-center">Mã số ngân hàng giao dịch</th>
+            <th scope="col" class="text-center">Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (list.Count != 0)
+        {
+            @foreach (var item in list)
+            {
+                <tr>
+                    <th>@item.Id</th>
+                    <td>
+                        <p>@String.Format("{0:N0}", @item.Amount)</p>
+                    </td>
+                    <td>@item.User.FullName</td>
+                    <td>@item.Code</td>
+                    <td class="text-center">
+                        <span class="@statusStyle[(PaymentStatus)item.Status]" style="width: 100px">
+                            @status[(PaymentStatus)item.Status]
+                        </span>
+                    </td>
+                    <td class="text-center">
+                        <span class="@typeStyle[(PaymentType)item.Type]" style="width: 100px">
+                            @type[(PaymentType)item.Type]
+                        </span>
+                    </td>
+                    <td class="text-center">@item.Bank?.BankAccount</td>
+                    <td class="text-center">@item.UserBankAccount</td>
+                    <td class="text-center">
+                        <a class="btn btn-primary btn-sm" style="width: 75px" href="#" data-bs-toggle="modal"
+                           data-bs-target="#modalPayment_@item.Id">Chi tiết</a>
+                        <div class="modal fade" id="modalPayment_@item.Id" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h2 class="fw-bold">Chi tiết thanh toán</h2>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table class="table table-responsive">
+                                            <tr>
+                                                <td class="text-start fw-bold">Tên Người Dùng</td>
+                                                <td>@item.User.FullName</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-start fw-bold">Địa Chỉ Email</td>
+                                                <td>@item.User.Email</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-start fw-bold">Số lượng</td>
+                                                <td>@String.Format("{0:N0}", @item.Amount)</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-start fw-bold">Trạng thái</td>
+                                                <td class="text-center fw-bolder @statusTextStyle[(PaymentStatus)item.Status]">
+                                                    @status[(PaymentStatus)item.Status]
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-start fw-bold">Loại Giao dịch</td>
+                                                <td class="text-center fw-bolder @typeTextStyle[(PaymentType)item.Type]" style="width: 100px">
+                                                    @type[(PaymentType)item.Type]
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-start fw-bold">Mã giao dịch</td>
+                                                <td class="text-center">
+                                                    @item.Code
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-start fw-bold">Thời gian tạo yêu cầu</td>
+                                                <td class="text-center">
+                                                    @item.TransactionDate
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-start fw-bold">Mã số ngân hàng khách hàng</td>
+                                                <td>@item.UserBankAccount</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-start fw-bold">Mã số ngân hàng nhận</td>
+                                                <td>@item.Bank?.BankAccount</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-start fw-bold">Tên tài khoản ngân hàng</td>
+                                                <td>@item.Bank?.AccountName</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-start fw-bold">Ngân hàng nhận</td>
+                                                <td>@item.Bank?.BankName</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+@await Html.PartialAsync("Modals/Payment/ConfirmStatus")
+@await Html.PartialAsync("Modals/Payment/CreatePayment")
+@if (list.PageCount > 1)
+{
+    <div class="pagination-container">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item @(list.HasPreviousPage ? "" : "disabled")">
+                    <a class="page-link" href="@Url.Action("TopUp", new { page = list.PageNumber - 1 })">&lt;</a>
+                </li>
+                @for (int i = list.PageNumber - 5; i <= list.PageNumber + 5; i++)
+                {
+                    if (i > 0 && i <= list.PageCount)
+                    {
+                        <li class="page-item @(list.PageNumber == i ? "disabled active" : "")">
+                            <a class="page-link" href="@Url.Action("TopUp", new { page = i })">@i</a>
+                        </li>
+                    }
+                }
+                <li class="page-item @(list.HasNextPage ? "" : "disabled")">
+                    <a class="page-link" href="@Url.Action("TopUp", new { page = list.PageNumber + 1 })">&gt;</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+}

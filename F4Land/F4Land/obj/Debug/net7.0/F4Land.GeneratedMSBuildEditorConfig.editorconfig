@@ -9,135 +9,143 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = F4Land
 build_property.RootNamespace = F4Land
-build_property.ProjectDir = D:\SWP391_F4Land\SWP391_F4Land\F4Land\F4Land\
+build_property.ProjectDir = C:\Users\TRAN ANH KIET\OneDrive\Documents\GitHub\SWP391_F4Land\F4Land\F4Land\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\SWP391_F4Land\SWP391_F4Land\F4Land\F4Land
+build_property.MSBuildProjectDirectory = C:\Users\TRAN ANH KIET\OneDrive\Documents\GitHub\SWP391_F4Land\F4Land\F4Land
 build_property._RazorSourceGeneratorDebug = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/Account/ChangePassword.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Account/ChangePassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxDaGFuZ2VQYXNzd29yZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/Account/CreateAuction.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Account/CreateAuction.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxDcmVhdGVBdWN0aW9uLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/Account/EditAuction.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Account/EditAuction.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxFZGl0QXVjdGlvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/Account/ManageAuction.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Account/ManageAuction.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxNYW5hZ2VBdWN0aW9uLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/Account/Profile.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Account/Profile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxQcm9maWxlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/Authentication/AccessDenied.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Account/TopUp.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxUb3BVcC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Account/TopUpPost.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxUb3BVcFBvc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Authentication/AccessDenied.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aGVudGljYXRpb25cQWNjZXNzRGVuaWVkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/Authentication/EnterOtp.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Authentication/EnterOtp.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aGVudGljYXRpb25cRW50ZXJPdHAuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/Authentication/Login.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Authentication/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aGVudGljYXRpb25cTG9naW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/Authentication/ResetPassword.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Authentication/ResetPassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aGVudGljYXRpb25cUmVzZXRQYXNzd29yZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/Home/AuctionDetails.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Home/AuctionDetails.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBdWN0aW9uRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/Home/Index.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/Home/ListAuction.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Home/ListAuction.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxMaXN0QXVjdGlvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/Home/Privacy.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/Shared/EnterOtpLayout.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Shared/EnterOtpLayout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVudGVyT3RwTGF5b3V0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/Shared/Error.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/Shared/Modals/ForgotPassword.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Shared/Modals/ForgotPassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXE1vZGFsc1xGb3Jnb3RQYXNzd29yZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/Shared/Modals/Payment/ConfirmStatus.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Shared/Modals/Payment/ConfirmStatus.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXE1vZGFsc1xQYXltZW50XENvbmZpcm1TdGF0dXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/Shared/Modals/SignIn.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Shared/Modals/SignIn.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXE1vZGFsc1xTaWduSW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/Shared/Modals/SignUp.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Shared/Modals/SignUp.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXE1vZGFsc1xTaWduVXAuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/Shared/NotFound.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Shared/NotFound.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXE5vdEZvdW5kLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/Shared/UserLayout.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Shared/UserLayout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXFVzZXJMYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/Shared/UserLayout/SideBar.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Shared/UserLayout/SideBar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXFVzZXJMYXlvdXRcU2lkZUJhci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/Staff/DetailsAuction.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Staff/DetailsAuction.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RhZmZcRGV0YWlsc0F1Y3Rpb24uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/Staff/Index.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Staff/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RhZmZcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/Staff/ListAuction.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Staff/ListAuction.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RhZmZcTGlzdEF1Y3Rpb24uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/Staff/listPayment.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Staff/listPayment.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RhZmZcbGlzdFBheW1lbnQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/Staff/listTicket.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Staff/listTicket.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RhZmZcbGlzdFRpY2tldC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/_ViewImports.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/_ViewStart.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/SWP391_F4Land/SWP391_F4Land/F4Land/F4Land/Views/Shared/_Layout.cshtml]
+[C:/Users/TRAN ANH KIET/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-cl243tga5p

@@ -1,0 +1,77 @@
+﻿@model Payment
+@using RealEstateAuction.Enums
+@{
+    var status = new Dictionary<PaymentStatus, string>
+        {
+            { PaymentStatus.Pending, "Đang chờ" },
+            { PaymentStatus.Approve, "Đã phê duyệt" },
+            { PaymentStatus.Reject, "Đã từ chối" },
+        };
+    var statusTextStyle = new Dictionary<PaymentStatus, string>
+    {
+            { PaymentStatus.Pending, "text-primary" },
+            { PaymentStatus.Approve, "text-success" },
+            { PaymentStatus.Reject, "text-danger" },
+        };
+    var type = new Dictionary<PaymentType, string>
+        {
+            { PaymentType.TopUp, "Nạp tiền" },
+            { PaymentType.Withdraw, "Rút tiền" },
+            { PaymentType.Refund, "Hoàn tiền" },
+        };
+    var typeTextStyle = new Dictionary<PaymentType, string>
+    {
+            { PaymentType.TopUp, "text-primary" },
+            { PaymentType.Withdraw, "text-success" },
+            { PaymentType.Refund, "text-warning" },
+        };
+}
+<div class="d-flex justify-content-center align-items-center mb-2">
+    <div class="w-50">
+        <table class="table table-responsive">
+            <tr>
+                <td class="text-start fw-bold">Số lượng</td>
+                <td class="text-center">@String.Format("{0:N0}", Model.Amount)</td>
+            </tr>
+            <tr>
+                <td class="text-start fw-bold">Loại Giao dịch</td>
+                <td class="text-center fw-bolder @typeTextStyle[(PaymentType)Model.Type]" style="width: 100px">
+                    @type[(PaymentType)Model.Type]
+                </td>
+            </tr>
+            <tr>
+                <td class="text-start fw-bold">Mã giao dịch</td>
+                <td class="text-center">
+                    @Model.Code
+                </td>
+            </tr>
+            <tr>
+                <td class="text-start fw-bold">Thời gian tạo yêu cầu</td>
+                <td class="text-center">
+                    @Model.TransactionDate
+                </td>
+            </tr>
+            <tr>
+                <td class="text-start fw-bold">Mã số ngân hàng khách hàng</td>
+                <td class="text-center">@Model.UserBankAccount</td>
+            </tr>
+            <tr>
+                <td class="text-start fw-bold">Mã số ngân hàng nhận</td>
+                <td class="text-center">@Model.Bank?.BankAccount</td>
+            </tr>
+            <tr>
+                <td class="text-start fw-bold">Tên tài khoản ngân hàng</td>
+                <td class="text-center">@Model.Bank?.AccountName</td>
+            </tr>
+            <tr>
+                <td class="text-start fw-bold">Ngân hàng nhận</td>
+                <td class="text-center">@Model.Bank?.BankName</td>
+            </tr>
+        </table>
+        <div class="d-flex justify-content-center align-items-center">
+            <a class="btn btn-primary" href="/top-up">
+                Trở về trang nạp
+            </a>
+        </div>
+    </div>
+</div>
