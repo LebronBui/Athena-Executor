@@ -22,7 +22,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Auction</title>
+    <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -34,34 +34,38 @@
 
     <div class="sticky-top background-color">
         <header class="px-5 py-3 row justify-content-between border-bottom">
-            <a href="/home"
+            <a href="@homePage"
                class="d-flex align-items-center col-md-2 mb-2 mb-md-0 text-dark text-decoration-none cursor-pointer">
                 <!-- LOGO -->
                 <img src="~/img/logo.jpg" alt="Invaluable" />
             </a>
-
-            <div class="col-12 col-md-5 mb-2 justify-content-center mb-md-0 gap-md-5">
-                <form action="/search" method="get" class="input-group">
-                    <div class="input-group">
-                        <span class="input-group-text" id="basic-addon1">
-                            <i class="fa-solid fa-magnifying-glass primary-color"></i>
-                        </span>
-                        <input type="text" class="form-control" placeholder="Search items & sellers" aria-label="search"
-                               aria-describedby="basic-addon1">
-                    </div>
-                </form>
-            </div>
-
+            @if (User.FindFirstValue(ClaimTypes.Role) == "Member")
+            {
+                <div class="col-12 col-md-5 mb-2 justify-content-center mb-md-0 gap-md-5">
+                    <form action="/search" method="get" class="input-group">
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="fa-solid fa-magnifying-glass primary-color"></i>
+                            </span>
+                            <input type="text" class="form-control" placeholder="Search items & sellers" aria-label="search"
+                                   aria-describedby="basic-addon1">
+                        </div>
+                    </form>
+                </div>
+            }
             <div class="col-md-auto justify-content-end d-flex align-items-center gap-3">
                 <div class="gap-4 d-flex align-items-center">
-                    <button type="button" class="btn btn-outline-none text-nowrap">
-                        <i class="fa-solid fa-heart primary-color me-1"></i>
-                        Lưu trữ
-                    </button>
-                    <button type="button" class="btn btn-outline-none text-nowrap">
-                        <i class="fa-solid fa-bell primary-color me-1"></i>
-                        Thông báo
-                    </button>
+                    @if (User.FindFirstValue(ClaimTypes.Role) == "Member")
+                    {
+                        <button type="button" class="btn btn-outline-none text-nowrap">
+                            <i class="fa-solid fa-heart primary-color me-1"></i>
+                            Lưu trữ
+                        </button>
+                        <button type="button" class="btn btn-outline-none text-nowrap">
+                            <i class="fa-solid fa-bell primary-color me-1"></i>
+                            Thông báo
+                        </button>
+                    }
                 </div>
                 <div class="d-flex align-items-center gap-3">
                     <!-- If DO NOT login, show this   -->
@@ -79,6 +83,12 @@
                     }
                     else
                     {
+                        @if (User.FindFirstValue(ClaimTypes.Role) == "Member")
+                        {
+                            <a class="btn btn-outline-secondary text-nowrap" href="/top-up">
+                                Nạp tiền
+                            </a>
+                        }
                         <!-- If login, show this -->
                         <div class="dropdown">
                             <a href="#" class="d-flex align-items-center link-dark text-decoration-none cursor-pointer dropdown-toggle"
@@ -100,51 +110,6 @@
 
             </div>
         </header>
-
-        <section class="px-5 py-2 d-md-block d-none" id="menu" style="background-color: #43c4eb">
-            <div class="d-flex justify-content-between align-items-center">
-                <a class="text-decoration-none cursor-pointer text-danger" href="/auctions">Nhà đất</a>
-                <a class="text-decoration-none cursor-pointer text-danger" href="/auctions-house">>Nhà đất</a>
-                <a class="text-decoration-none cursor-pointer text-danger" href="/artists">>Nhà đất</a>
-                <div class="separated-line"></div>
-                <div class="dropdown">
-                    <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
-                         data-bs-toggle="dropdown" aria-expanded="false">
-                        >Nhà đất
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
-                         data-bs-toggle="dropdown" aria-expanded="false">
-                        >Nhà đất
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
-                         data-bs-toggle="dropdown" aria-expanded="false">
-                        >Nhà đất
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
-                         data-bs-toggle="dropdown" aria-expanded="false">
-                        >Nhà đất
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
-                         data-bs-toggle="dropdown" aria-expanded="false">
-                        >Nhà đất
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
-                         data-bs-toggle="dropdown" aria-expanded="false">
-                        >Nhà đất
-                    </div>
-                </div>
-            </div>
-        </section>
     </div>
     <main>
         <div class="d-flex" style="margin-bottom: 100px">
@@ -167,6 +132,16 @@
                         <li class="nav-item item-user-sidebar">
                             <a href="/list-auction-staff" class="nav-link link-dark" aria-current="page">
                                 Phê duyệt đấu giá
+                            </a>
+                        </li>
+                        <li class="nav-item item-user-sidebar">
+                            <a href="/list-payment" class="nav-link link-dark" aria-current="page">
+                                Phê duyệt thanh toán
+                            </a>
+                        </li>
+                        <li class="nav-item item-user-sidebar">
+                            <a href="/list-ticket" class="nav-link link-dark" aria-current="page">
+                                Phê duyệt yêu cầu hỗ trợ
                             </a>
                         </li>
                     }
@@ -201,7 +176,7 @@
                  class="" style="width: 220px; object-fit: cover;">
             <div class="d-flex flex-column gap-3">
                 <div class="fs-5 fw-bolder">
-                    Get Invaluable on Your Phone
+                    Get F4Land on Your Phone
                 </div>
                 <div class="fs-6 fw-light" style="max-width:450px;">
                     Download the app via text link to get instantly notified if you're outbid and receive auction

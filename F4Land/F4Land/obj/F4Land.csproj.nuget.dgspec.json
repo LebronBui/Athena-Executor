@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\TRAN ANH KIET\\OneDrive\\Documents\\GitHub\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj": {}
+    "C:\\Users\\95lek\\OneDrive\\Documents\\GitHub\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj": {}
   },
   "projects": {
-    "C:\\Users\\TRAN ANH KIET\\OneDrive\\Documents\\GitHub\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj": {
+    "C:\\Users\\95lek\\OneDrive\\Documents\\GitHub\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\TRAN ANH KIET\\OneDrive\\Documents\\GitHub\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj",
+        "projectUniqueName": "C:\\Users\\95lek\\OneDrive\\Documents\\GitHub\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj",
         "projectName": "F4Land",
-        "projectPath": "C:\\Users\\TRAN ANH KIET\\OneDrive\\Documents\\GitHub\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj",
-        "packagesPath": "C:\\Users\\TRAN ANH KIET\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\TRAN ANH KIET\\OneDrive\\Documents\\GitHub\\SWP391_F4Land\\F4Land\\F4Land\\obj\\",
+        "projectPath": "C:\\Users\\95lek\\OneDrive\\Documents\\GitHub\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj",
+        "packagesPath": "C:\\Users\\95lek\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\95lek\\OneDrive\\Documents\\GitHub\\SWP391_F4Land\\F4Land\\F4Land\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\TRAN ANH KIET\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\95lek\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -34,50 +34,11 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
-          "dependencies": {
-            "AutoMapper": {
-              "target": "Package",
-              "version": "[12.0.1, )"
-            },
-            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
-              "target": "Package",
-              "version": "[12.0.1, )"
-            },
-            "Microsoft.EntityFrameworkCore.Design": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[7.0.15, )"
-            },
-            "Microsoft.EntityFrameworkCore.SqlServer": {
-              "target": "Package",
-              "version": "[7.0.15, )"
-            },
-            "Microsoft.EntityFrameworkCore.Tools": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[7.0.15, )"
-            },
-            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
-              "target": "Package",
-              "version": "[6.0.16, )"
-            },
-            "X.PagedList": {
-              "target": "Package",
-              "version": "[8.4.7, )"
-            }
-          },
           "imports": [
             "net461",
             "net462",
@@ -115,7 +76,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.102\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -80,6 +80,12 @@
                     }
                     else
                     {
+                        @if (User.FindFirstValue(ClaimTypes.Role) == "Member")
+                        {
+                            <a class="btn btn-outline-secondary text-nowrap" href="/top-up">
+                                Nạp tiền
+                            </a>
+                        }
                         <!-- If login, show this -->
                         <div class="dropdown">
                             <a href="#" class="d-flex align-items-center link-dark text-decoration-none cursor-pointer dropdown-toggle"
