@@ -6,15 +6,37 @@
         {
             { PaymentStatus.Pending, "Đang chờ" },
             { PaymentStatus.Approve, "Đã phê duyệt" },
-            { PaymentStatus.Refund, "Đã hoàn trả" },
             { PaymentStatus.Reject, "Đã từ chối" },
         };
     var statusStyle = new Dictionary<PaymentStatus, string>
     {
             { PaymentStatus.Pending, "badge bg-primary" },
             { PaymentStatus.Approve, "badge bg-success" },
-            { PaymentStatus.Refund, "badge bg-warning" },
             { PaymentStatus.Reject, "badge bg-danger" },
+        };
+    var statusTextStyle = new Dictionary<PaymentStatus, string>
+    {
+            { PaymentStatus.Pending, "text-primary" },
+            { PaymentStatus.Approve, "text-success" },
+            { PaymentStatus.Reject, "text-danger" },
+        };
+    var type = new Dictionary<PaymentType, string>
+        {
+            { PaymentType.TopUp, "Nạp tiền" },
+            { PaymentType.Withdraw, "Rút tiền" },
+            { PaymentType.Refund, "Hoàn tiền" },
+        };
+    var typeStyle = new Dictionary<PaymentType, string>
+    {
+            { PaymentType.TopUp, "badge bg-primary" },
+            { PaymentType.Withdraw, "badge bg-success" },
+            { PaymentType.Refund, "badge bg-warning" },
+        };
+    var typeTextStyle = new Dictionary<PaymentType, string>
+    {
+            { PaymentType.TopUp, "text-primary" },
+            { PaymentType.Withdraw, "text-success" },
+            { PaymentType.Refund, "text-warning" },
         };
 }
 @model X.PagedList.IPagedList<Payment>
@@ -29,19 +51,20 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
             <th scope="col">Tên người dùng</th>
             <th scope="col">Mã Giao dịch</th>
             <th scope="col" class="text-center">Trạng thái</th>
+            <th scope="col" class="text-center">Loại Giao dịch</th>
             <th scope="col" class="text-center">Mã số ngân hàng nhận</th>
             <th scope="col" class="text-center">Hành động</th>
         </tr>
     </thead>
     <tbody>
-        @if (Model.Count != 0)
+        @if(Model.Count != 0)
         {
             @foreach (var item in Model)
             {
                 <tr>
                     <th>@item.Id</th>
                     <td>
-                        <p>@String.Format("{0:N0}", @item.Amount)</p>
+                        <p>@String.Format("{0:N0}", @item.Amount)</p>                      
                     </td>
                     <td>@item.User.FullName</td>
                     <td>@item.Code</td>
@@ -50,9 +73,14 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
                             @status[(PaymentStatus)item.Status]
                         </span>
                     </td>
-                    <td class="text-center">@item.Bank.BankAccount</td>
                     <td class="text-center">
-                        @if ((PaymentStatus)item.Status == PaymentStatus.Pending)
+                        <span class="@typeStyle[(PaymentType)item.Type]" style="width: 100px">
+                            @type[(PaymentType)item.Type]
+                        </span>
+                    </td>
+                    <td class="text-center">@item.Bank?.BankAccount</td>
+                    <td class="text-center">
+                        @if ((PaymentStatus) item.Status == PaymentStatus.Pending)
                         {
                             <div class="dropdown">
                                 <button class="btn btn-primary btn-sm dropdown-toggle" style="width: 75px" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -66,52 +94,115 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item text-warning btnStatus" data-bs-toggle="modal"
-                                           data-bs-target="#modalConfirmStatus" data-id="@item.Id" data-status="@((int)PaymentStatus.Refund)">
-                                            <i class="fa-solid fa-arrow-rotate-right me-1"></i>Hoàn trả
-                                        </a>
-                                    </li>
-                                    <li>
                                         <a class="dropdown-item text-danger btnStatus" data-bs-toggle="modal"
                                            data-bs-target="#modalConfirmStatus" data-id="@item.Id" data-status="@((int)PaymentStatus.Reject)">
                                             <i class="fa-solid fa-xmark fa-lg me-1"></i>Từ chối
                                         </a>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="#">Chi tiết</a></li>
+                                    <li>
+                                        <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                           data-bs-target="#modalPayment_@item.Id">Chi tiết</a>
+                                    </li>
                                 </ul>
                             </div>
-                        }
+                        } 
                         else
                         {
-                            <a class="btn btn-primary btn-sm" style="width: 75px" href="#">Chi tiết</a>
-                        }
+                            <a class="btn btn-primary btn-sm" style="width: 75px" href="#" data-bs-toggle="modal"
+                               data-bs-target="#modalPayment_@item.Id">Chi tiết</a>
+                        }                       
+                        <div class="modal fade" id="modalPayment_@item.Id" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h2 class="fw-bold">Chi tiết thanh toán</h2>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table class="table table-responsive">
+                                            <tr>
+                                                <td class="text-start fw-bold">Tên Người Dùng</td>
+                                                <td>@item.User.FullName</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-start fw-bold">Địa Chỉ Email</td>
+                                                <td>@item.User.Email</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-start fw-bold">Số lượng</td>
+                                                <td>@String.Format("{0:N0}", @item.Amount)</td>
+                                            </tr>                                          
+                                            <tr>
+                                                <td class="text-start fw-bold">Trạng thái</td>
+                                                <td class="text-center fw-bolder @statusTextStyle[(PaymentStatus)item.Status]">
+                                                    @status[(PaymentStatus)item.Status]
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-start fw-bold">Loại Giao dịch</td>
+                                                <td class="text-center fw-bolder @typeTextStyle[(PaymentType)item.Type]" style="width: 100px">
+                                                    @type[(PaymentType)item.Type]
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-start fw-bold">Mã giao dịch</td>
+                                                <td class="text-center">
+                                                    @item.Code
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-start fw-bold">Thời gian tạo yêu cầu</td>
+                                                <td class="text-center">
+                                                    @item.TransactionDate
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-start fw-bold">Mã số ngân hàng khách hàng</td>
+                                                <td>@item.UserBankAccount</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-start fw-bold">Mã số ngân hàng nhận</td>
+                                                <td>@item.Bank?.BankAccount</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-start fw-bold">Tên tài khoản ngân hàng</td>
+                                                <td>@item.Bank?.AccountName</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-start fw-bold">Ngân hàng nhận</td>
+                                                <td>@item.Bank?.BankName</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </td>
                 </tr>
             }
-        }
+        }       
     </tbody>
 </table>
 @await Html.PartialAsync("Modals/Payment/ConfirmStatus")
 @if (Model.PageCount > 1)
 {
-    <div class="text-center">
+    <div class="pagination-container">
         <nav aria-label="Page navigation">
             <ul class="pagination">
                 <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
-                    <a class="page-link" href="@Url.Action("payments", new { page = Model.PageNumber - 1 })">&lt;</a>
+                    <a class="page-link" href="@Url.Action("ListPayment", new { page = Model.PageNumber - 1 })">&lt;</a>
                 </li>
                 @for (int i = Model.PageNumber - 5; i <= Model.PageNumber + 5; i++)
                 {
                     if (i > 0 && i <= Model.PageCount)
                     {
                         <li class="page-item @(Model.PageNumber == i ? "disabled active" : "")">
-                            <a class="page-link" href="@Url.Action("payments", new { page = i })">@i</a>
+                            <a class="page-link" href="@Url.Action("ListPayment", new { page = i })">@i</a>
                         </li>
                     }
                 }
                 <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
-                    <a class="page-link" href="@Url.Action("payments", new { page = Model.PageNumber + 1 })">&gt;</a>
+                    <a class="page-link" href="@Url.Action("ListPayment", new { page = Model.PageNumber + 1 })">&gt;</a>
                 </li>
             </ul>
         </nav>

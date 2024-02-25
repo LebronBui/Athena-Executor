@@ -66,8 +66,7 @@
                     </td>
                     <td>
                         <a href="/details-auction?auctionId=@item.Id" class="btn btn-info">Xem</a>
-                        @if (item.Status == 1)
-                        {
+                        @if (item.Status == 1) {
                             <a href="/approve-auction?auctionId=@item.Id&status=2" class="btn btn-success">Chấp nhận</a>
                             <a href="/approve-auction?auctionId=@item.Id&status=3" class="btn btn-danger">Từ chối</a>
                         }

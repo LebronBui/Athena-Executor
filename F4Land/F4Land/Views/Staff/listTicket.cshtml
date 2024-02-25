@@ -1,17 +1,29 @@
 ﻿@{
     Layout = "~/Views/Shared/UserLayout.cshtml";
     ViewData["Title"] = "Quản lý yêu cầu hỗ trợ";
+    var status = new Dictionary<TicketStatus, string>
+        {
+            { TicketStatus.Opening, "Đang mở" },
+            { TicketStatus.Closed, "Đã đóng" },
+        };
+    var statusStyle = new Dictionary<TicketStatus, string>
+        {
+            { TicketStatus.Opening, "badge bg-primary" },
+            { TicketStatus.Closed, "badge bg-danger" },
+        };
 }
+@using RealEstateAuction.Enums
 @model X.PagedList.IPagedList<Ticket>
-<h1>Ticket List</h1>
+<h1>Quản lý yêu cầu hỗ trợ</h1>
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 <table class="table">
     <thead>
         <tr>
             <th scope="col">Id</th>
-            <th scope="col">Title</th>
-            <th scope="col">Username</th>
-            <th scope="col">Status</th>
+            <th scope="col">Tiêu đề</th>
+            <th scope="col">Tên người dùng</th>
+            <th scope="col" class="text-center">Trạng thái</th>
+            <th scope="col" class="text-center">Hành động</th>
         </tr>
     </thead>
     <tbody>
@@ -23,15 +35,46 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
                     <th>@item.Id</th>
                     <td>@item.Title</td>
                     <td>@item.User.FullName</td>
-                    <td>@item.Status</td>
+                    <td class="text-center">
+                        <span class="@statusStyle[(TicketStatus)item.Status]" style="width: 100px">
+                            @status[(TicketStatus)item.Status]
+                        </span>
+                    </td>
+                    <td class="text-center">
+                        @if ((TicketStatus)item.Status == TicketStatus.Opening)
+                        {
+                            <div class="dropdown">
+                                <button class="btn btn-primary btn-sm dropdown-toggle" style="width: 75px" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-solid fa-bars"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item text-success btnStatus" data-bs-toggle="modal"
+                                           data-bs-target="#modalConfirmStatus" data-id="@item.Id" data-status="@((int)TicketStatus.Closed)">
+                                            <i class="fa-solid fa-check me-1"></i> Đóng yêu cầu
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        @Html.ActionLink("Chi tiết", "TicketDetail", "Staff", new { Id = item.Id }, new { @class = "dropdown-item" })
+                                    </li>
+                                </ul>
+                            </div>
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Chi tiết", "TicketDetail", "Staff", new { Id = item.Id }, new { @class = "btn btn-primary btn-sm", style = "width: 75px" })
+                        }
+                    </td>
                 </tr>
             }
         }
     </tbody>
 </table>
-@if (Model.Count != 0)
+@await Html.PartialAsync("Modals/Ticket/ConfirmStatus")
+@if (Model.PageCount > 1)
 {
-    <div class="text-center">
+    <div class="pagination-container">
         <nav aria-label="Page navigation">
             <ul class="pagination">
                 <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
