@@ -49,6 +49,7 @@ namespace RealEstateAuction.Controllers
                 List<Claim> claims = new List<Claim>() {
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(ClaimTypes.Role, roles[(Roles) user.RoleId]),
+                    new Claim("Id", user.Id.ToString()),
                     new Claim("FullName", user.FullName),
                     //new Claim("Email", user.Email),
                     //new Claim("Phone", user.Phone),
