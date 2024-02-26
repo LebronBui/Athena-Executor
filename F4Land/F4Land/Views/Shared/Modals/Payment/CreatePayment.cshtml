@@ -1,0 +1,75 @@
+﻿@model RealEstateAuction.DataModel.PaymentDataModel
+@using RealEstateAuction.Enums
+@{
+    var bankModels = (List<Banking>)ViewData["Banks"];
+    var type = new Dictionary<PaymentType, string>
+    {
+        { PaymentType.TopUp, "Nạp tiền" },
+        { PaymentType.Withdraw, "Rút tiền" },
+        { PaymentType.Refund, "Hoàn tiền" },
+    };
+}
+<div class="modal fade" id="modalCreatePayment" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Tạo giao dịch</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("TopUpPost", "Account", FormMethod.Post))
+                {
+                    <div class="mb-2" id="bankId">
+                        <lable class="form-label">Tài khoản giao dịch</lable>
+                        <select asp-for=BankId class="form-select form-select-sm" id="bankIdSelect">
+                            <option value="" selected class="text-center">--Chọn tài khoản--</option>
+                            @foreach (var item in bankModels)
+                            {
+                                <option value="@item.Id" class="text-center"> @item.BankName - @item.BankAccount - @item.AccountName</option>
+                            }
+                        </select>
+                        @Html.ValidationMessageFor(model => model.BankId, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="mb-2">
+                        <lable class="form-label">Loại giao dịch</lable>
+                        <select asp-for=Action class="form-select form-select-sm" id="type">
+                            <option value="" selected class="text-center">--Chọn Loại giao dịch--</option>
+                            @foreach (var item in type)
+                            {
+                                <option value="@item.Key" class="text-center"> @item.Value</option>
+                            }
+                        </select>
+                        @Html.ValidationMessageFor(model => model.Action, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="mb-2">
+                        <lable class="form-label">Mã số tài khoản giao dịch của khách hàng</lable>
+                        <input asp-for=UserAccountNumber class="form-control" />
+                        @Html.ValidationMessageFor(model => model.UserAccountNumber, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="mb-2">
+                        <label class="form-label">Số lượng</label>
+                        <input asp-for=Amount class="form-control" />
+                        @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="w-100 d-flex justify-content-center">
+                        <button class="btn btn-primary mt-3">Tạo</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#type").on("change", function () {
+        console.log($(this).val());
+        if ($(this).val() != "TopUp") {
+            $("#bankId").hide();
+            $("#bankIdSelect").prop("disabled", true);
+        } else {
+            $("#bankId").show();
+            $("#bankIdSelect").prop("disabled", false);
+        }
+    })
+</script>
