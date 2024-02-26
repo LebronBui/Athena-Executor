@@ -37,6 +37,8 @@ public partial class User
 
     public virtual Role Role { get; set; } = null!;
 
+    public virtual ICollection<TicketComment> TicketComments { get; set; } = new List<TicketComment>();
+
     public virtual ICollection<Ticket> TicketStaffs { get; set; } = new List<Ticket>();
 
     public virtual ICollection<Ticket> TicketUsers { get; set; } = new List<Ticket>();

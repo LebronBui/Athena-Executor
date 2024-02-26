@@ -92,7 +92,7 @@ public partial class RealEstateContext : DbContext
         {
             entity.ToTable("Banking");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.AccountName).HasColumnType("ntext");
             entity.Property(e => e.BankAccount).HasColumnType("ntext");
             entity.Property(e => e.BankName).HasColumnType("ntext");
         });
@@ -144,6 +144,8 @@ public partial class RealEstateContext : DbContext
 
             entity.Property(e => e.Amount).HasColumnType("money");
             entity.Property(e => e.Code).HasColumnType("ntext");
+            entity.Property(e => e.TransactionDate).HasColumnType("datetime");
+            entity.Property(e => e.UserBankAccount).HasMaxLength(50);
 
             entity.HasOne(d => d.Bank).WithMany(p => p.Payments)
                 .HasForeignKey(d => d.BankId)
@@ -165,7 +167,6 @@ public partial class RealEstateContext : DbContext
         {
             entity.ToTable("Ticket");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Description).HasColumnType("ntext");
             entity.Property(e => e.Title).HasMaxLength(255);
 
@@ -189,6 +190,11 @@ public partial class RealEstateContext : DbContext
                 .HasForeignKey(d => d.TicketId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_TicketComment_Ticket");
+
+            entity.HasOne(d => d.User).WithMany(p => p.TicketComments)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_TicketComment_User");
         });
 
         modelBuilder.Entity<User>(entity =>

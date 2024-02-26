@@ -14,4 +14,6 @@ public partial class TicketComment
     public int TicketId { get; set; }
 
     public virtual Ticket Ticket { get; set; } = null!;
+
+    public virtual User User { get; set; } = null!;
 }

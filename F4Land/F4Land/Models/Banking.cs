@@ -9,6 +9,8 @@ public partial class Banking
 
     public string? BankAccount { get; set; }
 
+    public string? AccountName { get; set; }
+
     public string? BankName { get; set; }
 
     public bool? Status { get; set; }
