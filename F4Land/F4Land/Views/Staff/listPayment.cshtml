@@ -57,14 +57,14 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
         </tr>
     </thead>
     <tbody>
-        @if(Model.Count != 0)
+        @if (Model.Count != 0)
         {
             @foreach (var item in Model)
             {
                 <tr>
                     <th>@item.Id</th>
                     <td>
-                        <p>@String.Format("{0:N0}", @item.Amount)</p>                      
+                        <p>@String.Format("{0:N0}", @item.Amount)</p>
                     </td>
                     <td>@item.User.FullName</td>
                     <td>@item.Code</td>
@@ -80,7 +80,7 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
                     </td>
                     <td class="text-center">@item.Bank?.BankAccount</td>
                     <td class="text-center">
-                        @if ((PaymentStatus) item.Status == PaymentStatus.Pending)
+                        @if ((PaymentStatus)item.Status == PaymentStatus.Pending)
                         {
                             <div class="dropdown">
                                 <button class="btn btn-primary btn-sm dropdown-toggle" style="width: 75px" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -106,12 +106,12 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
                                     </li>
                                 </ul>
                             </div>
-                        } 
+                        }
                         else
                         {
                             <a class="btn btn-primary btn-sm" style="width: 75px" href="#" data-bs-toggle="modal"
                                data-bs-target="#modalPayment_@item.Id">Chi tiết</a>
-                        }                       
+                        }
                         <div class="modal fade" id="modalPayment_@item.Id" tabindex="-1">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
@@ -131,7 +131,7 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
                                             <tr>
                                                 <td class="text-start fw-bold">Số lượng</td>
                                                 <td>@String.Format("{0:N0}", @item.Amount)</td>
-                                            </tr>                                          
+                                            </tr>
                                             <tr>
                                                 <td class="text-start fw-bold">Trạng thái</td>
                                                 <td class="text-center fw-bolder @statusTextStyle[(PaymentStatus)item.Status]">
@@ -180,7 +180,7 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
                     </td>
                 </tr>
             }
-        }       
+        }
     </tbody>
 </table>
 @await Html.PartialAsync("Modals/Payment/ConfirmStatus")
