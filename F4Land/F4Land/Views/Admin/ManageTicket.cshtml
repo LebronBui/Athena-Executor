@@ -1,0 +1,77 @@
+﻿@{
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+    ViewData["Title"] = "Quản lý yêu cầu hỗ trợ";
+    var status = new Dictionary<TicketStatus, string>
+        {
+            { TicketStatus.Opening, "Đang mở" },
+            { TicketStatus.Closed, "Đã đóng" },
+        };
+    var statusStyle = new Dictionary<TicketStatus, string>
+        {
+            { TicketStatus.Opening, "badge bg-primary" },
+            { TicketStatus.Closed, "badge bg-danger" },
+        };
+    var list = (X.PagedList.IPagedList<Ticket>)ViewData["List"];
+}
+@using RealEstateAuction.Enums
+<h1>Quản lý yêu cầu hỗ trợ</h1>
+<hr />
+Page @(list.PageCount < list.PageNumber ? 0 : list.PageNumber) of @list.PageCount
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Tiêu đề</th>
+            <th scope="col">Tên người dùng</th>
+            <th scope="col">Nhân viên phụ trách</th>
+            <th scope="col" class="text-center">Trạng thái</th>
+            <th scope="col" class="text-center">Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (list.Count != 0)
+        {
+            @foreach (var item in list)
+            {
+                <tr>
+                    <th>@item.Id</th>
+                    <td>@item.Title</td>
+                    <td>@item.User.FullName</td>
+                    <td>@item.Staff?.FullName</td>
+                    <td class="text-center">
+                        <span class="@statusStyle[(TicketStatus)item.Status]" style="width: 100px">
+                            @status[(TicketStatus)item.Status]
+                        </span>
+                    </td>
+                    <td class="text-center">
+                        @Html.ActionLink("Chi tiết", "TicketDetailAdmin", "Admin", new { Id = item.Id }, new { @class = "btn btn-primary btn-sm", style = "width: 75px" })
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+@if (list.PageCount > 1)
+{
+    <div class="pagination-container">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item @(list.HasPreviousPage ? "" : "disabled")">
+                    <a class="page-link" href="@Url.Action("ManageTicket", new { page = list.PageNumber - 1 })">Previous</a>
+                </li>
+                @for (int i = list.PageNumber - 5; i <= list.PageNumber + 5; i++)
+                {
+                    if (i > 0 && i <= list.PageCount)
+                    {
+                        <li class="page-item @(list.PageNumber == i ? "disabled active" : "")">
+                            <a class="page-link" href="@Url.Action("ManageTicket", new { page = i })">@i</a>
+                        </li>
+                    }
+                }
+                <li class="page-item @(list.HasNextPage ? "" : "disabled")">
+                    <a class="page-link" href="@Url.Action("ManageTicket", new { page = list.PageNumber + 1 })">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+}
