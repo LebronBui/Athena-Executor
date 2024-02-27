@@ -59,6 +59,15 @@ namespace RealEstateAuction.Controllers
                 //check auction is found or not
                 if (auction != null)
                 {
+                    //Get max price of auction
+                    decimal maxPrice = auctionDAO.GetMaxPrice(auctionId.Value);
+
+                    //Get number of biddings of auction
+                    int biddingCount = auctionDAO.GetNumberOfBidding(auctionId.Value);
+
+                    ViewBag.MaxPrice = maxPrice;
+                    ViewBag.BiddingCount = biddingCount;
+
                     return View(auction);
                 }
                 else

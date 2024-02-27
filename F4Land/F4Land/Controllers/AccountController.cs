@@ -21,6 +21,8 @@ namespace RealEstateAuction.Controllers
         private readonly AuctionDAO auctionDAO;
         private readonly BankDAO bankDAO;
         private readonly PaymentDAO paymentDAO;
+        private readonly TicketDAO ticketDAO;
+        private readonly AuctionBiddingDAO auctionBiddingDAO;
         private IMapper _mapper;
         private Pagination pagination;
 
@@ -32,6 +34,8 @@ namespace RealEstateAuction.Controllers
             _mapper = mapper;
             bankDAO = new BankDAO();
             paymentDAO = new PaymentDAO();
+            ticketDAO = new TicketDAO();
+            auctionBiddingDAO = new AuctionBiddingDAO();
         }
 
         [HttpGet]
@@ -266,7 +270,7 @@ namespace RealEstateAuction.Controllers
             //Find Auction by id
             Auction auction = auctionDAO.GetAuctionById(id);
             AuctionEditDataModel auctionData = _mapper.Map<Auction, AuctionEditDataModel>(auction);
-
+            Console.WriteLine(auction.UserId);
             //check if auction belong to this user
             if (!(auction.UserId == userId))
             {
@@ -405,7 +409,6 @@ namespace RealEstateAuction.Controllers
             return Redirect("manage-auction");
         }
 
-
         [HttpGet("join-auction")]
         public IActionResult JoinAuction(int auctionId)
         {
@@ -464,6 +467,83 @@ namespace RealEstateAuction.Controllers
 
             return Redirect("/auction-details?auctionId=" + auctionId);
         }
+
+        [HttpPost("bidding-auction")]
+        [Authorize(Roles = "Member")]
+        public IActionResult Bidding(BiddingDataModel biddingDataModel)
+        {
+            //Get current url
+            string url = Request.Headers["Referer"];
+
+            //check user login or not
+            if (!User.Identity.IsAuthenticated)
+            {
+                TempData["Message"] = "Vui lòng đăng nhập để tham gia đấu giá!";
+                return Redirect(url);
+            }
+
+            //get user by id
+            User user = userDAO.GetUserById(biddingDataModel.MemberId);
+
+            //Get Auction by id
+            Auction auction = auctionDAO.GetAuctionById(biddingDataModel.AuctionId);
+
+            //Check user has joined auction
+            bool isJoined = auctionDAO.IsUserJoinedAuction(user, biddingDataModel.AuctionId);
+            if (!isJoined)
+            {
+                TempData["Message"] = "Bạn chưa tham gia đấu giá!";
+                return Redirect(url);
+            }
+
+            //Get list bidding of auction
+            List<AuctionBidding> auctionBiddings = auctionBiddingDAO.GetAuctionBiddings(biddingDataModel.AuctionId);
+
+            //Check if bidding price is greater than start price
+            if (biddingDataModel.BiddingPrice < auction.StartPrice)
+            {
+                TempData["Message"] = "Giá đấu phải lớn hơn giá khởi điểm!";
+                return Redirect(url);
+            }
+
+            //check if bidding price is greater than end price
+            if (biddingDataModel.BiddingPrice > auction.EndPrice)
+            {
+                TempData["Message"] = "Giá đấu phải nhỏ hơn giá kết thúc!";
+                return Redirect(url);
+            }
+
+            //Check bidding price of participant is greater than the max price
+            if (auctionBiddings.Count > 0)
+            {
+                decimal maxPrice = auctionBiddings.Max(ab => ab.BiddingPrice);
+                if (biddingDataModel.BiddingPrice <= maxPrice)
+                {
+                    TempData["Message"] = "Giá đấu phải lớn hơn giá đấu cao nhất hiện tại!";
+                    return Redirect(url);
+                }
+            }
+
+            //If bidding price is valid add to database
+            //Map to AuctionBidding model
+            AuctionBidding auctionBidding = _mapper.Map<BiddingDataModel, AuctionBidding>(biddingDataModel);
+            auctionBidding.TimeBidding = DateTime.Now;
+
+            bool isSuccess = auctionBiddingDAO.AddAuctionBidding(auctionBidding);
+
+            //Check user bidding successfull
+            if (isSuccess)
+            {
+                TempData["Message"] = "Đấu giá thành công!";
+            }
+            else
+            {
+                TempData["Message"] = "Có lỗi xảy ra khi đặt giá!";
+            }
+
+            return Redirect(url);
+        }
+
         private bool ValidateAuction(AuctionDataModel auctionData)
         {
             var flag = true;
@@ -601,6 +681,112 @@ namespace RealEstateAuction.Controllers
             TempData["Message"] = "Tạo yêu cầu thất bại";
 
             return RedirectToAction("TopUp");
+        }
+
+        [Authorize(Roles = "Member")]
+        [HttpGet("member/list-ticket")]
+        public IActionResult ListTicketUser(int? page)
+        {
+            int PageNumber = (page ?? 1);
+            var list = ticketDAO.listTicketByUser(Int32.Parse(User.FindFirstValue("Id")), PageNumber);
+            if (list.PageCount != 0 && list.PageCount < PageNumber)
+            {
+                TempData["Message"] = "Sô trang không hợp lệ";
+                return Redirect("member/list-ticket");
+            }
+            ViewData["List"] = list;
+            return View();
+        }
+
+        [Authorize(Roles = "Member")]
+        [HttpGet("/member/list-ticket/{id}")]
+        public IActionResult TicketDetailUser(int id)
+        {
+            var ticket = ticketDAO.ticketDetail(id);
+            if (ticket == null || ticket.UserId != Int32.Parse(User.FindFirstValue("Id")))
+            {
+                TempData["Message"] = "Yêu cầu hỗ trợ không tồn tại";
+                return RedirectToAction("ListTicket");
+            }
+            ViewData["Ticket"] = ticket;
+            ViewData["IdUser"] = User.FindFirstValue("Id");
+            return View();
+        }
+
+        [Authorize(Roles = "Member")]
+        [HttpPost]
+        [Route("member/reply")]
+        public IActionResult ReplyUser([FromForm] TicketCommentDataModel commentData)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    TempData["Message"] = "Vui lòng kiểm tra lại thông tin";
+                    return RedirectToAction("TicketDetail", "Account", new { Id = commentData.TicketId });
+                }
+                var ticket = ticketDAO.ticketDetail(commentData.TicketId);
+                var idUser = Int32.Parse(User.FindFirstValue("Id"));
+                if (ticket == null || ticket.UserId != idUser)
+                {
+                    TempData["Message"] = "Yêu cầu hỗ trợ không tồn tại";
+                    return RedirectToAction("listTicket");
+                }
+                else
+                {
+                    TicketComment commentInsert = new TicketComment
+                    {
+                        UserId = idUser,
+                        Comment = commentData.Comment,
+                        TicketId = commentData.TicketId,
+                    };
+                    ticketDAO.insertComment(commentInsert);
+                    TempData["Message"] = "Trả lời thành công";
+                }
+                return RedirectToAction("TicketDetailUser", "Account", new { Id = commentData.TicketId });
+            }
+            catch (Exception ex)
+            {
+                TempData["Message"] = "Lỗi hệ thống, xin vui lòng thử lại";
+                return RedirectToAction("ListTicket");
+            }
+        }
+
+        [HttpPost("/create-ticket")]
+        [Authorize(Roles = "Member")]
+        public IActionResult CreateTicket([FromForm] TicketDataModel ticketData)
+        {
+            if (ModelState.IsValid)
+            {
+                Ticket ticket = new Ticket()
+                {
+                    UserId = Int32.Parse(User.FindFirstValue("Id")),
+                    Title = ticketData.Title,
+                    Description = ticketData.Description,
+                    Status = (byte)TicketStatus.Opening,
+                };
+                List<TicketImage> images = new List<TicketImage>();
+                foreach (var file in ticketData.ImageFiles)
+                {
+                    var pathImage = FileUpload.UploadImageProduct(file);
+                    if (pathImage != null)
+                    {
+                        TicketImage image = new TicketImage();
+                        image.Url = pathImage;
+                        images.Add(image);
+                    }
+                }
+                ticket.TicketImages = images;
+
+                ticketDAO.createTicket(ticket);
+                TempData["Message"] = "Tạo yêu cầu thành công";
+            }
+            else
+            {
+                TempData["Message"] = "Tạo yêu cầu thất bại";
+            }
+
+            return RedirectToAction("ListTicketUser");
         }
     }
 }

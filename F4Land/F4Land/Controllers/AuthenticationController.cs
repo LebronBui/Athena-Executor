@@ -51,6 +51,7 @@ namespace RealEstateAuction.Controllers
                     new Claim(ClaimTypes.Role, roles[(Roles) user.RoleId]),
                     new Claim("Id", user.Id.ToString()),
                     new Claim("FullName", user.FullName),
+                    new Claim("Wallet", user.Wallet.ToString()),
                     //new Claim("Email", user.Email),
                     //new Claim("Phone", user.Phone),
                     //new Claim("Dob", user.Dob.ToString()),
