@@ -30,12 +30,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxFZGl0QXVjdGlvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/95lek/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Account/ListTicketUser.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMaXN0VGlja2V0VXNlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/95lek/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Account/ManageAuction.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxNYW5hZ2VBdWN0aW9uLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/95lek/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Account/Profile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxQcm9maWxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/95lek/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Account/TicketDetailUser.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxUaWNrZXREZXRhaWxVc2VyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/95lek/OneDrive/Documents/GitHub/SWP391_F4Land/F4Land/F4Land/Views/Account/TopUp.cshtml]
