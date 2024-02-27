@@ -21,5 +21,7 @@ public partial class Ticket
 
     public virtual ICollection<TicketComment> TicketComments { get; set; } = new List<TicketComment>();
 
+    public virtual ICollection<TicketImage> TicketImages { get; set; } = new List<TicketImage>();
+
     public virtual User User { get; set; } = null!;
 }
