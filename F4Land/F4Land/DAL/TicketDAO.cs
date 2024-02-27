@@ -17,27 +17,46 @@ namespace RealEstateAuction.DAL
         public IPagedList<Ticket> listTicket(int page)
         {
             return context.Tickets.Include(t => t.User)
+                .Include(t => t.Staff)
                 .ToPagedList(page, 10);
         }
 
-        public bool createTicket(Ticket ticket)
+        public IPagedList<Ticket> listTicketByStaff(int staffId, int page)
+        {
+            return context.Tickets.Include(t => t.User)
+                .Where(t => t.StaffId == staffId)
+                .ToPagedList(page, 10);
+        }
+
+        public IPagedList<Ticket> listTicketByUser(int userId, int page)
+        {
+            return context.Tickets.Include(t => t.User)
+                .Where(t => t.UserId == userId)
+                .ToPagedList(page, 10);
+        }
+
+        public int createTicket(Ticket ticket)
         {
             try
             {
                 context.Tickets.Add(ticket);
                 context.SaveChanges();
-                return true;
+                return ticket.Id;
             }
             catch (Exception)
             {
-                return false;
+                return 0;
             }
 
         }
 
         public Ticket ticketDetail(int id)
         {
-            return context.Tickets.SingleOrDefault(e => e.Id == id);
+            return context.Tickets.Include(t => t.User)
+                .Include(t => t.Staff)
+                .Include(t => t.TicketComments)
+                .Include(t => t.TicketImages)
+                .SingleOrDefault(e => e.Id == id);
         }
 
         public bool update(Ticket ticket)

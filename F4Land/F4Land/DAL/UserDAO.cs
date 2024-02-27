@@ -99,5 +99,10 @@ namespace RealEstateAuction.DAL
                 throw new Exception(ex.Message);
             }
         }
+
+        public List<User> GetStaff()
+        {
+            return context.Users.Where(x => x.RoleId == (int)Roles.Staff).ToList();
+        }
     }
 }
