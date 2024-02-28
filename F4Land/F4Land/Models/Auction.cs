@@ -41,6 +41,8 @@ public partial class Auction
 
     public virtual User Approver { get; set; } = null!;
 
+    public virtual ICollection<AuctionBidding> AuctionBiddings { get; set; } = new List<AuctionBidding>();
+
     public virtual User User { get; set; } = null!;
 
     public virtual ICollection<Category> Categories { get; set; } = new List<Category>();
