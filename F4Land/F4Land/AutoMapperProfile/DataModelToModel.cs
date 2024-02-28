@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using RealEstateAuction.DataModel;
 using RealEstateAuction.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace RealEstateAuction.AutoMapperProfile
 {
@@ -12,6 +11,7 @@ namespace RealEstateAuction.AutoMapperProfile
             CreateMap<UserDatalModel, User>();
             CreateMap<AuctionDataModel, Auction>();
             CreateMap<AuctionEditDataModel, Auction>();
+            CreateMap<BiddingDataModel, AuctionBidding>();
         }
     }
 }
