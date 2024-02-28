@@ -43,15 +43,15 @@
             {
                 <div class="col-12 col-md-5 mb-2 justify-content-center mb-md-0 gap-md-5">
                     <form action="/search" method="get" class="input-group">
-                        <div class="input-group">
-                            <span class="input-group-text" id="basic-addon1">
-                                <i class="fa-solid fa-magnifying-glass primary-color"></i>
-                            </span>
-                            <input type="text" class="form-control" placeholder="Search items & sellers" aria-label="search"
-                                   aria-describedby="basic-addon1">
-                        </div>
-                    </form>
-                </div>
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1">
+                            <i class="fa-solid fa-magnifying-glass primary-color"></i>
+                        </span>
+                        <input type="text" class="form-control" placeholder="Search items & sellers" aria-label="search"
+                               aria-describedby="basic-addon1">
+                    </div>
+                </form>
+            </div>
             }
             <div class="col-md-auto justify-content-end d-flex align-items-center gap-3">
                 <div class="gap-4 d-flex align-items-center">
@@ -85,6 +85,12 @@
                     {
                         @if (User.FindFirstValue(ClaimTypes.Role) == "Member")
                         {
+                            <span class="fw-bold ">
+                                Số dư:&nbsp;
+                                <span class="text-danger">
+                                    @User.FindFirstValue("Wallet").Split(',')[0]
+                                </span>
+                            </span>
                             <a class="btn btn-outline-secondary text-nowrap" href="/top-up">
                                 Nạp tiền
                             </a>
@@ -126,6 +132,16 @@
                                 Quản lý đấu giá
                             </a>
                         </li>
+                        <li class="nav-item item-user-sidebar">
+                            <a href="/top-up" class="nav-link link-dark" aria-current="page">
+                                Quản lý thanh toán
+                            </a>
+                        </li>
+                        <li class="nav-item item-user-sidebar">
+                            <a href="/member/list-ticket" class="nav-link link-dark" aria-current="page">
+                                Quản lý yêu cầu hỗ trợ
+                            </a>
+                        </li>
                     }
                     @if (User.FindFirstValue(ClaimTypes.Role) == "Staff")
                     {
@@ -136,12 +152,20 @@
                         </li>
                         <li class="nav-item item-user-sidebar">
                             <a href="/list-payment" class="nav-link link-dark" aria-current="page">
-                                Phê duyệt thanh toán
+                                Phê duyệt thanh toán 
                             </a>
                         </li>
                         <li class="nav-item item-user-sidebar">
                             <a href="/list-ticket" class="nav-link link-dark" aria-current="page">
                                 Phê duyệt yêu cầu hỗ trợ
+                            </a>
+                        </li>
+                    }
+                    @if (User.FindFirstValue(ClaimTypes.Role) == "Admin")
+                    {
+                        <li class="nav-item item-user-sidebar">
+                            <a href="/manage-ticket" class="nav-link link-dark" aria-current="page">
+                                Quản lý yêu cầu hỗ trợ
                             </a>
                         </li>
                     }
