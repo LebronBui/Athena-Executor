@@ -1,0 +1,46 @@
+﻿@model RealEstateAuction.DataModel.TicketDataModel
+@using RealEstateAuction.Enums
+@{
+    var bankModels = (List<Banking>)ViewData["Banks"];
+    var type = new Dictionary<PaymentType, string>
+    {
+        { PaymentType.TopUp, "Nạp tiền" },
+        { PaymentType.Withdraw, "Rút tiền" },
+        { PaymentType.Refund, "Hoàn tiền" },
+    };
+}
+<div class="modal fade" id="modalCreateTicket" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Tạo yêu cầu hỗ trợ</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("CreateTicket", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <div class="mb-2">
+                        <lable class="form-label">Tiêu đề</lable>
+                        <input asp-for=Title class="form-control" />
+                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="mb-2">
+                        <label class="form-label">Nội dung</label>
+                        <textarea asp-for=Description class="form-control" rows="5"></textarea>
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="input-group mt-3">
+                        <span class="input-group-text">
+                            Ảnh
+                        </span>
+                        <input asp-for=ImageFiles type="file" multiple class="form-control" accept="image/*">
+                    </div>
+                    <div class="w-100 d-flex justify-content-center">
+                        <button class="btn btn-primary mt-3">Tạo</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
