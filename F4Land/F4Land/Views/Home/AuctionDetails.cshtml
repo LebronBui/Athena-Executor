@@ -14,6 +14,8 @@
     {
         userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
     }
+
+    var disabled = "";
 }
 <!-- using library to display slider image -->
 <link rel="stylesheet" type="text/css"
@@ -78,27 +80,44 @@
             <p class="m-0">
                 <span style="font-size: 16px;
                         font-weight: 300;
-                        color: #666;">0 bids</span>
+                        color: #666;">Giá đấu cao nhất hiện tại: @ViewBag.MaxPrice.ToString("N1", System.Globalization.CultureInfo.InvariantCulture)đ</span>
+            </p>
+            <p class="m-0">
+                <span style="font-size: 16px;
+                        font-weight: 300;
+                        color: #666;">@ViewBag.BiddingCount lượt đấu giá</span>
             </p>
             <div class="mt-3">
-                <div>Đặt giá:</div>
-                <select class="form-select mt-1" id="country" required="">
-                    <option value="">50</option>
-                    <option>40</option>
-                    <option>30</option>
-                </select>
-                <button class="btn btn-secondary mt-2 w-100" style="background-color: #222222;">
-                    Đấu giá
-                </button>
-                <div class="mt-1 mb-3">
-                    <span style="font-size: 12px;">
-                        <i class="fa fa-lock me-1"></i>
-                        Tham gia phiên đấu giá trước khi đặt giá
-                    </span>
-                </div>
-                <a href="#" class="text-decoration-none cursor-pointer">
-                    Tham gia đấu giá
-                </a>
+                <form action="bidding-auction" method="post">
+                    <div>Đặt giá:</div>
+                    <input type="hidden" name="AuctionId" value="@Model.Id" />
+                    <input type="hidden" name="MemberId" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
+
+                    <input type="text" class="form-control" name="BiddingPrice" pattern="[0-9]+(\.[0-9]+)?" required
+                           oninvalid="this.setCustomValidity('Vui lòng nhập số!')"
+                           oninput="this.setCustomValidity('')" />
+
+                    <button type="submit" class="btn btn-secondary mt-2 w-100"
+                    @*Disable button if user is not logged in*@
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        disabled = "disabled";
+                    }
+                    @disabled
+                            style="background-color: #222222;">
+                        Đấu giá
+                    </button>
+
+                    <div class="mt-1 mb-3">
+                        <span style="font-size: 12px;">
+                            <i class="fa fa-lock me-1"></i>
+                            Tham gia phiên đấu giá trước khi đặt giá
+                        </span>
+                    </div>
+                    <a href="#" class="text-decoration-none cursor-pointer">
+                        Tham gia đấu giá
+                    </a>
+                </form>
             </div>
         </div>
         <div class="mb-4">
