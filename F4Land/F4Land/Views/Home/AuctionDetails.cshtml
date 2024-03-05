@@ -57,14 +57,31 @@
                      data-bs-toggle="collapse" data-bs-target="#collapseOverview" aria-expanded="false"
                      aria-controls="collapseOverview">
                     <div class="h3 fw-light">
-                        Mô tả
+                        Thông tin thêm
                     </div>
                     <i class="fa-solid fa-angle-down"></i>
                 </div>
                 <div class="collapse" id="collapseOverview">
                     <div class="d-flex flex-column gap-3 mt-2">
                         <div class="head-detail">
-                            @Model.Description
+                            <div>
+                                <div class="d-flex">
+                                    <p class="fw-bold">Diện tích bất động sản: </p>
+                                    <p class="ms-2"> @Model.Area m<sup>2</sup></p>
+                                </div>
+                                <div class="d-flex">
+                                    <p class="fw-bold">Mặt tiền: </p>
+                                    <p class="ms-2"> @Model.Facade m<sup>2</sup></p>
+                                </div>
+                                <div class="d-flex">
+                                    <p class="fw-bold">Hướng bất động sản: </p>
+                                    <p class="ms-2"> @Model.Direction</p>
+                                </div>
+                                <div>
+                                    <p class="fw-bold">Mô tả thêm:</p>
+                                    @Model.Description
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -97,7 +114,7 @@
                            oninvalid="this.setCustomValidity('Vui lòng nhập số!')"
                            oninput="this.setCustomValidity('')" />
 
-                    <button type="submit" class="btn btn-secondary mt-2 w-100"
+                    <button id="btn-bidding" type="submit" class="btn btn-secondary mt-2 w-100"
                     @*Disable button if user is not logged in*@
                     @if (!User.Identity.IsAuthenticated)
                     {
@@ -115,9 +132,12 @@
                         </span>
                     </div>
                     <a href="#" class="text-decoration-none cursor-pointer">
-                        Tham gia đấu giá
+                        Phiên đấu giá kết thúc sau:
                     </a>
                 </form>
+                <div class="mt-4 d-flex justify-content-center">
+                    <p id="timerCounter" style="color:red; font-weight:bold"></p>
+                </div>
             </div>
         </div>
         <div class="mb-4">
@@ -164,6 +184,11 @@
                                 <h5 class="modal-title" id="exampleModalLabel">Xác nhận tham gia đấu giá</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
+                            <div class="modal-body">
+                                <p>
+                                    Phí tham gia đặt cọc bằng 40% giá khởi điểm, Bạn có đồng ý tham gia?
+                                </p>
+                            </div>
                             <input type="hidden" name="auctionId" value="@Model.Id" />
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
@@ -175,6 +200,7 @@
             </div>
         </div>
         <div class="section-line mb-4"></div>
+
         <div>
             <div class="row">
                 <div class="col-3">
@@ -200,9 +226,27 @@
                 </button>
             </div>
         </div>
+        <div class="mt-3">
+            <h4>
+                Danh sách đấu giá
+            </h4>
+            <div class="list-participant border border-3 rounded-2 overflow-y-scroll"
+                 style="height: 300px">
+                @if (Model.AuctionBiddings == null)
+                {
+                    <p>Chưa có người chơi nào đặt giá</p>
+                }
+                @foreach (var ab in Model.AuctionBiddings)
+                {
+                    <p>Đã có 1 người chơi đặt giá: <strong class="alert">@ab.BiddingPrice.ToString("N1") đ</strong></p>
+                }
+            </div>
+        </div>
+
     </div>
 </section>
 
+<!--Slide images-->
 <script>
     $('.slider-show-image').slick({
         slidesToShow: 1,
@@ -217,4 +261,39 @@
         asNavFor: '.slider-show-image',
         focusOnSelect: true
     });
+</script>
+
+<!--Time Counter-->
+<script>
+    // Set the date we're counting down to
+    //Convert End time of auction to countDownDate
+    var endTime = '@Model.EndTime';
+    var countDownDate = new Date(endTime).getTime();
+
+    // Update the count down every 1 second
+    var x = setInterval(function () {
+
+        // Get today's date and time
+        var now = new Date().getTime();
+
+        // Find the distance between now and the count down date
+        var distance = countDownDate - now;
+
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Output the result in an element with id="demo"
+        document.getElementById("timerCounter").innerHTML = days + "ngày " + hours + "giờ "
+            + minutes + "phút " + seconds + "giây ";
+
+        // If the count down is over, write some text
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("timerCounter").innerHTML = "Phiên đấu giá đã kết thúc!";
+            document.getElementById("btn-bidding").disabled = true;
+        }
+    }, 1000);
 </script>
