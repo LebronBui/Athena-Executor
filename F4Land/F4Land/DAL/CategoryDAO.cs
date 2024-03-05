@@ -4,15 +4,17 @@ namespace RealEstateAuction.DAL
 {
     public class CategoryDAO
     {
-        public static List<Category> GetCategories()
+        public List<Category> GetCategories()
         {
             using (RealEstateContext db = new RealEstateContext())
             {
-                return db.Categories.ToList();
+                return db.Categories
+                    .Where(c => c.DeleteFlag == false)
+                    .ToList();
             }
         }
 
-        public static Category GetCategoryById(int id)
+        public Category GetCategoryById(int id)
         {
             using (RealEstateContext db = new RealEstateContext())
             {
