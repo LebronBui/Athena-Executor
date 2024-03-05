@@ -1,0 +1,90 @@
+﻿@model RealEstateAuction.DataModel.AuctionEditDataModel
+@{
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+    ViewData["Title"] = "Xem phiên đấu giá";
+}
+<h2>Cập nhật phiên đấu giá</h2>
+<hr>
+<div class="row">
+    <div class="col-6">
+        <input asp-for=Id type="hidden">
+        <div class="input-group mt-3">
+            <span class="input-group-text">Tiêu đề</span>
+            <input asp-for=Title type="text" class="form-control" readonly>
+        </div>
+
+        <div class="input-group mt-3">
+            <span class="input-group-text">Giá khời điểm (VNĐ)</span>
+            <input asp-for=StartPrice type="text" class="form-control" value="@Model.StartPrice.ToString("N1")đ" readonly />
+        </div>
+
+        <div class="input-group mt-3">
+            <span class="input-group-text">Giá kết thúc (VNĐ)</span>
+            <input asp-for=EndPrice type="text" class="form-control" value="@Model.EndPrice.ToString("N1")đ" readonly>
+        </div>
+
+        <div class="input-group mt-3">
+            <span class="input-group-text">Diện tích (m2)</span>
+            <input asp-for=Area type="text" class="form-control" readonly>
+        </div>
+
+        <div class="input-group mt-3">
+            <span class="input-group-text">Địa chỉ</span>
+            <input asp-for=Address type="text" class="form-control" readonly>
+        </div>
+
+        <div class="input-group mt-3">
+            <span class="input-group-text">
+                Mặt tiền (m)
+            </span>
+            <input asp-for=Facade type="text" class="form-control" readonly>
+        </div>
+
+        <div class="input-group mt-3">
+            <span class="input-group-text">
+                Hướng bất động sản
+            </span>
+            <input asp-for=Direction type="text" class="form-control" readonly>
+        </div>
+
+        <div class="input-group mt-3">
+            <span class="input-group-text">
+                Mô tả
+            </span>
+            <textarea asp-for=Description rows="10" class="form-control" readonly></textarea>
+        </div>
+
+        <div class="input-group mt-3">
+            <span class="input-group-text">
+                Ảnh
+            </span>
+        </div>
+
+        <!--Display image of auction-->
+        <div class="mt-3 d-flex gap-3">
+            @foreach (var image in Model.Images)
+            {
+                <img src="@Url.Content(image.Url)" height="150" width="150">
+            }
+        </div>
+
+        <div class="input-group mt-3">
+            <span class="input-group-text">
+                Thời gian bắt đầu
+            </span>
+            <input asp-for=StartTime type="datetime-local" class="form-control" readonly>
+        </div>
+
+        <div class="input-group mt-3">
+            <span class="input-group-text">
+                Thời gian kết thúc
+            </span>
+            <input asp-for=EndTime type="datetime-local" class="form-control" readonly>
+        </div>
+
+        <div class="d-flex justify-content-center mt-3">
+            <button class="btn btn-primary" onclick="GoBack()">Quay lại</button>
+        </div>
+    </div>
+
+</div>

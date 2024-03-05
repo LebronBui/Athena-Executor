@@ -1,0 +1,124 @@
+﻿@using RealEstateAuction.Enums
+@model IEnumerable<RealEstateAuction.Models.AuctionBidding>
+@{
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+    ViewData["Title"] = "Danh sách người đặt giá";
+}
+<h2>Danh sách người đặt giá</h2>
+<hr>
+<!--Display the winner-->
+@if (ViewBag.isFinished && Model.Count() != 0)
+{
+    var maxPrice = Model.Max(a => a.BiddingPrice);
+    <!--Get the user with highest price-->
+    var winner = Model.FirstOrDefault(a => a.BiddingPrice == maxPrice);
+    <div class="winner-bg w-100 border border-2 rounded-3">
+        <div class="d-flex justify-content-center">
+            <h3 class="text-danger">Người chiến thắng: @Model.FirstOrDefault().Member.FullName</h3>
+        </div>
+        <table class="table mb-3">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Họ và tên</th>
+                    <th>Số điện thoại</th>
+                    <th>Số tiền đặt</th>
+                    <th>Thời gian đặt</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <!--Get the first image of auciton-->
+                        <img src="https://st3.depositphotos.com/9998432/13335/v/450/depositphotos_133352156-stock-illustration-default-placeholder-profile-icon.jpg" height="100" width="100">
+                    </td>
+                    <td>
+                        @winner.Member.FullName
+                    </td>
+                    <td>
+                        @winner.Member.Phone
+                    </td>
+                    <td>
+                        @winner.BiddingPrice.ToString("N1")đ
+                    </td>
+                    <td>
+                        @winner.TimeBidding
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+
+<!-- display list auction -->
+<table class="table mb-3">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Họ và tên</th>
+            <th>Số điện thoại</th>
+            <th>Số tiền đặt</th>
+            <th>Thời gian đặt</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count() == 0)
+        {
+            <div class="d-flex justify-content-center">
+                <p class="text-danger">Không có người đặt giá</p>
+            </div>
+        }
+        else
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <!--Get the first image of auciton-->
+                        <img src="https://st3.depositphotos.com/9998432/13335/v/450/depositphotos_133352156-stock-illustration-default-placeholder-profile-icon.jpg" height="100" width="100">
+                    </td>
+                    <td>
+                        @item.Member.FullName
+                    </td>
+                    <td>
+                        @item.Member.Phone
+                    </td>
+                    <td>
+                        @item.BiddingPrice.ToString("N1")đ
+                    </td>
+                    <td>
+                        @item.TimeBidding
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<!-- this is pagination of auctions -->
+<div class="d-flex justify-content-center align-items-center mt-4">
+    <!-- PAGINATION-->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center justify-content-lg-end">
+            @if (ViewBag.currentPage != 1)
+            {
+                <li class="page-item mx-1"><a class="page-link" href='/manage-auction?pageNumber=@(ViewBag.currentPage-1)' aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+            }
+            @for (var i = 1; i <= ViewBag.pageSize; i++)
+            {
+                @if (i == ViewBag.currentPage)
+                {
+                    <li class="page-item mx-1 active"><a class="page-link" href="#">@i</a></li>
+                }
+                else
+                {
+                    <li class="page-item mx-1"><a class="page-link" href='/manage-auction?pageNumber=@i'>@i</a></li>
+                }
+            }
+            @if (ViewBag.currentPage < ViewBag.pageSize)
+            {
+                <li class="page-item ms-1"><a class="page-link" href='/manage-auction?pageNumber=@(ViewBag.currentPage+1)' aria-label="Next"><span aria-hidden="true">»</span></a></li>
+            }
+        </ul>
+    </nav>
+</div>
