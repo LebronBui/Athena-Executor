@@ -11,11 +11,13 @@ namespace RealEstateAuction.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly AuctionDAO auctionDAO;
         private readonly Pagination pagination;
+        private readonly CategoryDAO categoryDAO;
 
         public HomeController(ILogger<HomeController> logger)
         {
             pagination = new Pagination();
             auctionDAO = new AuctionDAO();
+            categoryDAO = new CategoryDAO();
             _logger = logger;
         }
 
@@ -32,6 +34,9 @@ namespace RealEstateAuction.Controllers
         [Route("list-auction")]
         public IActionResult ListAuction(int? pageNumber)
         {
+            //Get all categories to display on list auction page
+            List<Category> categories = categoryDAO.GetCategories();
+
             if (pageNumber.HasValue)
             {
                 pagination.PageNumber = pageNumber.Value;
@@ -43,6 +48,7 @@ namespace RealEstateAuction.Controllers
             int auctionCount = auctionDAO.CountAuctionApproved();
             int pageSize = (int)Math.Ceiling((double)auctionCount / pagination.RecordPerPage);
 
+            ViewBag.categories = categories;
             ViewBag.currentPage = pagination.PageNumber;
             ViewBag.pageSize = pageSize;
 
@@ -55,7 +61,7 @@ namespace RealEstateAuction.Controllers
             //check auctionId is null or not
             if (auctionId.HasValue)
             {
-                Auction auction = auctionDAO.GetAuctionById(auctionId.Value);
+                Auction? auction = auctionDAO.GetAuctionBiddingById(auctionId.Value);
                 //check auction is found or not
                 if (auction != null)
                 {
@@ -64,6 +70,9 @@ namespace RealEstateAuction.Controllers
 
                     //Get number of biddings of auction
                     int biddingCount = auctionDAO.GetNumberOfBidding(auctionId.Value);
+
+                    //Get list bidding price of auction
+                    List<AuctionBidding> auctionBiddings = auction.AuctionBiddings.ToList();
 
                     ViewBag.MaxPrice = maxPrice;
                     ViewBag.BiddingCount = biddingCount;
@@ -81,6 +90,15 @@ namespace RealEstateAuction.Controllers
                 return RedirectToAction("ListAuction");
             }
         }
+
+        [HttpGet]
+        [Route("denied")]
+        public IActionResult AccessDenied()
+        {
+            TempData["Message"] = "Bạn không có quyền truy cập trang này";
+            return Redirect("/home");
+        }
+
 
         public IActionResult Privacy()
         {

@@ -15,6 +15,7 @@ using System.Text;
 
 namespace RealEstateAuction.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
         private readonly UserDAO userDAO;
@@ -42,13 +43,6 @@ namespace RealEstateAuction.Controllers
         [Route("profile")]
         public IActionResult Profile()
         {
-            //check if user is authenticated
-            if (!User.Identity.IsAuthenticated)
-            {
-                TempData["Message"] = "Vui lòng đăng nhập để sử dụng tính năng này!";
-                return RedirectToAction("Index", "Home");
-            }
-
             //Find User by Id
             int id = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             User user = userDAO.GetUserById(id);
@@ -85,15 +79,10 @@ namespace RealEstateAuction.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("change-password")]
         public IActionResult ChangePassword()
         {
-            //check user login or not
-            if (!User.Identity.IsAuthenticated)
-            {
-                TempData["Message"] = "Vui lòng đăng nhập để sử dụng tính năng này!";
-                return RedirectToAction("Index", "Home");
-            }
             return View();
         }
 
@@ -132,13 +121,6 @@ namespace RealEstateAuction.Controllers
         [Route("manage-auction")]
         public IActionResult ManageAuction(int? pageNumber)
         {
-            //check user login or not
-            if (!User.Identity.IsAuthenticated)
-            {
-                TempData["Message"] = "Vui lòng đăng nhập để quản lý đấu giá!";
-                return RedirectToAction("Index", "Home");
-            }
-
             //get current user id
             int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
@@ -163,12 +145,19 @@ namespace RealEstateAuction.Controllers
         [Route("create-auction")]
         public IActionResult CreateAuction()
         {
-            //check user login or not
-            if (!User.Identity.IsAuthenticated)
+            //get user id
+            int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            //get wallet of user
+            decimal wallet = userDAO.GetUserById(userId).Wallet;
+
+            //check if wallet of user is enough to create auction
+            if (wallet < 5000000)
             {
-                TempData["Message"] = "Vui lòng đăng nhập để quản lý đấu giá!";
-                return RedirectToAction("Index", "Home");
+                TempData["Message"] = "Ví của bạn không đủ 5.000.000đ để tạo phiên đấu giá";
+                return Redirect("manage-auction");
             }
+
             return View();
         }
 
@@ -176,12 +165,6 @@ namespace RealEstateAuction.Controllers
         [Route("create-auction")]
         public IActionResult CreateAuction([FromForm] AuctionDataModel auctionData)
         {
-            //check user login or not
-            if (!User.Identity.IsAuthenticated)
-            {
-                TempData["Message"] = "Vui lòng đăng nhập để quản lý đấu giá!";
-                return RedirectToAction("Index", "Home");
-            }
             //if value of user enter is not valid
             if (!ModelState.IsValid)
             {
@@ -237,6 +220,11 @@ namespace RealEstateAuction.Controllers
                     if (isSuccess)
                     {
                         TempData["Message"] = "Tạo phiên đấu giá thành công!";
+
+                        //update wallet of user
+                        user.Wallet -= DataModel.Constant.Fee;
+                        userDAO.UpdateUser(user);
+
                         return Redirect("manage-auction");
                     }
                     else
@@ -258,19 +246,19 @@ namespace RealEstateAuction.Controllers
         [Route("edit-auction")]
         public IActionResult EditAuction(int id)
         {
-            //check user login or not
-            if (!User.Identity.IsAuthenticated)
-            {
-                TempData["Message"] = "Vui lòng đăng nhập để quản lý đấu giá!";
-                return RedirectToAction("Index", "Home");
-            }
             //get current user id
             int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             //Find Auction by id
             Auction auction = auctionDAO.GetAuctionById(id);
+
+            if (DateTime.Now.CompareTo(auction.StartTime) > 0)
+            {
+                TempData["Message"] = "Không thể chỉnh sửa phiên đấu giá đã bắt đầu!";
+                return Redirect("manage-auction");
+            }
+
             AuctionEditDataModel auctionData = _mapper.Map<Auction, AuctionEditDataModel>(auction);
-            Console.WriteLine(auction.UserId);
             //check if auction belong to this user
             if (!(auction.UserId == userId))
             {
@@ -281,19 +269,48 @@ namespace RealEstateAuction.Controllers
             return View(auctionData);
         }
 
+        [HttpGet]
+        [Route("my-auction-details")]
+        public IActionResult MyAuctionDetails(int id)
+        {
+            //get current user id
+            int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            //Find Auction by id
+            Auction? auction = auctionDAO.GetAuctionById(id);
+
+            //Check if auction is exist
+            if (auction == null)
+            {
+                TempData["Message"] = "Không tìm thấy phiên đấu giá này!";
+                return Redirect("manage-auction");
+            }
+
+            //check if auction belong to this user
+            if (!(auction.UserId == userId))
+            {
+                TempData["Message"] = "Bạn không thể xem chi tiết phiên đấu giá người khác!";
+                return Redirect("manage-auction");
+            }
+
+            AuctionEditDataModel auctionData = _mapper.Map<Auction, AuctionEditDataModel>(auction);
+
+            return View(auctionData);
+        }
+
         [HttpPost]
         [Route("edit-auction")]
         public IActionResult EditAuction([FromForm] AuctionEditDataModel auctionData)
         {
-            //check user login or not
-            if (!User.Identity.IsAuthenticated)
-            {
-                TempData["Message"] = "Vui lòng đăng nhập để quản lý đấu giá!";
-                return RedirectToAction("Index", "Home");
-            }
 
             //get auction by id
             Auction auction = auctionDAO.GetAuctionById(auctionData.Id.Value);
+
+            if (DateTime.Now.CompareTo(auction.StartTime) > 0)
+            {
+                TempData["Message"] = "Không thể chỉnh sửa phiên đấu giá đã bắt đầu!";
+                return Redirect("manage-auction");
+            }
 
             //if value of user enter is not valid
             if (!ModelState.IsValid)
@@ -383,12 +400,6 @@ namespace RealEstateAuction.Controllers
         [Route("delete-auction")]
         public IActionResult DeleteAuction(int id)
         {
-            //check user login or not
-            if (!User.Identity.IsAuthenticated)
-            {
-                TempData["Message"] = "Vui lòng đăng nhập để quản lý đấu giá!";
-                return RedirectToAction("Index", "Home");
-            }
             //get current user id
             int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
@@ -412,13 +423,6 @@ namespace RealEstateAuction.Controllers
         [HttpGet("join-auction")]
         public IActionResult JoinAuction(int auctionId)
         {
-            //check user login or not
-            if (!User.Identity.IsAuthenticated)
-            {
-                TempData["Message"] = "Vui lòng đăng nhập để tham gia đấu giá!";
-                return Redirect("/auction-details?auctionId=" + auctionId);
-            }
-
             //get current user id
             int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
@@ -427,6 +431,23 @@ namespace RealEstateAuction.Controllers
 
             //Find Auction by id
             Auction auction = auctionDAO.GetAuctionById(auctionId);
+
+            //Check auction is exist
+            if (auction == null)
+            {
+                TempData["Message"] = "Phiên đấu giá không tồn tại!";
+                return Redirect("manage-auction");
+            }
+
+            //User need pay fee by 40% of start price
+            user.Wallet -= auction.StartPrice * 0.4m;
+
+            //Check wallet of user is enough to join auction
+            if (user.Wallet < 0)
+            {
+                TempData["Message"] = "Ví của bạn không đủ để tham gia phiên đấu giá này!";
+                return Redirect("/auction-details?auctionId=" + auctionId);
+            }
 
             //check if auction belong to this user
             if (auction.UserId == userId)
@@ -449,22 +470,32 @@ namespace RealEstateAuction.Controllers
                 return Redirect("/auction-details?auctionId=" + auctionId);
             }
 
-            //add new user to list user join auction
-            auction.Users.Add(user);
-
-            //update Auction to database
-            bool isSuccess = auctionDAO.EditAuction(auction);
-
-            //check if join acution successfull
-            if (isSuccess)
+            //update wallet of user
+            user.Wallet -= auction.StartPrice;
+            bool updateWallet = userDAO.UpdateUser(user);
+            if (!updateWallet)
             {
-                TempData["Message"] = "Tham gia đấu giá thành công!";
+                TempData["Message"] = "Có lỗi khi xử lý ví!";
             }
             else
             {
-                TempData["Message"] = "Tham gia đấu giá thất bại!";
-            }
 
+                //add new user to list user join auction
+                auction.Users.Add(user);
+
+                //update Auction to database
+                bool isSuccess = auctionDAO.EditAuction(auction);
+
+                //check if join acution successfull
+                if (isSuccess)
+                {
+                    TempData["Message"] = "Tham gia đấu giá thành công!";
+                }
+                else
+                {
+                    TempData["Message"] = "Tham gia đấu giá thất bại!";
+                }
+            }
             return Redirect("/auction-details?auctionId=" + auctionId);
         }
 
@@ -475,18 +506,40 @@ namespace RealEstateAuction.Controllers
             //Get current url
             string url = Request.Headers["Referer"];
 
-            //check user login or not
-            if (!User.Identity.IsAuthenticated)
-            {
-                TempData["Message"] = "Vui lòng đăng nhập để tham gia đấu giá!";
-                return Redirect(url);
-            }
-
             //get user by id
             User user = userDAO.GetUserById(biddingDataModel.MemberId);
 
             //Get Auction by id
-            Auction auction = auctionDAO.GetAuctionById(biddingDataModel.AuctionId);
+            Auction? auction = auctionDAO.GetAuctionById(biddingDataModel.AuctionId);
+
+
+            //Check if auction is exist
+            if (auction == null)
+            {
+                TempData["Message"] = "Phiên đấu giá không tồn tại!";
+                return Redirect(url);
+            }
+
+            //Check is user is owner of auction
+            if (auction.UserId == user.Id)
+            {
+                TempData["Message"] = "Bạn không thể đấu giá phiên đấu giá của mình!";
+                return Redirect(url);
+            }
+
+            //Check if auction is started
+            if (auction.StartTime.CompareTo(DateTime.Now) > 0)
+            {
+                TempData["Message"] = "Phiên đấu giá chưa bắt đầu!";
+                return Redirect(url);
+            }
+
+            //Check if auction is expired
+            if (auction.EndTime.CompareTo(DateTime.Now) < 0)
+            {
+                TempData["Message"] = "Phiên đấu giá đã kết thúc!";
+                return Redirect(url);
+            }
 
             //Check user has joined auction
             bool isJoined = auctionDAO.IsUserJoinedAuction(user, biddingDataModel.AuctionId);
@@ -495,9 +548,6 @@ namespace RealEstateAuction.Controllers
                 TempData["Message"] = "Bạn chưa tham gia đấu giá!";
                 return Redirect(url);
             }
-
-            //Get list bidding of auction
-            List<AuctionBidding> auctionBiddings = auctionBiddingDAO.GetAuctionBiddings(biddingDataModel.AuctionId);
 
             //Check if bidding price is greater than start price
             if (biddingDataModel.BiddingPrice < auction.StartPrice)
@@ -513,6 +563,9 @@ namespace RealEstateAuction.Controllers
                 return Redirect(url);
             }
 
+            //Get list bidding of auction
+            List<AuctionBidding> auctionBiddings = auctionBiddingDAO.GetAuctionBiddings(biddingDataModel.AuctionId);
+
             //Check bidding price of participant is greater than the max price
             if (auctionBiddings.Count > 0)
             {
@@ -524,21 +577,63 @@ namespace RealEstateAuction.Controllers
                 }
             }
 
-            //If bidding price is valid add to database
-            //Map to AuctionBidding model
-            AuctionBidding auctionBidding = _mapper.Map<BiddingDataModel, AuctionBidding>(biddingDataModel);
-            auctionBidding.TimeBidding = DateTime.Now;
+            //Get the last bidding of user for this auction
+            AuctionBidding? lastBidding = auctionBiddingDAO.GetLastBiddingByUser(biddingDataModel.AuctionId, biddingDataModel.MemberId);
 
-            bool isSuccess = auctionBiddingDAO.AddAuctionBidding(auctionBidding);
-
-            //Check user bidding successfull
-            if (isSuccess)
+            //Get the last bidding of user for this auction if exist
+            if (lastBidding != null)
             {
-                TempData["Message"] = "Đấu giá thành công!";
+                //Get the last bidding price of user for this auction
+                decimal lastBiddingPrice = lastBidding.BiddingPrice;
+
+                //Refund the price of bidding to user
+                user.Wallet += lastBiddingPrice;
+            }
+
+            //Minus the price of bidding from user wallet
+            user.Wallet -= biddingDataModel.BiddingPrice;
+
+            //Check if user wallet is enough to bidding
+            if (user.Wallet < 0)
+            {
+                TempData["Message"] = "Ví của bạn không đủ để đấu giá!";
+                return Redirect(url);
+            }
+
+            //If bidding price is equal to end price
+            if (biddingDataModel.BiddingPrice == auction.EndPrice)
+            {
+                //Update status of auction to end
+                auction.Status = (int)AuctionStatus.Kết_thúc;
+                //Update Auction to database
+                bool isSuccess = auctionDAO.EditAuction(auction);
+            }
+
+            //Update wallet of user
+            bool updateWallet = userDAO.UpdateUser(user);
+            //Check if update wallet successfull
+            if (!updateWallet)
+            {
+                TempData["Message"] = "Có lỗi khi xử lý ví!";
+                return Redirect(url);
             }
             else
             {
-                TempData["Message"] = "Có lỗi xảy ra khi đặt giá!";
+                //If bidding price is valid add to database
+                //Map to AuctionBidding model
+                AuctionBidding auctionBidding = _mapper.Map<BiddingDataModel, AuctionBidding>(biddingDataModel);
+                auctionBidding.TimeBidding = DateTime.Now;
+
+                bool isSuccess = auctionBiddingDAO.AddAuctionBidding(auctionBidding);
+                //Check user bidding successfull
+                if (isSuccess)
+                {
+                    TempData["Message"] = "Đấu giá thành công!";
+                }
+                else
+                {
+                    TempData["Message"] = "Có lỗi xảy ra khi đặt giá!";
+                }
             }
 
             return Redirect(url);
@@ -787,6 +882,65 @@ namespace RealEstateAuction.Controllers
             }
 
             return RedirectToAction("ListTicketUser");
+        }
+
+        [HttpGet("list-participant")]
+        [Authorize(Roles = "Member")]
+        public IActionResult ListParticipant(int? auctionId, int? pageNumber)
+        {
+            ViewBag.isFinished = false;
+
+            //Check if auctionId is null
+            if (!auctionId.HasValue)
+            {
+                TempData["Message"] = "Phiên đấu giá không tồn tại";
+                return RedirectToAction("ManageAuction");
+            }
+
+            //Get auction by id
+            var auction = auctionDAO.GetAuctionById(auctionId.Value);
+
+            if (auction == null)
+            {
+                TempData["Message"] = "Phiên đấu giá không tồn tại";
+                return RedirectToAction("ManageAuction");
+            }
+
+            //Get current userId
+            int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            //Check if auction belong to this user
+            if (auction.UserId != userId)
+            {
+                TempData["Message"] = "Bạn không thể xem danh sách người tham gia của phiên đấu giá này!";
+                return RedirectToAction("ManageAuction");
+            }
+
+            //Check auction is finished
+            if (auction.Status == (int)AuctionStatus.Kết_thúc)
+            {
+                ViewBag.isFinished = true;
+            }
+
+
+            if (pageNumber.HasValue)
+            {
+                pagination.PageNumber = pageNumber.Value;
+            }
+
+            //Get list of participant
+            var list = auctionBiddingDAO.GetParticipantByAuctionId(auctionId.Value, pagination);
+
+            //Count number of participant
+            int participantCount = auctionBiddingDAO.CountParticipant(auctionId.Value);
+
+            //Get number of page
+            int pageSize = (int)Math.Ceiling((double)participantCount / pagination.RecordPerPage);
+
+            ViewBag.currentPage = pagination.PageNumber;
+            ViewBag.pageSize = pageSize;
+
+            return View(list);
         }
     }
 }
