@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RealEstateAuction.DataModel;
 using RealEstateAuction.Models;
 
 namespace RealEstateAuction.DAL
 {
     public class AuctionBiddingDAO
     {
+
         public List<AuctionBidding> GetAuctionBiddings(int auctionId)
         {
             using (var context = new RealEstateContext())
@@ -29,6 +31,41 @@ namespace RealEstateAuction.DAL
                 {
                     return false;
                 }
+            }
+        }
+
+        public List<AuctionBidding> GetParticipantByAuctionId(int auctionId, Pagination pagination)
+        {
+            using (var context = new RealEstateContext())
+            {
+                return context.AuctionBiddings
+                    .Where(ab => ab.AuctionId == auctionId)
+                    .OrderByDescending(ab => ab.BiddingPrice)
+                    .Skip(pagination.RecordPerPage * (pagination.PageNumber - 1))
+                    .Take(pagination.RecordPerPage)
+                    .Include(ab => ab.Member)
+                    .ToList();
+            }
+        }
+
+        public int CountParticipant(int value)
+        {
+            using (var context = new RealEstateContext())
+            {
+                return context.AuctionBiddings
+                    .Where(ab => ab.AuctionId == value)
+                    .Count();
+            }
+        }
+
+        public AuctionBidding? GetLastBiddingByUser(int auctionId, int memberId)
+        {
+            using (var context = new RealEstateContext())
+            {
+                return context.AuctionBiddings
+                    .Where(ab => ab.AuctionId == auctionId && ab.MemberId == memberId)
+                    .OrderByDescending(ab => ab.BiddingPrice)
+                    .FirstOrDefault();
             }
         }
     }

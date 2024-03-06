@@ -1,8 +1,15 @@
 ﻿@using System.Security.Claims
 @using Microsoft.AspNetCore.Authentication.Cookies
+@using RealEstateAuction.DAL
 
 @{
-    var fullName = User.FindFirstValue("FullName");
+    var user = new User();
+    @if (User.Identity.IsAuthenticated)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        user = new UserDAO().GetUserById(int.Parse(userId));
+    }
+
     var homePage = "";
     @if (User.IsInRole("Admin"))
     {
@@ -86,8 +93,7 @@
                                 Số dư:&nbsp;
                                 <span class="text-danger">
                                     @{
-                                        string walletValue = User.FindFirstValue("Wallet").Split(',')[0];
-                                        string formattedWalletValue = decimal.Parse(walletValue).ToString("N0") + "đ";
+                                        string formattedWalletValue = user.Wallet.ToString("N1") + "đ";
                                     }
                                     @formattedWalletValue
                                 </span>
@@ -101,7 +107,7 @@
                             <a href="#" class="d-flex align-items-center link-dark text-decoration-none cursor-pointer dropdown-toggle"
                                id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fa-solid fa-user me-2 primary-color"></i>
-                                Hello:&ensp;<strong>@fullName</strong>
+                                Hello:&ensp;<strong>@user.FullName</strong>
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="/profile">Thông tin cá nhân</a></li>
@@ -120,44 +126,44 @@
 
         <section class="px-5 py-2 d-md-block d-none" id="menu" style="background-color: #43c4eb">
             <div class="d-flex justify-content-between align-items-center">
-                <a class="text-decoration-none cursor-pointer text-danger" href="">Nhà đất</a>
-                <a class="text-decoration-none cursor-pointer text-danger" href="">Nhà đất</a>
-                <a class="text-decoration-none cursor-pointer text-danger" href="">Nhà đất</a>
+                <a class="text-decoration-none cursor-pointer text-danger" href="">Đất nền</a>
+                <a class="text-decoration-none cursor-pointer text-danger" href="">Nhà ở</a>
+                <a class="text-decoration-none cursor-pointer text-danger" href="">Căn hộ</a>
                 <div class="separated-line"></div>
                 <div class="dropdown">
                     <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
                          data-bs-toggle="dropdown" aria-expanded="false">
-                        Nhà đất
+                        Chung cư
                     </div>
                 </div>
                 <div class="dropdown">
                     <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
                          data-bs-toggle="dropdown" aria-expanded="false">
-                        Nhà đất
+                        Biệt thự
                     </div>
                 </div>
                 <div class="dropdown">
                     <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
                          data-bs-toggle="dropdown" aria-expanded="false">
-                        Nhà đất
+                        Ki-ốt
                     </div>
                 </div>
                 <div class="dropdown">
                     <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
                          data-bs-toggle="dropdown" aria-expanded="false">
-                        Nhà đất
+                        Nhà mặt phố
                     </div>
                 </div>
                 <div class="dropdown">
                     <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
                          data-bs-toggle="dropdown" aria-expanded="false">
-                        Nhà đất
+                        Đất nông, lâm nghiệp
                     </div>
                 </div>
                 <div class="dropdown">
                     <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
                          data-bs-toggle="dropdown" aria-expanded="false">
-                        Nhà đất
+                        Đất công nghiệp
                     </div>
                 </div>
             </div>
@@ -279,7 +285,7 @@
                                      alt="Invaluable Logo">
                                 <p class="mt-4">
                                     As the world's leading online auction marketplace, thousands of auction
-                                    houses use Invaluable to deepen relationships with millions of clients
+                                    houses use F4Land to deepen relationships with millions of clients
                                     around the world. Stay connected to the things you love with curated items
                                     and auctions sent to your inbox.
                                 </p>
