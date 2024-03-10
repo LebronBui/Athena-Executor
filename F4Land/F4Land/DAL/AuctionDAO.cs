@@ -203,5 +203,18 @@ namespace RealEstateAuction.DAL
                 .FirstOrDefault(a => a.Id == id
                                 && a.DeleteFlag == false);
         }
+
+        public List<Auction> GetAuctionsEndingIn1Minute()
+        {
+            return context.Auctions
+                .Where(a => a.EndTime <= DateTime.Now.AddMinutes(1)
+                            && a.EndTime >= DateTime.Now
+                            && a.Status == (int)AuctionStatus.Chấp_nhân
+                            && a.DeleteFlag == false)
+                .Include(a => a.Images)
+                .Include(a => a.User)
+                .OrderBy(a => a.EndTime)
+                .ToList();
+        }
     }
 }
