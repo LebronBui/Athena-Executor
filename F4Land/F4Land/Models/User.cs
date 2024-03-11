@@ -25,6 +25,8 @@ public partial class User
 
     public string? Description { get; set; }
 
+    public byte? Status { get; set; }
+
     public decimal Wallet { get; set; }
 
     public virtual ICollection<Auction> AuctionApprovers { get; set; } = new List<Auction>();

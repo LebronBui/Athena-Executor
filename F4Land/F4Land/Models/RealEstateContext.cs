@@ -171,6 +171,7 @@ public partial class RealEstateContext : DbContext
             entity.Property(e => e.Code).HasColumnType("ntext");
             entity.Property(e => e.TransactionDate).HasColumnType("datetime");
             entity.Property(e => e.UserBankAccount).HasMaxLength(50);
+            entity.Property(e => e.UserBankName).HasMaxLength(50);
 
             entity.HasOne(d => d.Bank).WithMany(p => p.Payments)
                 .HasForeignKey(d => d.BankId)

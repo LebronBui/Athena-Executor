@@ -17,6 +17,8 @@ public partial class Payment
 
     public DateTime? TransactionDate { get; set; }
 
+    public string? UserBankName { get; set; }
+
     public string? UserBankAccount { get; set; }
 
     public byte? Type { get; set; }
