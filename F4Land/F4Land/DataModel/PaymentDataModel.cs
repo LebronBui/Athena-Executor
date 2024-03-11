@@ -14,6 +14,9 @@ namespace RealEstateAuction.DataModel
         [Required(ErrorMessage = "Tài khoản giao dịch là bắt buộc")]
         public string UserAccountNumber { get; set; }
 
+        [Required(ErrorMessage = "Ngân hàng là bắt buộc")]
+        public string UserBankName { get; set; }
+
         [Required]
         public PaymentType Action { get; set; }
     }
