@@ -1,7 +1,15 @@
 ﻿@using System.Security.Claims
 @using Microsoft.AspNetCore.Authentication.Cookies
+@using RealEstateAuction.DAL
+
 @{
-    var fullName = User.FindFirstValue("FullName");
+    var user = new User();
+    @if (User.Identity.IsAuthenticated)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        user = new UserDAO().GetUserById(int.Parse(userId));
+    }
+
     var homePage = "";
     @if (User.IsInRole("Admin"))
     {
@@ -88,7 +96,10 @@
                             <span class="fw-bold ">
                                 Số dư:&nbsp;
                                 <span class="text-danger">
-                                    @User.FindFirstValue("Wallet").Split(',')[0]
+                                    @{
+                                        string formattedWalletValue = user.Wallet.ToString("N1") + "đ";
+                                    }
+                                    @formattedWalletValue
                                 </span>
                             </span>
                             <a class="btn btn-outline-secondary text-nowrap" href="/top-up">
@@ -100,7 +111,7 @@
                             <a href="#" class="d-flex align-items-center link-dark text-decoration-none cursor-pointer dropdown-toggle"
                                id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fa-solid fa-user me-2 primary-color"></i>
-                                Hello:&ensp;<strong>@fullName</strong>
+                                Hello:&ensp;<strong>@user.FullName</strong>
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="/profile">Thông tin cá nhân</a></li>
@@ -166,6 +177,18 @@
                         <li class="nav-item item-user-sidebar">
                             <a href="/manage-ticket" class="nav-link link-dark" aria-current="page">
                                 Quản lý yêu cầu hỗ trợ
+                            </a>
+                        </li>
+
+                        <li class="nav-item item-user-sidebar">
+                            <a href="/manage-staff" class="nav-link link-dark" aria-current="page">
+                                Quản lý nhân viên
+                            </a>
+                        </li>
+
+                        <li class="nav-item item-user-sidebar">
+                            <a href="/manage-member" class="nav-link link-dark" aria-current="page">
+                                Quản lý thành viên
                             </a>
                         </li>
                     }

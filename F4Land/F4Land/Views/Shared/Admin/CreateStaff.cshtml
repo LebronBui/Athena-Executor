@@ -1,0 +1,38 @@
+﻿<!--Đăng ký modal-->
+<div class="modal fade" id="modalCreateStaff" tabindex="-1" aria-labelledby="register" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Đăng ký nhân viên</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="create-staff" method="post" class="text-center">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="fullName" name="fullName" required>
+                        <label for="fullName">Họ và tên</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control" id="email" name="email" required>
+                        <label for="email">Địa chỉ email</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="pwd" name="pwd" required>
+                        <label for="pwd">Mật khẩu</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{10}" required>
+                        <label for="phone">Số điện thoại</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="date" class="form-control" id="dob" name="dob" required>
+                        <label for="dob">Ngày sinh</label>
+                    </div>
+                    <button class="btn btn-primary modal-login-btn space-top log-in-memory continue-btn">
+                        Đăng ký
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

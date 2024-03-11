@@ -42,6 +42,11 @@
                         @Html.ValidationMessageFor(model => model.Action, "", new { @class = "text-danger" })
                     </div>
                     <div class="mb-2">
+                        <lable class="form-label">Ngân hàng giao dịch</lable>
+                        <input asp-for=UserBankName class="form-control" />
+                        @Html.ValidationMessageFor(model => model.UserBankName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="mb-2">
                         <lable class="form-label">Mã số tài khoản giao dịch của khách hàng</lable>
                         <input asp-for=UserAccountNumber class="form-control" />
                         @Html.ValidationMessageFor(model => model.UserAccountNumber, "", new { @class = "text-danger" })
