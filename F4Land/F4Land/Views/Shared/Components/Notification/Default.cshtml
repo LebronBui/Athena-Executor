@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Notification>
+<style>
+    .notification-dropdown {
+        max-width: 500px;
+        min-width: 500px;
+    }
+
+    .notification-item {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .notification-item img {
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+    }
+
+    .notification-content {
+        flex-grow: 1;
+    }
+
+    .notification-content strong {
+        font-weight: bold;
+    }
+
+    .notification-time {
+        font-size: 0.8rem;
+        color: #6c757d;
+    }
+
+    .notification-item:hover {
+        background-color: lightgray; /* Màu mới khi di chuột vào */
+    }
+
+    .no-link {
+        text-decoration: none;
+        color: inherit; 
+    }
+</style>
+
+<div class="btn-group">
+    <a type="button" href="#" class="btn btn-outline-none text-nowrap">
+        <i class="fa-solid fa-bell primary-color me-1"></i>
+        Thông báo
+    </a>
+    <button type="button" class="btn btn-outline-none dropdown-toggle dropdown-toggle-split"
+            data-bs-display="static"
+            data-bs-toggle="dropdown" aria-expanded="false" data-bs-reference="parent">
+    </button>
+    <div class="dropdown-menu dropdown-menu-right notification-dropdown" aria-labelledby="notificationDropdown">
+        <div class="dropdown-header">5 thông báo gần nhất</div>
+        @foreach (var notification in Model)
+        {
+            <a class="notification-item no-link" href="@notification.Link">
+                <div class="notification-content">
+                    @notification.Description
+                </div>
+            </a>
+        }
+    </div>      
+</div>

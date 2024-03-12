@@ -1,0 +1,33 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="modal fade" id="modalApproveAuction" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <form action="approve-auction" method="get">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="fw-bold">Confirm</h2>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn chắc chắn muốn thay đổi trang thái?</p>
+                    <input type="hidden" id="id" name="auctionId" value="" />
+                    <input type="hidden" id="status" name="status" value="" />
+                    <span>Chọn loại bất động sản</span>
+                    <select class="form-select" name="categoryId">
+                        @foreach (var item in (List<Category>)ViewData["categories"])
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
