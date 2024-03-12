@@ -39,7 +39,6 @@
 <body>
     <!-- Display message here -->
     <div id="snackbar"></div>
-
     <div class="sticky-top background-color">
         <header class="px-5 py-3 row justify-content-between border-bottom">
             <a href="@homePage"
@@ -69,10 +68,7 @@
                             <i class="fa-solid fa-heart primary-color me-1"></i>
                             Lưu trữ
                         </button>
-                        <button type="button" class="btn btn-outline-none text-nowrap">
-                            <i class="fa-solid fa-bell primary-color me-1"></i>
-                            Thông báo
-                        </button>
+                        @await Component.InvokeAsync("Notification")
                     }
                 </div>
                 <div class="d-flex align-items-center gap-3">

@@ -66,10 +66,11 @@
                     </td>
                     <td>
                         <a href="/details-auction?auctionId=@item.Id" class="btn btn-info">Xem</a>
-                        @if (item.Status == 1)
-                        {
-                            <a href="/approve-auction?auctionId=@item.Id&status=2" class="btn btn-success">Chấp nhận</a>
-                            <a href="/approve-auction?auctionId=@item.Id&status=3" class="btn btn-danger">Từ chối</a>
+                        @if (item.Status == 1) {
+                            <a class="btn btn-success btnStatus" data-bs-toggle="modal" data-bs-target="#modalApproveAuction" data-id="@item.Id"
+                               data-status="@((int)AuctionStatus.Chấp_nhân)">Chấp nhận</a>
+                            <a class="btn btn-danger btnStatus" data-bs-toggle="modal" data-bs-target="#modalRejectAuction" data-id="@item.Id"
+                                data-status="@((int)AuctionStatus.Từ_chối)">Từ chối</a>
                         }
                     </td>
                 </tr>
@@ -77,7 +78,8 @@
         }
     </tbody>
 </table>
-
+@await Html.PartialAsync("Modals/Auction/RejectConfirm")
+@await Html.PartialAsync("Modals/Auction/ApproveConfirm")
 <!-- this is pagination of auctions -->
 <div class="d-flex justify-content-center align-items-center mt-4">
     <!-- PAGINATION-->
@@ -105,3 +107,22 @@
         </ul>
     </nav>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(".btnStatus").click(function () {
+                $("#idUpdate").val($(this).data("id"))
+                $("#statusUpdate").val($(this).data("status"))
+                console.log($(this).data("id"))
+            })
+
+            $(".btnStatus").click(function () {
+                $("#id").val($(this).data("id"))
+                $("#status").val($(this).data("status"))
+                console.log($(this).data("id"))
+            })
+        })
+    </script>
+}
+

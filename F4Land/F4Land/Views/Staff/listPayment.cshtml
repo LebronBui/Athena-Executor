@@ -161,6 +161,10 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
                                                 <td>@item.UserBankAccount</td>
                                             </tr>
                                             <tr>
+                                                <td class="text-start fw-bold">Ngân hàng khách hàng</td>
+                                                <td>@item.UserBankName</td>
+                                            </tr>
+                                            <tr>
                                                 <td class="text-start fw-bold">Mã số ngân hàng nhận</td>
                                                 <td>@item.Bank?.BankAccount</td>
                                             </tr>
