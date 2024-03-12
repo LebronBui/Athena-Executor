@@ -28,6 +28,70 @@ namespace RealEstateAuction.DAL
                                    .ToList();
         }
 
+        public List<Auction> GetAllAuctionApprovedListAuction(Pagination pagination, SearchDataModel? searchData)
+        {
+            var auctions = context.Auctions.Include(a => a.Images)
+                                   .Include(a => a.User)
+                                   .Include(a => a.Categories)
+                                   .Where(a => a.Status == (int)AuctionStatus.Chấp_nhân
+                                    && a.DeleteFlag == false
+                                    && a.StartTime <= DateTime.Now
+                                    && DateTime.Now <= a.EndTime
+                                    );
+            if (searchData.DataCategory.Any() || searchData?.DataCategory != null || searchData?.DataSort != null)
+            {
+                if (searchData.DataCategory.Any())
+                {
+                    auctions = auctions.Where(a => a.Categories.Any(c => searchData.DataCategory.Contains(c.Id)));
+                }
+
+                switch (searchData.DataSort)
+                {
+                    case 1:
+                        auctions = auctions.OrderBy(x => x.Title);
+                        break;
+                    case 2:
+                        auctions = auctions.OrderByDescending(x => x.Title);
+                        break;
+                    case 3:
+                        auctions = auctions.OrderBy(x => x.StartTime);
+                        break;
+                    case 4:
+                        auctions = auctions.OrderByDescending(x => x.StartTime);
+                        break;
+                    case 5:
+                        auctions = auctions.OrderBy(x => x.EndTime);
+                        break;
+                    case 6:
+                        auctions = auctions.OrderByDescending(x => x.EndTime);
+                        break;
+                    case 7:
+                        auctions = auctions.OrderBy(x => x.StartPrice);
+                        break;
+                    case 8:
+                        auctions = auctions.OrderByDescending(x => x.StartPrice);
+                        break;
+                    case 9:
+                        auctions = auctions.OrderBy(x => x.EndPrice);
+                        break;
+                    case 10:
+                        auctions = auctions.OrderByDescending(x => x.EndPrice);
+                        break;
+                    default:
+                        auctions = auctions.OrderByDescending(a => a.CreatedTime);
+                        break;
+                }
+            }
+            else
+            {
+                auctions = auctions.OrderByDescending(a => a.CreatedTime);
+            }
+
+            return auctions.Skip((pagination.PageNumber - 1) * pagination.RecordPerPage)
+                    .Take(pagination.RecordPerPage)
+                    .ToList();
+        }
+
         public bool AddAuction(Auction auction)
         {
             try
@@ -36,8 +100,9 @@ namespace RealEstateAuction.DAL
                 context.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.InnerException);
                 return false;
             }
         }
@@ -73,6 +138,7 @@ namespace RealEstateAuction.DAL
                 .Include(a => a.Images)
                 .Include(a => a.User)
                 .Include(a => a.Users)
+                .Include(a => a.AuctionBiddings)
                 .FirstOrDefault(a => a.Id == id
                                 && a.DeleteFlag == false);
         }
@@ -82,6 +148,7 @@ namespace RealEstateAuction.DAL
             return context.Auctions.Where(a => a.UserId == userId && a.DeleteFlag == false)
                                     .OrderByDescending(a => a.Id)
                                     .Include(a => a.Images)
+                                    .Include(a => a.Categories)
                                     .Skip((pagination.PageNumber - 1) * pagination.RecordPerPage)
                                     .Take(pagination.RecordPerPage)
                                     .ToList();
@@ -199,6 +266,7 @@ namespace RealEstateAuction.DAL
                 && a.DeleteFlag == false)
                 .Include(a => a.Images)
                 .Include(a => a.User)
+                .Include(a => a.Users)
                 .Include(a => a.AuctionBiddings.OrderByDescending(ab => ab.BiddingPrice))
                 .FirstOrDefault(a => a.Id == id
                                 && a.DeleteFlag == false);
@@ -215,6 +283,12 @@ namespace RealEstateAuction.DAL
                 .Include(a => a.User)
                 .OrderBy(a => a.EndTime)
                 .ToList();
+        }
+
+        public int GetWinnerId(Auction auction)
+        {
+            var winnerPrice = auction.AuctionBiddings.Max(x => x.BiddingPrice);
+            return auction.AuctionBiddings.FirstOrDefault(x => x.BiddingPrice == winnerPrice).MemberId;
         }
     }
 }

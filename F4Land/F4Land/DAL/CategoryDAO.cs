@@ -22,6 +22,12 @@ namespace RealEstateAuction.DAL
             }
         }
 
-
+        public Category GetCategory(int id)
+        {
+            using (RealEstateContext db = new RealEstateContext())
+            {
+                return db.Categories.Where(x => x.Id == id).SingleOrDefault();
+            }
+        }
     }
 }

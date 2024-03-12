@@ -33,6 +33,7 @@ namespace RealEstateAuction.DataModel
 
         [Required(ErrorMessage = "Vui lòng mô tả bất động sản")]
         public string Description { get; set; }
+        public int Category { get; set; }
 
         public int? UserId { get; set; }
 

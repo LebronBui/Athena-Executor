@@ -29,24 +29,39 @@ namespace RealEstateAuction.DAL
             }
         }
 
-        public bool topUp(Payment payment, int UserId)
+        public bool topUp(Payment payment, int UserId, int StaffId)
         {
             try
             {
-                context.Payments.Update(payment);
                 var user = context.Users.SingleOrDefault(x => x.Id == UserId);
+                var staff = context.Users.SingleOrDefault(x => x.Id == StaffId);
                 var type = payment.Type;
-                switch (type)
+                if (payment.Status != (int)PaymentStatus.Reject)
                 {
-                    case (int)PaymentType.TopUp:
-                        user.Wallet += (decimal)payment.Amount;
+                    switch (type)
+                    {
+                        case (int)PaymentType.TopUp:
+                            user.Wallet += (decimal)payment.Amount;
+                            staff.Wallet += (decimal)payment.Amount;
 
-                        break;
-                    case (int)PaymentType.Withdraw:
-                        user.Wallet -= (decimal)payment.Amount;
-                        break;
+                            break;
+                        case (int)PaymentType.Withdraw:
+                            user.Wallet -= (decimal)payment.Amount;
+
+                            break;
+                        case (int)PaymentType.Refund:
+                            user.Wallet += (decimal)payment.Amount;
+                            staff.Wallet -= (decimal)payment.Amount;
+
+                            break;
+                    }
+                    List<User> users = new List<User>();
+                    users.Add(user);
+                    users.Add(staff);
+                    context.Users.UpdateRange(users);
                 }
-                context.Users.Update(user);
+
+                context.Payments.Update(payment);
                 context.SaveChanges();
 
                 return true;
@@ -84,6 +99,11 @@ namespace RealEstateAuction.DAL
         public Payment getPayment(int id)
         {
             return context.Payments.SingleOrDefault(p => p.Id == id);
+        }
+
+        public Payment getPaymentRefund(int id)
+        {
+            return context.Payments.Where(x => x.Status == (int)PaymentStatus.Approve && x.Type == (int)PaymentType.TopUp).SingleOrDefault(p => p.Id == id);
         }
 
         public bool insert(Payment payment)
