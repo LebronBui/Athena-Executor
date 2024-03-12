@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using RealEstateAuction.DAL;
 using RealEstateAuction.DataModel;
+using RealEstateAuction.Enums;
 using RealEstateAuction.Models;
+using System.Data;
 using System.Diagnostics;
 
 namespace RealEstateAuction.Controllers
@@ -20,7 +23,6 @@ namespace RealEstateAuction.Controllers
             categoryDAO = new CategoryDAO();
             _logger = logger;
         }
-
         [Route("")]
         [Route("home")]
         public IActionResult Index()
@@ -36,14 +38,39 @@ namespace RealEstateAuction.Controllers
         {
             //Get all categories to display on list auction page
             List<Category> categories = categoryDAO.GetCategories();
-
+            List<Auction> auctions = new List<Auction>();
             if (pageNumber.HasValue)
             {
                 pagination.PageNumber = pageNumber.Value;
             }
 
-            //get all auction approved to display on list auction page
-            List<Auction> auctions = auctionDAO.GetAllAuctionApproved(pagination);
+            //check query string is null or not
+            if (Request.Query.Count > 0)
+            {
+                //get all category id from query string
+                List<int> checkboxValues = new List<int>();
+                var values = Request.Query["categoryId"];
+                foreach (var key in values)
+                {
+                    if (int.TryParse(key, out int categoryId))
+                    {
+                        checkboxValues.Add(categoryId);
+                    }
+                }
+
+                //get all auction approved to display on list auction page
+                SearchDataModel searchDataModel = new SearchDataModel()
+                {
+                    DataSort = Int32.Parse(Request.Query["sort"]),
+                    DataCategory = checkboxValues,
+                };
+
+                auctions = auctionDAO.GetAllAuctionApprovedListAuction(pagination, searchDataModel);
+            }
+            else
+            {
+                auctions = auctionDAO.GetAllAuctionApproved(pagination);
+            }
 
             int auctionCount = auctionDAO.CountAuctionApproved();
             int pageSize = (int)Math.Ceiling((double)auctionCount / pagination.RecordPerPage);
