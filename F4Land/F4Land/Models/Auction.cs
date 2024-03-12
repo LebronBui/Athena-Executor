@@ -39,6 +39,8 @@ public partial class Auction
 
     public DateTime? UpdatedTime { get; set; }
 
+    public string? Reason { get; set; }
+
     public virtual User Approver { get; set; } = null!;
 
     public virtual ICollection<AuctionBidding> AuctionBiddings { get; set; } = new List<AuctionBidding>();

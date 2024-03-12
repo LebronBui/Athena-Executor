@@ -1,6 +1,12 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Mvc;
 using RealEstateAuction.AutoMapperProfile;
+using RealEstateAuction.DAL;
 using RealEstateAuction.Services;
+using RealEstateAuction.ViewComponents;
+using System.Web.Mvc;
 internal class Program
 {
     private static void Main(string[] args)
@@ -12,14 +18,26 @@ internal class Program
 
         builder.Services.AddTransient<IEmailSender, EmailSender>();
 
+        // Add background worker service
+        builder.Services.AddHostedService<BackgroundWokerService>();
+
+        //refresh page after 1 second
+        builder.Services.AddSignalR();
+
+
+        //Take notification view 
+        builder.Services.AddSingleton<IUrlHelperFactory, UrlHelperFactory>();
+        builder.Services.AddScoped<NotificationDAO>();
+        builder.Services.AddTransient<NotificationViewComponent>();
+
 
         // Add services to the container.
         builder.Services.AddControllersWithViews();
         builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(options =>
             {
-                options.LoginPath = "/home";
-                options.AccessDeniedPath = "/access-denied";
+                options.LoginPath = "/denied";
+                options.AccessDeniedPath = "/denied";
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
             });
         builder.Services.AddSession(options =>

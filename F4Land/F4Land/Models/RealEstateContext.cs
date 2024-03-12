@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using Microsoft.EntityFrameworkCore;
 
 namespace RealEstateAuction.Models;
@@ -44,6 +45,7 @@ public partial class RealEstateContext : DbContext
         var builder = new ConfigurationBuilder()
                             .SetBasePath(Directory.GetCurrentDirectory())
                             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+
         IConfigurationRoot configuration = builder.Build();
         optionsBuilder.UseSqlServer(configuration.GetConnectionString("connection"));
     }
@@ -60,6 +62,7 @@ public partial class RealEstateContext : DbContext
             entity.Property(e => e.Direction).HasMaxLength(255);
             entity.Property(e => e.EndPrice).HasColumnType("money");
             entity.Property(e => e.EndTime).HasColumnType("datetime");
+            entity.Property(e => e.Reason).HasColumnType("ntext");
             entity.Property(e => e.StartPrice).HasColumnType("money");
             entity.Property(e => e.StartTime).HasColumnType("datetime");
             entity.Property(e => e.Title).HasMaxLength(255);
