@@ -21,6 +21,7 @@
             <th>Thời gian kết thúc</th>
             <th>Địa chỉ</th>
             <th>Trạng thái</th>
+            <th>Loại bất động sản</th>
             <th>Chi tiết</th>
         </tr>
     </thead>
@@ -66,6 +67,12 @@
                             statusName = statusName.Replace("_", " ");
                         }
                         @statusName
+                    </td>
+                    <td>
+                        @foreach (var i in item.Categories)
+                        {
+                            <span class="text-center">@i.Name</span>
+                        }
                     </td>
                     <td>
                         @if (DateTime.Now.CompareTo(item.StartTime) < 0)

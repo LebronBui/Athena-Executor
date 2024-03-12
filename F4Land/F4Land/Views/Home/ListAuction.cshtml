@@ -10,46 +10,51 @@
         <div class="d-flex justify-content-between align-items-center py-4">
             <div class="fs-6 fw-semibold">
                 @Model.Count() đấu giá
-            </div>
-            <div class="d-flex align-items-center gap-2">
-                <div class="text-nowrap">
-                    Sắp xếp
-                </div>
-                <select class="form-select" id="country" required="">
-                    <option value="">Tiêu đề A-Z</option>
-                    <option value="">Tiêu đề Z-A</option>
-                    <option value="">Thời gian bắt đầu tăng dần</option>
-                    <option value="">Thời gian bắt đầu giảm dần</option>
-                    <option value="">Thời gian kết thúc tăng dần</option>
-                    <option value="">Thời gian kết thúc giảm dần</option>
-                    <option value="">Giá khởi điểm tăng dần</option>
-                    <option value="">Giá khởi điểm giảm dần</option>
-                    <option value="">Giá kết thúc tăng dần</option>
-                    <option value="">Giá kết thúc giảm dần</option>
-                </select>
-            </div>
+            </div>           
         </div>
         <div class="section-line"></div>
         <div class="d-flex gap-4">
-            <div class="d-none d-md-block" style="width: 280px;">
-                <div class="py-4" style="border-bottom: 1px solid #bac4c9;">
-                    <div style="font-weight: 600; font-size: 16px;">
-                        Danh mục bất động sản
+            <form action="/list-auction" method="get">
+                <div class="d-none d-md-block" style="width: 280px;">
+                    <div class="text-nowrap mt-2">
+                        Sắp xếp
                     </div>
-                    @foreach (var item in ViewBag.categories)
-                    {
-                        <div class="d-flex flex-column gap-2 mt-2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="categoryId"
-                                       id="flexRadioDefault-@item.Id">
-                                <label class="form-check-label" for="flexRadioDefault-@item.Id">
-                                    @item.Name
-                                </label>
-                            </div>
+                    <select class="form-select" name="sort">
+                        <option value="1">Tiêu đề A-Z</option>
+                        <option value="2">Tiêu đề Z-A</option>
+                        <option value="3">Thời gian bắt đầu tăng dần</option>
+                        <option value="4">Thời gian bắt đầu giảm dần</option>
+                        <option value="5">Thời gian kết thúc tăng dần</option>
+                        <option value="6">Thời gian kết thúc giảm dần</option>
+                        <option value="7">Giá khởi điểm tăng dần</option>
+                        <option value="8">Giá khởi điểm giảm dần</option>
+                        <option value="9">Giá kết thúc tăng dần</option>
+                        <option value="10">Giá kết thúc giảm dần</option>
+                    </select>
+                    <div class="py-4" style="border-bottom: 1px solid #bac4c9;">
+                        <div style="font-weight: 600; font-size: 16px;">
+                            Danh mục bất động sản
                         </div>
-                    }
+                        @foreach (var item in ViewBag.categories)
+                        {
+                            <div class="d-flex flex-column gap-2 mt-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="categoryId" value="@item.Id"
+                                           id="flexRadioDefault-@item.Id">
+                                    <label class="form-check-label" for="flexRadioDefault-@item.Id">
+                                        @item.Name
+                                    </label>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="mt-2 d-flex text-center">
+                        <button type="submit" class="btn btn-primary">
+                            Tìm kiếm
+                        </button>
+                    </div>
                 </div>
-            </div>
+            </form>         
             <div class="py-4 w-100">
                 <!-- Array of list auctions -->
                 <section id="array-autions">

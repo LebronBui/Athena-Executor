@@ -62,14 +62,14 @@
 
             <div class="col-md-auto justify-content-end d-flex align-items-center gap-3">
                 <div class="gap-4 d-flex align-items-center">
-                    <button type="button" class="btn btn-outline-none text-nowrap">
-                        <i class="fa-solid fa-heart primary-color me-1"></i>
-                        Lưu trữ
-                    </button>
-                    <button type="button" class="btn btn-outline-none text-nowrap">
-                        <i class="fa-solid fa-bell primary-color me-1"></i>
-                        Thông báo
-                    </button>
+                    @if (User.FindFirstValue(ClaimTypes.Role) == "Member")
+                    {
+                        <button type="button" class="btn btn-outline-none text-nowrap">
+                            <i class="fa-solid fa-heart primary-color me-1"></i>
+                            Lưu trữ
+                        </button>
+                        @await Component.InvokeAsync("Notification")
+                    }
                 </div>
                 <div class="d-flex align-items-center gap-3">
                     <!-- If DO NOT login, show this   -->
@@ -126,46 +126,15 @@
 
         <section class="px-5 py-2 d-md-block d-none" id="menu" style="background-color: #43c4eb">
             <div class="d-flex justify-content-between align-items-center">
-                <a class="text-decoration-none cursor-pointer text-danger" href="">Đất nền</a>
-                <a class="text-decoration-none cursor-pointer text-danger" href="">Nhà ở</a>
-                <a class="text-decoration-none cursor-pointer text-danger" href="">Căn hộ</a>
+                <a class="text-decoration-none cursor-pointer text-danger" href="/list-auction?sort=1&categoryId=1">Nhà riêng</a>
+                <a class="text-decoration-none cursor-pointer text-danger" href="/list-auction?sort=1&categoryId=2">Nhà mặt phố</a>
+                <a class="text-decoration-none cursor-pointer text-danger" href="/list-auction?sort=1&categoryId=3">Nhà chung cư</a>
                 <div class="separated-line"></div>
-                <div class="dropdown">
-                    <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
-                         data-bs-toggle="dropdown" aria-expanded="false">
-                        Chung cư
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
-                         data-bs-toggle="dropdown" aria-expanded="false">
-                        Biệt thự
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
-                         data-bs-toggle="dropdown" aria-expanded="false">
-                        Ki-ốt
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
-                         data-bs-toggle="dropdown" aria-expanded="false">
-                        Nhà mặt phố
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
-                         data-bs-toggle="dropdown" aria-expanded="false">
-                        Đất nông, lâm nghiệp
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <div class="link-dark text-decoration-none cursor-pointer cursor-pointer" id="dropdownUser2"
-                         data-bs-toggle="dropdown" aria-expanded="false">
-                        Đất công nghiệp
-                    </div>
-                </div>
+                <a class="text-decoration-none cursor-pointer link-dark" href="/list-auction?sort=1&categoryId=4">Nhà biệt thự liền kề</a>
+                <a class="text-decoration-none cursor-pointer link-dark" href="/list-auction?sort=1&categoryId=5">Đất</a>
+                <a class="text-decoration-none cursor-pointer link-dark" href="/list-auction?sort=1&categoryId=6">Đất nền dự án</a>
+                <a class="text-decoration-none cursor-pointer link-dark" href="/list-auction?sort=1&categoryId=7">Cửa hàng, ki ốt</a>
+                <a class="text-decoration-none cursor-pointer link-dark" href="/list-auction?sort=1&categoryId=8">Đất công nghiệp</a>
             </div>
         </section>
     </div>
