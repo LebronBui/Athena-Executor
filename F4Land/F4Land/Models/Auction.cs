@@ -25,7 +25,7 @@ public partial class Auction
 
     public int UserId { get; set; }
 
-    public int ApproverId { get; set; }
+    public int? ApproverId { get; set; }
 
     public byte Status { get; set; }
 
@@ -41,7 +41,7 @@ public partial class Auction
 
     public string? Reason { get; set; }
 
-    public virtual User Approver { get; set; } = null!;
+    public virtual User? Approver { get; set; }
 
     public virtual ICollection<AuctionBidding> AuctionBiddings { get; set; } = new List<AuctionBidding>();
 

@@ -70,7 +70,6 @@ public partial class RealEstateContext : DbContext
 
             entity.HasOne(d => d.Approver).WithMany(p => p.AuctionApprovers)
                 .HasForeignKey(d => d.ApproverId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Auction_User1");
 
             entity.HasOne(d => d.User).WithMany(p => p.AuctionUsers)
