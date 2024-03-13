@@ -17,19 +17,28 @@
 
             <div class="input-group mt-3">
                 <span class="input-group-text">Giá khời điểm (VNĐ)</span>
-                <input asp-for=StartPrice type="text" class="form-control" placeholder="Giá khởi điểm phải lớn hơn 0." />
+                <input asp-for=StartPrice type="text" class="form-control" placeholder="Giá khởi điểm phải lớn hơn 0."
+                       pattern="[0-9]+(\.[0-9]+)?" required
+                       oninvalid="this.setCustomValidity('Vui lòng nhập số!')"
+                       oninput="this.setCustomValidity('')" />
             </div>
             @Html.ValidationMessageFor(model => model.StartPrice, "", new { @class = "text-danger" })
 
             <div class="input-group mt-3">
                 <span class="input-group-text">Giá kết thúc (VNĐ)</span>
-                <input asp-for=EndPrice type="text" class="form-control" placeholder="Giá kết thúc phải lớn hơn 0.">
+                <input asp-for=EndPrice type="text" class="form-control" placeholder="Giá kết thúc phải lớn hơn 0."
+                       pattern="[0-9]+(\.[0-9]+)?" required
+                       oninvalid="this.setCustomValidity('Vui lòng nhập số!')"
+                       oninput="this.setCustomValidity('')" />
             </div>
             @Html.ValidationMessageFor(model => model.EndPrice, "", new { @class = "text-danger" })
 
             <div class="input-group mt-3">
                 <span class="input-group-text">Diện tích (m2)</span>
-                <input asp-for=Area type="text" class="form-control" placeholder="Diện tích phải lớn hơn 0.">
+                <input asp-for=Area type="text" class="form-control" placeholder="Diện tích phải lớn hơn 0."
+                       pattern="[0-9]+(\.[0-9]+)?" required
+                       oninvalid="this.setCustomValidity('Vui lòng nhập số!')"
+                       oninput="this.setCustomValidity('')" />
             </div>
             @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
 
@@ -43,7 +52,10 @@
                 <span class="input-group-text">
                     Mặt tiền (m)
                 </span>
-                <input asp-for=Facade type="text" class="form-control" placeholder="Mặt tiền phải lớn hơn 0.">
+                <input asp-for=Facade type="text" class="form-control" placeholder="Mặt tiền phải lớn hơn 0."
+                       pattern="[0-9]+(\.[0-9]+)?" required
+                       oninvalid="this.setCustomValidity('Vui lòng nhập số!')"
+                       oninput="this.setCustomValidity('')" />
             </div>
             @Html.ValidationMessageFor(model => model.Facade, "", new { @class = "text-danger" })
 
@@ -51,7 +63,10 @@
                 <span class="input-group-text">
                     Hướng bất động sản
                 </span>
-                <input asp-for=Direction type="text" class="form-control">
+                <input asp-for=Direction type="text" class="form-control" placeholder="Vui lòng nhập hướng"
+                       pattern="[a-zA-Z\s\u0080-\uFFFF]+" required
+                       oninvalid="this.setCustomValidity('Vui lòng nhập chữ và khoảng trắng!')"
+                       oninput="this.setCustomValidity('')" />
             </div>
             @Html.ValidationMessageFor(model => model.Direction, "", new { @class = "text-danger" })
 
@@ -87,9 +102,32 @@
             </div>
             @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
 
+
+            <!--Display modal to confirm create when click button-->
             <div class="w-100 d-flex justify-content-center">
-                <button class="btn btn-primary mt-3">Tạo mới</button>
+                <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#myModal">Tạo mới</button>
             </div>
+
+            <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Xác nhận tham gia đấu giá</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                Phí tạo đấu giá là 5.000.000 đồng. Bạn có đồng ý tạo?
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button type="submit" class="btn btn-primary">Xác nhận</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
         </div>
 
