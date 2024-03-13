@@ -217,9 +217,8 @@ namespace RealEstateAuction.Controllers
         [Route("logout")]
         public IActionResult Logout()
         {
-            string curentUrl = HttpContext.Request.Headers["Referer"];
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return Redirect(curentUrl);
+            return Redirect("home");
         }
 
         [Route("access-denied")]
