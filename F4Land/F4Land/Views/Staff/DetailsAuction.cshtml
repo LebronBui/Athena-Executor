@@ -1,4 +1,5 @@
 ﻿@model RealEstateAuction.Models.Auction
+@using RealEstateAuction.Enums
 @{
     Layout = "~/Views/Shared/UserLayout.cshtml";
     ViewData["Title"] = "Cập nhật phiên đấu giá";
@@ -87,8 +88,10 @@
             @if (Model.Status == 1)
             {
                 <div class="w-100 d-flex justify-content-center mt-3 gap-3">
-                    <a href="/approve-auction?auctionId=@Model.Id&status=2" class="btn btn-success">Chấp nhận</a>
-                    <a href="/approve-auction?auctionId=@Model.Id&status=3" class="btn btn-danger">Từ chối</a>
+                    <a class="btn btn-success btnStatus" data-bs-toggle="modal" data-bs-target="#modalApproveAuction" data-id="@Model.Id"
+                       data-status="@((int)AuctionStatus.Chấp_nhân)">Chấp nhận</a>
+                    <a class="btn btn-danger btnStatus" data-bs-toggle="modal" data-bs-target="#modalRejectAuction" data-id="@Model.Id"
+                       data-status="@((int)AuctionStatus.Từ_chối)">Từ chối</a>
                 </div>
             }
 
@@ -99,4 +102,23 @@
         </div>
 
     </div>
+}
+@await Html.PartialAsync("Modals/Auction/RejectConfirm")
+@await Html.PartialAsync("Modals/Auction/ApproveConfirm")
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(".btnStatus").click(function () {
+                $("#idUpdate").val($(this).data("id"))
+                $("#statusUpdate").val($(this).data("status"))
+                console.log($(this).data("id"))
+            })
+
+            $(".btnStatus").click(function () {
+                $("#id").val($(this).data("id"))
+                $("#status").val($(this).data("status"))
+                console.log($(this).data("id"))
+            })
+        })
+    </script>
 }
