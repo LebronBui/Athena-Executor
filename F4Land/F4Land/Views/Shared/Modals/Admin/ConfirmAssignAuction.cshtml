@@ -1,0 +1,29 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model RealEstateAuction.DataModel.AssignAuctionDataModel
+<div class="modal fade" id="modalConfirmAssignAuction" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="fw-bold">Confirm</h2>
+            </div>
+            @using (Html.BeginForm("AssignAuction", "Admin", FormMethod.Post, new { @class = "" }))
+            {
+
+                <div class="modal-body">
+                    <p>Bạn chắc chắn muốn thay đổi trang thái?</p>
+                    <input asp-for=AuctionId type="hidden" id="AuctionId" value="" />
+                    <input asp-for=StaffId type="hidden" id="StaffId" value="" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

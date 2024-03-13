@@ -1,0 +1,119 @@
+﻿@{
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+    ViewData["Title"] = "Xem phiên đấu giá";
+    var item = (Auction)ViewData["Auction"];
+    var staff = (List<User>)ViewData["Staffs"]; 
+}
+@using RealEstateAuction.Enums
+<div class="d-flex justify-content-between">
+    <h2>Chi tiết phiên đấu giá</h2>
+    <a class="btn btn-primary" href="/manage-auction-admin">Quay lại</a>
+</div>
+<hr>
+<div class="text-center">
+    <div class="row">
+        <div class="col-6">
+            <div class="input-group mt-3">
+                <span class="input-group-text">Tiêu đề</span>
+                <input type="text" class="form-control" value="@item.Title" readonly>
+            </div>
+
+            <div class="input-group mt-3">
+                <span class="input-group-text">Chịu trách nhiệm bởi</span>
+                @if (item.Approver != null && item.Status > (int) AuctionStatus.Chờ_phê_duyệt)
+                {
+                    <input type="text" class="form-control" value="@item.Approver.FullName" readonly>
+                } else
+                {
+                    <select class="form-select text-center" id="staffIdSelect" data-auction-id="@item.Id">
+                        <option value=""> --Chọn nhân viên-- </option>
+                        @foreach (var i in staff)
+                        {
+                            <option value="@i.Id" selected="@(i.Id == item.ApproverId ? "selected" : "")"> @i.FullName </option>
+                        }
+                    </select>
+                }
+            </div>
+
+            <div class="input-group mt-3">
+                <span class="input-group-text">Giá khời điểm (VNĐ)</span>
+                <input type="text" class="form-control" value="@item.StartPrice.ToString("N1")đ" readonly />
+            </div>
+
+            <div class="input-group mt-3">
+                <span class="input-group-text">Giá kết thúc (VNĐ)</span>
+                <input type="text" class="form-control" value="@item.EndPrice.ToString("N1")đ" readonly>
+            </div>
+
+            <div class="input-group mt-3">
+                <span class="input-group-text">Diện tích (m2)</span>
+                <input type="text" value="@item.Area" class="form-control" readonly>
+            </div>
+
+            <div class="input-group mt-3">
+                <span class="input-group-text">Địa chỉ</span>
+                <input type="text" value="@item.Address" class="form-control" readonly>
+            </div>
+
+            <div class="input-group mt-3">
+                <span class="input-group-text">
+                    Mặt tiền (m)
+                </span>
+                <input type="text" value="@item.Facade" class="form-control" readonly>
+            </div>
+
+            <div class="input-group mt-3">
+                <span class="input-group-text">
+                    Hướng bất động sản
+                </span>
+                <input type="text" value="@item.Direction" class="form-control" readonly>
+            </div>
+
+            <div class="input-group mt-3">
+                <span class="input-group-text">
+                    Mô tả
+                </span>
+                <textarea rows="10" class="form-control" readonly>@item.Description</textarea>
+            </div>
+
+            <div class="input-group mt-3">
+                <span class="input-group-text">
+                    Ảnh
+                </span>
+            </div>
+
+            <!--Display image of auction-->
+            <div class="mt-3 d-flex gap-3">
+                @foreach (var image in item.Images)
+                {
+                    <img src="@Url.Content(image.Url)" height="150" width="150">
+                }
+            </div>
+
+            <div class="input-group mt-3">
+                <span class="input-group-text">
+                    Thời gian bắt đầu
+                </span>
+                <input type="datetime-local" value="@item.StartTime" class="form-control" readonly>
+            </div>
+
+            <div class="input-group mt-3">
+                <span class="input-group-text">
+                    Thời gian kết thúc
+                </span>
+                <input type="datetime-local" value="@item.EndTime" class="form-control" readonly>
+            </div>
+        </div>       
+    </div>
+</div>
+@await Html.PartialAsync("Modals/Admin/ConfirmAssignAuction")
+@section Scripts {
+    <script>
+        $("#staffIdSelect").on("change", function () {
+            $("#AuctionId").val($(this).data("auction-id"))
+            $("#StaffId").val($(this).val())
+            $("#modalConfirmAssignAuction").modal("show")
+        })
+    </script>
+}
+

@@ -1,0 +1,107 @@
+﻿@{
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+    ViewData["Title"] = "Quản lý phiên đấu giá";
+    var status = new Dictionary<AuctionStatus, string>
+        {
+            { AuctionStatus.Chờ_phê_duyệt, "Chờ Phê Duyệt" },
+            { AuctionStatus.Chấp_nhân, "Chấp nhận" },
+            { AuctionStatus.Từ_chối, "Từ chối" },
+            { AuctionStatus.Kết_thúc, "Kết thúc" },
+        };
+    var statusStyle = new Dictionary<AuctionStatus, string>
+        {
+            { AuctionStatus.Chờ_phê_duyệt, "badge bg-primary" },
+            { AuctionStatus.Chấp_nhân, "badge bg-success" },
+            { AuctionStatus.Từ_chối, "badge bg-danger" },
+            { AuctionStatus.Kết_thúc, "badge bg-secondary" },
+        };
+    var list = (X.PagedList.IPagedList<Auction>)ViewData["List"];
+    var staff = (List<User>)ViewData["Staffs"];
+}
+@using RealEstateAuction.Enums
+<h1>Quản lý phiên đấu giá</h1>
+<hr />
+Page @(list.PageCount < list.PageNumber ? 0 : list.PageNumber) of @list.PageCount
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Tiêu đề</th>
+            <th scope="col">Tên người dùng</th>
+            <th scope="col">Nhân viên phụ trách</th>
+            <th scope="col" class="text-center">Trạng thái</th>
+            <th scope="col" class="text-center">Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (list.Count != 0)
+        {
+            @foreach (var item in list)
+            {
+                <tr>
+                    <th>@item.Id</th>
+                    <td>@item.Title</td>
+                    <td>@item.User.FullName</td>
+                    @if (item.Approver != null && item.Status > (int)AuctionStatus.Chờ_phê_duyệt)
+                    {
+                        <td>@item.Approver?.FullName</td>
+                    } else
+                    {
+                        <td>
+                            <select class="form-select form-select-sm text-center" id="staffIdSelect" data-auction-id="@item.Id">
+                                <option value=""> --Chọn nhân viên-- </option>
+                                @foreach (var i in staff)
+                                {
+                                    <option value="@i.Id" selected="@(i.Id == item.ApproverId ? "selected" : "")"> @i.FullName </option>
+                                }
+                            </select>
+                        </td>
+                    }
+                    <td class="text-center">
+                        <span class="@statusStyle[(AuctionStatus)item.Status]" style="width: 100px">
+                            @status[(AuctionStatus)item.Status]
+                        </span>
+                    </td>
+                    <td class="text-center">
+                        @Html.ActionLink("Chi tiết", "AuctionDetailAdmin", "Admin", new { Id = item.Id }, new { @class = "btn btn-primary btn-sm", style = "width: 75px" })
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+@await Html.PartialAsync("Modals/Admin/ConfirmAssignAuction")
+@if (list.PageCount > 1)
+{
+    <div class="pagination-container">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item @(list.HasPreviousPage ? "" : "disabled")">
+                    <a class="page-link" href="@Url.Action("ManageAuctionAdmin", new { page = list.PageNumber - 1 })">Previous</a>
+                </li>
+                @for (int i = list.PageNumber - 5; i <= list.PageNumber + 5; i++)
+                {
+                    if (i > 0 && i <= list.PageCount)
+                    {
+                        <li class="page-item @(list.PageNumber == i ? "disabled active" : "")">
+                            <a class="page-link" href="@Url.Action("ManageAuctionAdmin", new { page = i })">@i</a>
+                        </li>
+                    }
+                }
+                <li class="page-item @(list.HasNextPage ? "" : "disabled")">
+                    <a class="page-link" href="@Url.Action("ManageAuctionAdmin", new { page = list.PageNumber + 1 })">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+}
+@section Scripts{
+    <script>
+        $("#staffIdSelect").on("change", function () {
+            $("#AuctionId").val($(this).data("auction-id"))
+            $("#StaffId").val($(this).val())
+            $("#modalConfirmAssignAuction").modal("show")
+        })
+    </script>
+}
+
