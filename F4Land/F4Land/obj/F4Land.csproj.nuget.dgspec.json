@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\95lek\\OneDrive\\Documents\\GitHub\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj": {}
+    "C:\\Users\\PC\\Desktop\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj": {}
   },
   "projects": {
-    "C:\\Users\\95lek\\OneDrive\\Documents\\GitHub\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj": {
+    "C:\\Users\\PC\\Desktop\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\95lek\\OneDrive\\Documents\\GitHub\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj",
+        "projectUniqueName": "C:\\Users\\PC\\Desktop\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj",
         "projectName": "F4Land",
-        "projectPath": "C:\\Users\\95lek\\OneDrive\\Documents\\GitHub\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj",
-        "packagesPath": "C:\\Users\\95lek\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\95lek\\OneDrive\\Documents\\GitHub\\SWP391_F4Land\\F4Land\\F4Land\\obj\\",
+        "projectPath": "C:\\Users\\PC\\Desktop\\SWP391_F4Land\\F4Land\\F4Land\\F4Land.csproj",
+        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\PC\\Desktop\\SWP391_F4Land\\F4Land\\F4Land\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\95lek\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -34,11 +34,26 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.16, )"
+            },
+            "X.PagedList": {
+              "target": "Package",
+              "version": "[8.4.7, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -50,24 +65,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[7.0.16, 7.0.16]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[7.0.16, 7.0.16]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[7.0.16, 7.0.16]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[7.0.16, 7.0.16]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -76,7 +73,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200\\RuntimeIdentifierGraph.json"
         }
       }
     }

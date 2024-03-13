@@ -48,18 +48,19 @@
         </span>
     </div>
     <div class="col-3 row mb-3">
-        <span class="col-6 fw-bold">Nhân viên phụ trách</span>
-        <div class="col-6">
-            @if ((TicketStatus)modelData.Status == TicketStatus.Opening)
+        <span class="col-4 fw-bold">Nhân viên phụ trách</span>
+        <div class="col-8">
+            @if ((TicketStatus)modelData.Status == TicketStatus.Opening && modelData.Staff == null)
             {
                 @using (Html.BeginForm("AssignTicket", "Admin", FormMethod.Post, new { @class = "" }))
                 {
                     <div class="input-group">
-                        <button class="btn btn-primary input-group-btn" id="assignBtn" disabled>Bàn giao</button>
-                        <select asp-for=StaffId class="form-select" id="staffId">
+                        <button class="btn btn-primary input-group-btn" id="assignBtn">Bàn giao</button>
+                        <select asp-for=StaffId class="form-select" id="staffId" required>
+                            <option value=""> --Chọn nhân viên-- </option>
                             @foreach (var item in staff)
                             {
-                                <option value="@item.Id" selected=@(item.Id == modelData.StaffId)> @item.FullName </option>
+                                <option value="@item.Id"> @item.FullName </option>
                             }
                         </select>
                     </div>
@@ -123,14 +124,14 @@ else
 {
     <span class="text-center text-danger">Hiện tại chưa có câu trả lời nào</span>
 }
-<script>
+@* <script>
     $("#staffId").on("change", function () {
-        var assignStaff = $(this).val() != @modelData.StaffId
-            console.log(assignStaff, $(this).val(), @modelData.StaffId)
+        var assignStaff = $(this).val() != @modelData.StaffId || $(this).val() == ""
+            console.log(assignStaff,$(this).val() , @modelData.StaffId)
         if (assignStaff) {
             $("#assignBtn").removeAttr("disabled")
         } else {
             $("#assignBtn").prop("disabled", true)
         }
     })
-</script>
+</script> *@
