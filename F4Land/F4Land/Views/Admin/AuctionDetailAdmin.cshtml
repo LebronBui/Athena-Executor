@@ -2,7 +2,7 @@
     Layout = "~/Views/Shared/UserLayout.cshtml";
     ViewData["Title"] = "Xem phiên đấu giá";
     var item = (Auction)ViewData["Auction"];
-    var staff = (List<User>)ViewData["Staffs"]; 
+    var staff = (List<User>)ViewData["Staffs"];
 }
 @using RealEstateAuction.Enums
 <div class="d-flex justify-content-between">
@@ -20,10 +20,11 @@
 
             <div class="input-group mt-3">
                 <span class="input-group-text">Chịu trách nhiệm bởi</span>
-                @if (item.Approver != null && item.Status > (int) AuctionStatus.Chờ_phê_duyệt)
+                @if (item.Approver != null && item.Status > (int)AuctionStatus.Chờ_phê_duyệt)
                 {
                     <input type="text" class="form-control" value="@item.Approver.FullName" readonly>
-                } else
+                }
+                else
                 {
                     <select class="form-select text-center" id="staffIdSelect" data-auction-id="@item.Id">
                         <option value=""> --Chọn nhân viên-- </option>
@@ -103,7 +104,7 @@
                 </span>
                 <input type="datetime-local" value="@item.EndTime" class="form-control" readonly>
             </div>
-        </div>       
+        </div>
     </div>
 </div>
 @await Html.PartialAsync("Modals/Admin/ConfirmAssignAuction")
