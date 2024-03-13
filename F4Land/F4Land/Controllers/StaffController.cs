@@ -267,6 +267,7 @@ namespace RealEstateAuction.Controllers
         [Route("details-auction")]
         public IActionResult DetailsAuction(int auctionId)
         {
+            ViewData["categories"] = categoryDAO.GetCategories();
             //check user login or not
             if (!User.Identity.IsAuthenticated)
             {

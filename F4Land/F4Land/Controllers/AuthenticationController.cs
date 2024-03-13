@@ -116,7 +116,8 @@ namespace RealEstateAuction.Controllers
                 Address = address,
                 //set role id of member is 3
                 RoleId = 3,
-                Wallet = 0
+                Wallet = 0,
+                Status = 1,
             };
 
             var exist = userDAO.GetUserByEmail(email);
