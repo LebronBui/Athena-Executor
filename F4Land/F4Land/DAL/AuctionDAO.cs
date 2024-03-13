@@ -2,6 +2,7 @@
 using RealEstateAuction.DataModel;
 using RealEstateAuction.Enums;
 using RealEstateAuction.Models;
+using X.PagedList;
 
 namespace RealEstateAuction.DAL
 {
@@ -289,6 +290,25 @@ namespace RealEstateAuction.DAL
         {
             var winnerPrice = auction.AuctionBiddings.Max(x => x.BiddingPrice);
             return auction.AuctionBiddings.FirstOrDefault(x => x.BiddingPrice == winnerPrice).MemberId;
+        }
+
+        public IPagedList<Auction> GetAuctions(int page)
+        {
+            return context.Auctions
+                .Include(x => x.User)
+                .Include(x => x.Approver)
+                .Include(x => x.Images)
+                .ToPagedList(page, 10);
+        }
+
+        public Auction? GetAuctionByIdAdmin(int id)
+        {
+            return context.Auctions
+                .Include(a => a.Images)
+                .Include(a => a.User)
+                .Include(a => a.Approver)
+                .FirstOrDefault(a => a.Id == id
+                                && a.DeleteFlag == false);
         }
     }
 }
