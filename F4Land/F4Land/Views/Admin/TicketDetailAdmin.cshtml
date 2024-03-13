@@ -40,7 +40,7 @@
     <div class="col-3 row mb-3">
         <span class="col-6 fw-bold">Địa chỉ email:</span>
         <span class="col-6">@modelData.User.Email</span>
-    </div>    
+    </div>
     <div class="col-3 row mb-3">
         <span class="col-6 fw-bold">Trạng Thái:</span>
         <span class="col-6 ">
@@ -52,7 +52,7 @@
         <div class="col-6">
             @if ((TicketStatus)modelData.Status == TicketStatus.Opening)
             {
-                @using (Html.BeginForm("AssignTicket", "Admin", FormMethod.Post, new { @class = ""}))
+                @using (Html.BeginForm("AssignTicket", "Admin", FormMethod.Post, new { @class = "" }))
                 {
                     <div class="input-group">
                         <button class="btn btn-primary input-group-btn" id="assignBtn" disabled>Bàn giao</button>
@@ -72,7 +72,7 @@
                     @modelData.Staff?.FullName
                 </span>
             }
-        </div>         
+        </div>
     </div>
     <div class="col-12 row">
         <span class="col-2 fw-bold">Nội dung hỗ trợ:</span>
@@ -90,7 +90,7 @@
             }
         </div>
         @await Html.PartialAsync("Modals/ViewImage")
-    }      
+    }
 </div>
 
 <hr />
@@ -126,7 +126,7 @@ else
 <script>
     $("#staffId").on("change", function () {
         var assignStaff = $(this).val() != @modelData.StaffId
-            console.log(assignStaff,$(this).val() , @modelData.StaffId)
+            console.log(assignStaff, $(this).val(), @modelData.StaffId)
         if (assignStaff) {
             $("#assignBtn").removeAttr("disabled")
         } else {
