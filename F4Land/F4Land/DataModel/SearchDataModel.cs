@@ -2,7 +2,7 @@
 {
     public class SearchDataModel
     {
-        public int DataSort { get; set; }
-        public List<int> DataCategory { get; set; }
+        public int? DataSort { get; set; }
+        public List<int>? DataCategory { get; set; }
     }
 }

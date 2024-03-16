@@ -19,7 +19,6 @@ namespace RealEstateAuction.DAL
         {
             return context.Auctions.Where(a => a.Status == (int)AuctionStatus.Chấp_nhân
                                     && a.DeleteFlag == false
-                                    && a.StartTime <= DateTime.Now
                                     && DateTime.Now <= a.EndTime)
                                    .Include(a => a.Images)
                                    .Include(a => a.User)
@@ -29,68 +28,59 @@ namespace RealEstateAuction.DAL
                                    .ToList();
         }
 
-        public List<Auction> GetAllAuctionApprovedListAuction(Pagination pagination, SearchDataModel? searchData)
+        public IQueryable<Auction> GetAllAuctionApprovedListAuction(Pagination pagination, SearchDataModel? searchData)
         {
             var auctions = context.Auctions.Include(a => a.Images)
                                    .Include(a => a.User)
+                                   .Include(a => a.Users)
                                    .Include(a => a.Categories)
                                    .Where(a => a.Status == (int)AuctionStatus.Chấp_nhân
+                                   || a.Status == (int)AuctionStatus.Kết_thúc
                                     && a.DeleteFlag == false
-                                    && a.StartTime <= DateTime.Now
-                                    && DateTime.Now <= a.EndTime
                                     );
-            if (searchData.DataCategory.Any() || searchData?.DataCategory != null || searchData?.DataSort != null)
+            if (searchData.DataCategory.Any() && searchData.DataCategory != null)
             {
-                if (searchData.DataCategory.Any())
-                {
-                    auctions = auctions.Where(a => a.Categories.Any(c => searchData.DataCategory.Contains(c.Id)));
-                }
-
-                switch (searchData.DataSort)
-                {
-                    case 1:
-                        auctions = auctions.OrderBy(x => x.Title);
-                        break;
-                    case 2:
-                        auctions = auctions.OrderByDescending(x => x.Title);
-                        break;
-                    case 3:
-                        auctions = auctions.OrderBy(x => x.StartTime);
-                        break;
-                    case 4:
-                        auctions = auctions.OrderByDescending(x => x.StartTime);
-                        break;
-                    case 5:
-                        auctions = auctions.OrderBy(x => x.EndTime);
-                        break;
-                    case 6:
-                        auctions = auctions.OrderByDescending(x => x.EndTime);
-                        break;
-                    case 7:
-                        auctions = auctions.OrderBy(x => x.StartPrice);
-                        break;
-                    case 8:
-                        auctions = auctions.OrderByDescending(x => x.StartPrice);
-                        break;
-                    case 9:
-                        auctions = auctions.OrderBy(x => x.EndPrice);
-                        break;
-                    case 10:
-                        auctions = auctions.OrderByDescending(x => x.EndPrice);
-                        break;
-                    default:
-                        auctions = auctions.OrderByDescending(a => a.CreatedTime);
-                        break;
-                }
-            }
-            else
-            {
-                auctions = auctions.OrderByDescending(a => a.CreatedTime);
+                auctions = auctions.Where(a => a.Categories.Any(c => searchData.DataCategory.Contains(c.Id)));
             }
 
-            return auctions.Skip((pagination.PageNumber - 1) * pagination.RecordPerPage)
-                    .Take(pagination.RecordPerPage)
-                    .ToList();
+            switch (searchData.DataSort)
+            {
+                case 1:
+                    auctions = auctions.OrderBy(x => x.Title);
+                    break;
+                case 2:
+                    auctions = auctions.OrderByDescending(x => x.Title);
+                    break;
+                case 3:
+                    auctions = auctions.OrderBy(x => x.StartTime);
+                    break;
+                case 4:
+                    auctions = auctions.OrderByDescending(x => x.StartTime);
+                    break;
+                case 5:
+                    auctions = auctions.OrderBy(x => x.EndTime);
+                    break;
+                case 6:
+                    auctions = auctions.OrderByDescending(x => x.EndTime);
+                    break;
+                case 7:
+                    auctions = auctions.OrderBy(x => x.StartPrice);
+                    break;
+                case 8:
+                    auctions = auctions.OrderByDescending(x => x.StartPrice);
+                    break;
+                case 9:
+                    auctions = auctions.OrderBy(x => x.EndPrice);
+                    break;
+                case 10:
+                    auctions = auctions.OrderByDescending(x => x.EndPrice);
+                    break;
+                default:
+                    auctions = auctions.OrderByDescending(a => a.CreatedTime);
+                    break;
+            }
+
+            return auctions;
         }
 
         public bool AddAuction(Auction auction)
@@ -193,11 +183,12 @@ namespace RealEstateAuction.DAL
         {
             return context.Auctions
                 .Where(a => a.Status == (int)AuctionStatus.Chấp_nhân
+                || a.Status == (int)AuctionStatus.Kết_thúc
                 && a.DeleteFlag == false
-                && a.StartTime <= DateTime.Now
                 && DateTime.Now <= a.EndTime)
                 .Include(a => a.Images)
                 .Include(a => a.User)
+                .Include(a => a.Users)
                 .OrderByDescending(a => a.CreatedTime)
                 .Take(number)
                 .ToList();
@@ -261,9 +252,8 @@ namespace RealEstateAuction.DAL
         public Auction? GetAuctionBiddingById(int id)
         {
             return context.Auctions
-                .Where(a => a.StartTime <= DateTime.Now
-                && DateTime.Now <= a.EndTime
-                && a.Status == (int)AuctionStatus.Chấp_nhân
+                .Where(a => a.Status == (int)AuctionStatus.Chấp_nhân
+                                || a.Status == (int)AuctionStatus.Kết_thúc
                 && a.DeleteFlag == false)
                 .Include(a => a.Images)
                 .Include(a => a.User)
@@ -310,5 +300,42 @@ namespace RealEstateAuction.DAL
                 .FirstOrDefault(a => a.Id == id
                                 && a.DeleteFlag == false);
         }
+
+        public Auction? GetApprovedAuction(int id)
+        {
+            return context.Auctions
+                .Include(a => a.Images)
+                .Include(a => a.User)
+                .Include(a => a.Users)
+                .Include(a => a.AuctionBiddings)
+                .FirstOrDefault(a => a.Id == id
+                                && a.DeleteFlag == false
+                                && a.Status == (int)AuctionStatus.Chờ_phê_duyệt);
+        }
+
+        public IPagedList<Auction>? GetAuctionHistoryByUser(int id, int page)
+        {
+            return context.Auctions
+                .Include(a => a.Images)
+                .Include(a => a.Users)
+                .Include(a => a.AuctionBiddings.OrderByDescending(x => x.BiddingId))
+                .Include(a => a.User)
+                .Include(a => a.Categories)
+                .Where(a => a.Users.Any(x => x.Id == id)
+                                && a.DeleteFlag == false)
+                .OrderByDescending(a => a.Id)
+                .ToPagedList(page, 10);
+        }
+
+        public AuctionBidding GetMaxBiddingForAuction(int auctionId)
+        {
+            AuctionBidding maxBidding = context.AuctionBiddings
+                .Where(ab => ab.AuctionId == auctionId)
+                .OrderByDescending(ab => ab.BiddingPrice)
+                .FirstOrDefault();
+
+            return maxBidding;
+        }
+
     }
 }
