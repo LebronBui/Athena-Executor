@@ -48,12 +48,37 @@ namespace RealEstateAuction.DAL
             }
         }
 
-        public int CountParticipant(int value)
+        public int CountParticipant(int auctionId)
         {
             using (var context = new RealEstateContext())
             {
                 return context.AuctionBiddings
-                    .Where(ab => ab.AuctionId == value)
+                    .Where(ab => ab.AuctionId == auctionId)
+                    .Count();
+            }
+        }
+
+        public List<User> GetJoiningByAuctionId(int auctionId, Pagination pagination)
+        {
+            using (var context = new RealEstateContext())
+            {
+                //get list users in auction
+                return context.Auctions
+                    .Where(a => a.Id == auctionId)
+                    .SelectMany(a => a.Users)
+                    .Skip(pagination.RecordPerPage * (pagination.PageNumber - 1))
+                    .Take(pagination.RecordPerPage)
+                    .ToList();
+
+            }
+        }
+        public int CountJoining(int auctionId)
+        {
+            using (var context = new RealEstateContext())
+            {
+                return context.Auctions
+                    .Where(a => a.Id == auctionId)
+                    .SelectMany(a => a.Users)
                     .Count();
             }
         }
