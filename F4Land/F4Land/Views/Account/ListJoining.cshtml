@@ -1,0 +1,77 @@
+﻿@using RealEstateAuction.Enums
+@model IEnumerable<RealEstateAuction.Models.User>
+@{
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+    ViewData["Title"] = "Danh sách người tham gia";
+}
+<h2>Danh sách người tham gia</h2>
+<hr>
+
+<!-- display list auction -->
+<table class="table mb-3">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Họ và tên</th>
+            <th>Số điện thoại</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count() == 0)
+        {
+            <div class="d-flex justify-content-center">
+                <p class="text-danger">Không có người tham gia</p>
+            </div>
+        }
+        else
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <!--Get the first image of auciton-->
+                        <img src="https://st3.depositphotos.com/9998432/13335/v/450/depositphotos_133352156-stock-illustration-default-placeholder-profile-icon.jpg" height="100" width="100">
+                    </td>
+                    <td>
+                        @item.FullName
+                    </td>
+                    <td>
+                        @item.Phone
+                    </td>
+                    <td>
+                        @item.Email
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<!-- this is pagination of auctions -->
+<div class="d-flex justify-content-center align-items-center mt-4">
+    <!-- PAGINATION-->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center justify-content-lg-end">
+            @if (ViewBag.currentPage != 1)
+            {
+                <li class="page-item mx-1"><a class="page-link" href='/manage-auction?pageNumber=@(ViewBag.currentPage-1)' aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+            }
+            @for (var i = 1; i <= ViewBag.pageSize; i++)
+            {
+                @if (i == ViewBag.currentPage)
+                {
+                    <li class="page-item mx-1 active"><a class="page-link" href="#">@i</a></li>
+                }
+                else
+                {
+                    <li class="page-item mx-1"><a class="page-link" href='/manage-auction?pageNumber=@i'>@i</a></li>
+                }
+            }
+            @if (ViewBag.currentPage < ViewBag.pageSize)
+            {
+                <li class="page-item ms-1"><a class="page-link" href='/manage-auction?pageNumber=@(ViewBag.currentPage+1)' aria-label="Next"><span aria-hidden="true">»</span></a></li>
+            }
+        </ul>
+    </nav>
+</div>

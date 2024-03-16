@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-6">
             <div class="input-group mt-3">
-                <span class="input-group-text">Tiêu đề</span>
+                <span class="input-group-text">Tiêu đề <span style="color: red">*</span></span>
                 <input asp-for=Title type="text" class="form-control" placeholder="Tiêu đề tối thiểu 15 ký tự.">
             </div>
             @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
@@ -18,14 +18,14 @@
             <div class="input-group mt-3">
                 <span class="input-group-text">Giá khời điểm (VNĐ)</span>
                 <input asp-for=StartPrice type="text" class="form-control" placeholder="Giá khởi điểm phải lớn hơn 0."
-                       pattern="[0-9]+(\.[0-9]+)?" required
+                       pattern="[0-9]+(\.[0-9]+)?"
                        oninvalid="this.setCustomValidity('Vui lòng nhập số!')"
                        oninput="this.setCustomValidity('')" />
             </div>
             @Html.ValidationMessageFor(model => model.StartPrice, "", new { @class = "text-danger" })
 
             <div class="input-group mt-3">
-                <span class="input-group-text">Giá kết thúc (VNĐ)</span>
+                <span class="input-group-text">Giá kết thúc (VNĐ) <span style="color: red">*</span></span>
                 <input asp-for=EndPrice type="text" class="form-control" placeholder="Giá kết thúc phải lớn hơn 0."
                        pattern="[0-9]+(\.[0-9]+)?" required
                        oninvalid="this.setCustomValidity('Vui lòng nhập số!')"
@@ -34,7 +34,7 @@
             @Html.ValidationMessageFor(model => model.EndPrice, "", new { @class = "text-danger" })
 
             <div class="input-group mt-3">
-                <span class="input-group-text">Diện tích (m2)</span>
+                <span class="input-group-text">Diện tích (m2) <span style="color: red">*</span></span>
                 <input asp-for=Area type="text" class="form-control" placeholder="Diện tích phải lớn hơn 0."
                        pattern="[0-9]+(\.[0-9]+)?" required
                        oninvalid="this.setCustomValidity('Vui lòng nhập số!')"
@@ -43,14 +43,14 @@
             @Html.ValidationMessageFor(model => model.Area, "", new { @class = "text-danger" })
 
             <div class="input-group mt-3">
-                <span class="input-group-text">Địa chỉ</span>
+                <span class="input-group-text">Địa chỉ <span style="color: red">*</span></span>
                 <input asp-for=Address type="text" class="form-control">
             </div>
             @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
 
             <div class="input-group mt-3">
                 <span class="input-group-text">
-                    Mặt tiền (m)
+                    Mặt tiền (m) <span style="color: red">*</span>
                 </span>
                 <input asp-for=Facade type="text" class="form-control" placeholder="Mặt tiền phải lớn hơn 0."
                        pattern="[0-9]+(\.[0-9]+)?" required
@@ -61,7 +61,7 @@
 
             <div class="input-group mt-3">
                 <span class="input-group-text">
-                    Hướng bất động sản
+                    Hướng bất động sản <span style="color: red">*</span>
                 </span>
                 <input asp-for=Direction type="text" class="form-control" placeholder="Vui lòng nhập hướng"
                        pattern="[a-zA-Z\s\u0080-\uFFFF]+" required
@@ -72,7 +72,7 @@
 
             <div class="input-group mt-3">
                 <span class="input-group-text">
-                    Mô tả
+                    Mô tả <span style="color: red">*</span>
                 </span>
                 <textarea asp-for=Description rows="10" class="form-control"></textarea>
             </div>
@@ -80,7 +80,7 @@
 
             <div class="input-group mt-3">
                 <span class="input-group-text">
-                    Ảnh
+                    Ảnh <span style="color: red">*</span>
                 </span>
                 <input asp-for=ImageFiles type="file" multiple class="form-control" accept="image/*">
             </div>
@@ -88,7 +88,7 @@
 
             <div class="input-group mt-3">
                 <span class="input-group-text">
-                    Thời gian bắt đầu
+                    Thời gian bắt đầu <span style="color: red">*</span>
                 </span>
                 <input asp-for=StartTime type="datetime-local" class="form-control">
             </div>
@@ -96,7 +96,7 @@
 
             <div class="input-group mt-3">
                 <span class="input-group-text">
-                    Thời gian kết thúc
+                    Thời gian kết thúc <span style="color: red">*</span>
                 </span>
                 <input asp-for=EndTime type="datetime-local" class="form-control">
             </div>
