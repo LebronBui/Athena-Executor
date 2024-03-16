@@ -45,8 +45,8 @@
 
                         @item.Title
                     </td>
-                    <td>@item.StartPrice.ToString("N1", System.Globalization.CultureInfo.InvariantCulture)đ</td>
-                    <td>@item.EndPrice.ToString("N1", System.Globalization.CultureInfo.InvariantCulture)đ</td>
+                    <td>@item.StartPrice.ToString("N1").TrimEnd('0').TrimEnd(',')đ</td>
+                    <td>@item.EndPrice.ToString("N1").TrimEnd('0').TrimEnd(',')đ</td>
                     <td>@item.StartTime</td>
                     <td>@item.EndTime</td>
                     <td>
@@ -66,11 +66,17 @@
                     </td>
                     <td>
                         <a href="/details-auction?auctionId=@item.Id" class="btn btn-info">Xem</a>
-                        @if (item.Status == 1) {
+                        @if (item.Status == 1)
+                        {
                             <a class="btn btn-success btnStatus" data-bs-toggle="modal" data-bs-target="#modalApproveAuction" data-id="@item.Id"
                                data-status="@((int)AuctionStatus.Chấp_nhân)">Chấp nhận</a>
                             <a class="btn btn-danger btnStatus" data-bs-toggle="modal" data-bs-target="#modalRejectAuction" data-id="@item.Id"
-                                data-status="@((int)AuctionStatus.Từ_chối)">Từ chối</a>
+                               data-status="@((int)AuctionStatus.Từ_chối)">Từ chối</a>
+                        }
+                        @if (item.Status == 4)
+                        {
+                            <a class="btn btn-success btnStatus" href="/confirm-auction?auctionId=@item.Id&status=5">Thành công</a>
+                            <a class="btn btn-danger btnStatus" href="/confirm-auction?auctionId=@item.Id&status=6">Thất bại</a>
                         }
                     </td>
                 </tr>
