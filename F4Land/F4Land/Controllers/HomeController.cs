@@ -27,8 +27,8 @@ namespace RealEstateAuction.Controllers
         [Route("home")]
         public IActionResult Index()
         {
-            //get 5 auction recently to display on hompage
-            List<Auction> auctionRecent = auctionDAO.GetAuctionRecently(5);
+            //get 6 auction recently to display on hompage
+            List<Auction> auctionRecent = auctionDAO.GetAuctionRecently(6);
 
             return View(auctionRecent);
         }
@@ -37,43 +37,43 @@ namespace RealEstateAuction.Controllers
         public IActionResult ListAuction(int? pageNumber)
         {
             //Get all categories to display on list auction page
+            ViewData["DataSearch"] = new SearchDataModel();
             List<Category> categories = categoryDAO.GetCategories();
-            List<Auction> auctions = new List<Auction>();
             if (pageNumber.HasValue)
             {
                 pagination.PageNumber = pageNumber.Value;
             }
 
-            //check query string is null or not
-            if (Request.Query.Count > 0)
+            //get all category id from query string
+            List<int> checkboxValues = new List<int>();
+            var values = Request.Query["categoryId"];
+            foreach (var key in values)
             {
-                //get all category id from query string
-                List<int> checkboxValues = new List<int>();
-                var values = Request.Query["categoryId"];
-                foreach (var key in values)
+                if (int.TryParse(key, out int categoryId))
                 {
-                    if (int.TryParse(key, out int categoryId))
-                    {
-                        checkboxValues.Add(categoryId);
-                    }
+                    checkboxValues.Add(categoryId);
                 }
-
-                //get all auction approved to display on list auction page
-                SearchDataModel searchDataModel = new SearchDataModel()
-                {
-                    DataSort = Int32.Parse(Request.Query["sort"]),
-                    DataCategory = checkboxValues,
-                };
-
-                auctions = auctionDAO.GetAllAuctionApprovedListAuction(pagination, searchDataModel);
             }
-            else
+
+            //get all auction approved to display on list auction page
+
+            SearchDataModel searchDataModel = new SearchDataModel()
             {
-                auctions = auctionDAO.GetAllAuctionApproved(pagination);
-            }
+                DataSort = Request.Query["sort"].ToString() != "" ? Int32.Parse(Request.Query["sort"]) : 0,
+                DataCategory = checkboxValues,
+            };
 
-            int auctionCount = auctionDAO.CountAuctionApproved();
+            ViewData["DataSearch"] = searchDataModel;
+
+            var auctionQuery = auctionDAO.GetAllAuctionApprovedListAuction(pagination, searchDataModel);
+            var auctionCount = auctionQuery.ToList().Count();
+            Console.WriteLine(auctionCount);
+            var auctions = auctionQuery.Skip((pagination.PageNumber - 1) * pagination.RecordPerPage)
+                .Take(pagination.RecordPerPage)
+                .ToList();
+
             int pageSize = (int)Math.Ceiling((double)auctionCount / pagination.RecordPerPage);
+
 
             ViewBag.categories = categories;
             ViewBag.currentPage = pagination.PageNumber;
