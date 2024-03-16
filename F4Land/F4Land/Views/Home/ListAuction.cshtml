@@ -1,6 +1,26 @@
 ﻿@model IEnumerable<RealEstateAuction.Models.Auction>
+@using RealEstateAuction.DataModel
+@using RealEstateAuction.Enums
 @{
     ViewData["Title"] = "Danh sách các phiên đấu giá";
+    var DataSearch = (SearchDataModel)ViewData["DataSearch"];
+    var categoryId = DataSearch.DataCategory;
+    var sort = DataSearch.DataSort;
+    var sortList = new Dictionary<int, string> {
+        { (int)AuctionSort.TitleAsc, "Tiêu Đề A-Z"  },
+        { (int)AuctionSort.TitleDes, "Tiêu Đề Z-A"  },
+        { (int)AuctionSort.StartTimeAsc, "Thời gian bắt đầu tăng dần"  },
+        { (int)AuctionSort.StartTimeDes, "Thời gian bắt đầu giảm dần"  },
+        { (int)AuctionSort.EndTimeAsc, "Thời gian kết thúc tăng dần"  },
+        { (int)AuctionSort.EndTimeDes, "Thời gian kết thúc tăng dần"  },
+        { (int)AuctionSort.StartPriceAsc, "Giá khởi điểm tăng dần"  },
+        { (int)AuctionSort.StartPriceDes, "Giá khởi điểm giảm dần"  },
+        { (int)AuctionSort.EndPriceAsc, "Giá kết thúc tăng dần"  },
+        { (int)AuctionSort.EndPriceDes, "Giá kết thúc giảm dần"  },
+    };
+    var auctionStatus = "";
+    var btnType = "";
+    var startPrice = "";
 }
 <div class="section-line"></div>
 <section id="list-auctions">
@@ -10,7 +30,7 @@
         <div class="d-flex justify-content-between align-items-center py-4">
             <div class="fs-6 fw-semibold">
                 @Model.Count() đấu giá
-            </div>           
+            </div>
         </div>
         <div class="section-line"></div>
         <div class="d-flex gap-4">
@@ -20,16 +40,17 @@
                         Sắp xếp
                     </div>
                     <select class="form-select" name="sort">
-                        <option value="1">Tiêu đề A-Z</option>
-                        <option value="2">Tiêu đề Z-A</option>
-                        <option value="3">Thời gian bắt đầu tăng dần</option>
-                        <option value="4">Thời gian bắt đầu giảm dần</option>
-                        <option value="5">Thời gian kết thúc tăng dần</option>
-                        <option value="6">Thời gian kết thúc giảm dần</option>
-                        <option value="7">Giá khởi điểm tăng dần</option>
-                        <option value="8">Giá khởi điểm giảm dần</option>
-                        <option value="9">Giá kết thúc tăng dần</option>
-                        <option value="10">Giá kết thúc giảm dần</option>
+                        @foreach (var i in sortList)
+                        {
+                            if (i.Key == sort)
+                            {
+                                <option value="@i.Key" selected>@i.Value</option>
+                            }
+                            else
+                            {
+                                <option value="@i.Key">@i.Value</option>
+                            }
+                        }
                     </select>
                     <div class="py-4" style="border-bottom: 1px solid #bac4c9;">
                         <div style="font-weight: 600; font-size: 16px;">
@@ -40,6 +61,7 @@
                             <div class="d-flex flex-column gap-2 mt-2">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="categoryId" value="@item.Id"
+                                           checked="@(categoryId.Contains(item.Id))"
                                            id="flexRadioDefault-@item.Id">
                                     <label class="form-check-label" for="flexRadioDefault-@item.Id">
                                         @item.Name
@@ -54,7 +76,7 @@
                         </button>
                     </div>
                 </div>
-            </form>         
+            </form>
             <div class="py-4 w-100">
                 <!-- Array of list auctions -->
                 <section id="array-autions">
@@ -88,10 +110,21 @@
                                                 Thời gian đấu giá: @item.StartTime - @item.EndTime
                                             </div>
                                             <div class="fs-6 fw-light truncate-2-line mt-2">
-                                                Giá: @item.StartPrice.ToString("N1", System.Globalization.CultureInfo.InvariantCulture)đ - @item.EndPrice.ToString("N1", System.Globalization.CultureInfo.InvariantCulture)đ
+                                                @if (item.StartPrice > 0)
+                                                {
+                                                    startPrice = item.StartPrice.ToString("N1", System.Globalization.CultureInfo.InvariantCulture) + "đ";
+                                                }
+                                                else
+                                                {
+                                                    startPrice = "Chưa xác định";
+                                                }
+                                                Giá: @startPrice - @item.EndPrice.ToString("N1", System.Globalization.CultureInfo.InvariantCulture)đ
                                             </div>
                                             <div class="fs-6 fw-light truncate-2-line mt-1">
                                                 @item.Address
+                                            </div>
+                                            <div class="fs-6 fw-light truncate-2-line mt-2">
+                                                Số lượng người tham gia: @item.Users.Count()
                                             </div>
                                         </div>
                                         <div class="col-md-4 col-sm-4">
@@ -101,10 +134,30 @@
                                                     Đấu giá trực tiếp
                                                 </div>
                                             </div>
-                                            <a class="btn btn-danger mt-3 w-100" href="/auction-details?auctionId=@item.Id">
-                                                Đang diễn ra
-                                            </a>
-                                            <a class="text-decoration-none cursor-pointer mt-3">
+                                            @if (item.StartTime > DateTime.Now)
+                                            {
+                                                auctionStatus = "Sắp diễn ra";
+                                                btnType = "btn-warning";
+                                            }
+                                            else
+                                            {
+                                                auctionStatus = "Đang diễn ra";
+                                                btnType = "btn-danger";
+                                            }
+                                            @if (item.Status == (int)AuctionStatus.Chấp_nhân)
+                                            {
+                                                <a class="btn @btnType mt-3 w-100">
+                                                    @auctionStatus
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a class="btn btn-secondary mt-3 w-100">
+                                                    Kết thúc
+                                                </a>
+                                            }
+
+                                            <a class="text-decoration-none cursor-pointer mt-3" href="/auction-details?auctionId=@item.Id">
                                                 Tham gia đấu giá
                                             </a>
                                         </div>
@@ -131,7 +184,7 @@
                                 }
                                 else
                                 {
-                                    <li class="page-item mx-1"><a class="page-link" href='/list-auction?pageNumber=@i'>@i</a></li>
+                                    <li class="page-item mx-1"><a class="page-link" href="@Url.Action("ListAuction", "Home", new { pageNumber = i , sort , categoryId })">@i</a></li>
                                 }
                             }
                             @if (ViewBag.currentPage < ViewBag.pageSize)

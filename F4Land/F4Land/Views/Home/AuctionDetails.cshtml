@@ -16,6 +16,10 @@
     }
 
     var disabled = "";
+    var auctionStatus = "";
+    DateTime time;
+    var startPrice = "";
+    var maxBidding = "";
 }
 <!-- using library to display slider image -->
 <link rel="stylesheet" type="text/css"
@@ -91,13 +95,31 @@
     <div class="col-12 col-md-4 order-md-2 order-1">
         <div class="mb-4" style="padding: 30px 20px; background-color: #f1f3f4; font-weight: 300;">
             <div>
-                Giá: @Model.StartPrice.ToString("N1", System.Globalization.CultureInfo.InvariantCulture)đ
-                - @Model.EndPrice.ToString("N1", System.Globalization.CultureInfo.InvariantCulture)đ
+                @if (Model.StartPrice > 0)
+                {
+                    startPrice = Model.StartPrice.ToString("N1", System.Globalization.CultureInfo.InvariantCulture) + "đ";
+                }
+                else
+                {
+                    startPrice = "Chưa xác định";
+                }
+                Giá: @startPrice - @Model.EndPrice.ToString("N1", System.Globalization.CultureInfo.InvariantCulture)đ
             </div>
             <p class="m-0">
                 <span style="font-size: 16px;
                         font-weight: 300;
-                        color: #666;">Giá đấu cao nhất hiện tại: @ViewBag.MaxPrice.ToString("N1", System.Globalization.CultureInfo.InvariantCulture)đ</span>
+                        color: #666;">
+                    Giá đấu cao nhất hiện tại:
+                    @if (ViewBag.MaxPrice > 0)
+                    {
+                        maxBidding = ViewBag.MaxPrice.ToString("N1", System.Globalization.CultureInfo.InvariantCulture) + "đ";
+                    }
+                    else
+                    {
+                        maxBidding = "Chưa xác định";
+                    }
+                    @maxBidding
+                </span>
             </p>
             <p class="m-0">
                 <span style="font-size: 16px;
@@ -132,7 +154,15 @@
                         </span>
                     </div>
                     <a href="#" class="text-decoration-none cursor-pointer">
-                        Phiên đấu giá kết thúc sau:
+                        @if (Model.StartTime > DateTime.Now)
+                        {
+                            auctionStatus = "Phiên đấu giá bắt đầu sau:";
+                        }
+                        else
+                        {
+                            auctionStatus = "Phiên đấu giá kết thúc sau:";
+                        }
+                        @auctionStatus
                     </a>
                 </form>
                 <div class="mt-4 d-flex justify-content-center">
@@ -266,9 +296,17 @@
 <!--Time Counter-->
 <script>
     // Set the date we're counting down to
-    //Convert End time of auction to countDownDate
-    var endTime = '@Model.EndTime';
-    var countDownDate = new Date(endTime).getTime();
+    @if (Model.StartTime > DateTime.Now)
+    {
+        time = Model.StartTime;
+    }
+    else
+    {
+        time = Model.EndTime;
+    }
+
+        var time = '@time';
+    var countDownDate = new Date(time).getTime();
 
     // Update the count down every 1 second
     var x = setInterval(function () {

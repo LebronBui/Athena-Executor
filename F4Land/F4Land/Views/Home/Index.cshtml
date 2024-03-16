@@ -1,6 +1,10 @@
 ﻿@model IEnumerable<RealEstateAuction.Models.Auction>
+@using RealEstateAuction.Enums
 @{
     ViewData["Title"] = "Home Page";
+    var auctionStatus = "";
+    var btnType = "";
+    var startPrice = "";
 }
 <section id="banner">
     <!-- Carousel wrapper -->
@@ -41,70 +45,50 @@
 <section id="main-content" class="border-1 border-top border-black py-4 px-5">
     <div class="max-width-section">
         <div class="d-flex gap-4 align-items-center">
-            <h3 class="fw-lighter mb-0">Curated Collections</h3>
+            <h3 class="fw-lighter mb-0">Danh mục đấu giá bất động sản đang hot</h3>
             <button class="btn btn-outline-secondary rounded-pill fs-6">
-                View All
+                Xem tất cả
             </button>
         </div>
         <div class="mt-3 row">
-            <div class="col-md-2 col-sm-4 col-6">
+            <div class=" col-sm-3 col-6">
                 <div class="ratio ratio-1x1 rounded-2">
                     <img class="object-fit-cover w-100 rounded-2"
-                         src="https://media.tapchitaichinh.vn/w1480/images/upload/hoangthuviet/2016_08_05/img20160312123204275_VQOE.jpg"
+                         src="https://luatnhandan.vn/wp-content/uploads/2019/12/nha-o-la-gi-va-nhung-quy-dinh-ve-quyen-su-dung-nha-o-1-e1577703894295.jpg"
                          alt="">
                 </div>
                 <div class="fs-6 fw-bold mt-2">
-                    Nhà đất
+                    Nhà ở
                 </div>
             </div>
-            <div class="col-md-2 col-sm-4 col-6">
+            <div class="col-sm-3 col-6">
                 <div class="ratio ratio-1x1 rounded-2">
                     <img class="object-fit-cover w-100 rounded-2"
-                         src="https://media.tapchitaichinh.vn/w1480/images/upload/hoangthuviet/2016_08_05/img20160312123204275_VQOE.jpg"
+                         src="https://media.vneconomy.vn/w800/images/upload/2023/03/30/chung-cu.jpeg"
                          alt="">
                 </div>
                 <div class="fs-6 fw-bold mt-2">
-                    Nhà đất
+                    Chung cư
                 </div>
             </div>
-            <div class="col-md-2 col-sm-4 col-6">
+            <div class="col-sm-3 col-6">
                 <div class="ratio ratio-1x1 rounded-2">
                     <img class="object-fit-cover w-100 rounded-2"
-                         src="https://media.tapchitaichinh.vn/w1480/images/upload/hoangthuviet/2016_08_05/img20160312123204275_VQOE.jpg"
+                         src="https://hbh.vn/wp-content/uploads/2019/10/dat-nen-la-gi.png"
                          alt="">
                 </div>
                 <div class="fs-6 fw-bold mt-2">
-                    Nhà đất
+                    Đất nền
                 </div>
             </div>
-            <div class="col-md-2 col-sm-4 col-6">
+            <div class=" col-sm-3 col-6">
                 <div class="ratio ratio-1x1 rounded-2">
                     <img class="object-fit-cover w-100 rounded-2"
-                         src="https://media.tapchitaichinh.vn/w1480/images/upload/hoangthuviet/2016_08_05/img20160312123204275_VQOE.jpg"
+                         src="https://vcdn-kinhdoanh.vnecdn.net/2019/12/23/image002-8881-1577094450.png"
                          alt="">
                 </div>
                 <div class="fs-6 fw-bold mt-2">
-                    Nhà đất
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 col-6">
-                <div class="ratio ratio-1x1 rounded-2">
-                    <img class="object-fit-cover w-100 rounded-2"
-                         src="https://media.tapchitaichinh.vn/w1480/images/upload/hoangthuviet/2016_08_05/img20160312123204275_VQOE.jpg"
-                         alt="">
-                </div>
-                <div class="fs-6 fw-bold mt-2">
-                    Nhà đất
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 col-6">
-                <div class="ratio ratio-1x1 rounded-2">
-                    <img class="object-fit-cover w-100 rounded-2"
-                         src="https://media.tapchitaichinh.vn/w1480/images/upload/hoangthuviet/2016_08_05/img20160312123204275_VQOE.jpg"
-                         alt="">
-                </div>
-                <div class="fs-6 fw-bold mt-2">
-                    Nhà đất
+                    Căn hộ cao cấp
                 </div>
             </div>
         </div>
@@ -184,10 +168,21 @@
                                         Thời gian đấu giá: @item.StartTime - @item.EndTime
                                     </div>
                                     <div class="fs-6 fw-light truncate-2-line mt-2">
-                                        Giá: @item.StartPrice.ToString("N1", System.Globalization.CultureInfo.InvariantCulture)đ - @item.EndPrice.ToString("N1", System.Globalization.CultureInfo.InvariantCulture)đ
+                                        @if (item.StartPrice > 0)
+                                        {
+                                            startPrice = item.StartPrice.ToString("N1", System.Globalization.CultureInfo.InvariantCulture) + "đ";
+                                        }
+                                        else
+                                        {
+                                            startPrice = "Chưa xác định";
+                                        }
+                                        Giá: @startPrice - @item.EndPrice.ToString("N1", System.Globalization.CultureInfo.InvariantCulture)đ
                                     </div>
                                     <div class="fs-6 fw-light truncate-2-line mt-2">
                                         @item.Address
+                                    </div>
+                                    <div class="fs-6 fw-light truncate-2-line mt-2">
+                                        Số lượng người tham gia: @item.Users.Count()
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-sm-4">
@@ -197,10 +192,30 @@
                                             Đấu giá trực tiếp
                                         </div>
                                     </div>
-                                    <a class="btn btn-danger mt-3 w-100" href="/auction-details?auctionId=@item.Id">
-                                        Đang diễn ra
-                                    </a>
-                                    <a class="text-decoration-none cursor-pointer mt-3">
+                                    @if (item.StartTime > DateTime.Now)
+                                    {
+                                        auctionStatus = "Sắp diễn ra";
+                                        btnType = "btn-warning";
+                                    }
+                                    else
+                                    {
+                                        auctionStatus = "Đang diễn ra";
+                                        btnType = "btn-danger";
+                                    }
+                                    @if (item.Status == (int)AuctionStatus.Chấp_nhân)
+                                    {
+                                        <a class="btn @btnType mt-3 w-100">
+                                            @auctionStatus
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-secondary mt-3 w-100">
+                                            Kết thúc
+                                        </a>
+                                    }
+
+                                    <a class="text-decoration-none cursor-pointer mt-3" href="/auction-details?auctionId=@item.Id">
                                         Tham gia đấu giá
                                     </a>
                                 </div>
