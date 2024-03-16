@@ -1,0 +1,148 @@
+﻿@using RealEstateAuction.Enums
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Authentication.Cookies
+@model List<dynamic>
+@{
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+    ViewData["Title"] = "Quản lý thanh toán";
+    var status = new Dictionary<AuctionStatus, string>
+        {
+            { AuctionStatus.Chấp_nhân, "Đang diễn ra" },
+            { AuctionStatus.Kết_thúc, "Đã kết thúc" },
+            { AuctionStatus.Thành_công, "Thành công" },
+            { AuctionStatus.Thất_bại, "Thất bại" },
+        };
+    var statusStyle = new Dictionary<AuctionStatus, string>
+    {
+            { AuctionStatus.Chấp_nhân, "badge bg-primary" },
+            { AuctionStatus.Kết_thúc, "badge bg-secondary" },
+            { AuctionStatus.Thành_công, "badge bg-success" },
+            { AuctionStatus.Thất_bại, "badge bg-danger" },
+        };
+    var auctions = (X.PagedList.IPagedList<Auction>)ViewData["AuctionList"];
+
+}
+<h2>Lịch sử tham gia phiên đấu giá</h2>
+<hr>
+Page @(auctions.PageCount < auctions.PageNumber ? 0 : auctions.PageNumber) of @(auctions.PageCount)
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Tên phiên đấu giá</th>
+            <th scope="col">Tên chủ phiên đấu giá</th>
+            <th scope="col">Loại bất động sản</th>
+            <th scope="col">Thời gian bắt đầu</th>
+            <th scope="col">Thời gian kết thúc</th>
+            <th scope="col">Giá niêm yết</th>
+            <th scope="col" class="text-center">Trạng thái</th>
+            <th scope="col" class="text-center">Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count != 0)
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th>@item.Auction.Id</th>
+                    <td>
+                        @item.Auction.Title
+                    </td>
+                    <td>@item.Auction.User.FullName</td>
+                    <td>
+                        @foreach (var i in item.Auction.Categories)
+                        {
+                            <span class="text-center">@i.Name</span>
+                        }
+                    </td>
+                    <td>@item.Auction.StartTime</td>
+                    <td>@item.Auction.EndTime</td>
+                    <td>@item.Auction.StartPrice.ToString("N1").TrimEnd('0').TrimEnd(',')đ - @item.Auction.EndPrice.ToString("N1").TrimEnd('0').TrimEnd(',')đ</td>
+                    <td class="text-center">
+                        <span class="@statusStyle[(AuctionStatus)item.Auction.Status]" style="width: 100px">
+                            @status[(AuctionStatus)item.Auction.Status]
+                        </span>
+                    </td>
+                    <td class="text-center">
+                        <a class="btn btn-primary btn-sm" style="width: 75px" href="#" data-bs-toggle="modal"
+                           data-bs-target="#modalBidding_@item.Auction.Id">Chi tiết</a>
+                        <div class="modal fade" id="modalBidding_@item.Auction.Id" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h2 class="fw-bold">Chi tiết đặt giá</h2>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table class="table table-responsive">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Đặt giá</th>
+                                                    <th scope="col">Thời gian đặt</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (item.Auction.AuctionBiddings.Count > 0)
+                                                {
+                                                    @foreach (var i in item.Auction.AuctionBiddings)
+                                                    {
+                                                        @if (item.Winner != null && i.MemberId == item.Winner.MemberId
+                                                       && item.Winner.BiddingPrice == i.BiddingPrice
+                                                       && i.Auction.Status == (int)AuctionStatus.Kết_thúc)
+                                                        {
+                                                            <tr class="bg-success bg-opacity-75 text-white">
+                                                                <td>@String.Format("{0:N0}", @i.BiddingPrice)đ (Chiến Thắng)</td>
+                                                                <td>@i.TimeBidding</td>
+                                                            </tr>
+                                                        }
+                                                        else if (i.MemberId == Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)))
+                                                        {
+                                                            <tr>
+                                                                <td>@String.Format("{0:N0}", @i.BiddingPrice)đ</td>
+                                                                <td>@i.TimeBidding</td>
+                                                            </tr>
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td colspan="2" class="text-danger">Không có lịch sử đấu giá</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+@if (auctions.PageCount > 1)
+{
+    <div class="pagination-container">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item @(auctions.HasPreviousPage ? "" : "disabled")">
+                    <a class="page-link" href="@Url.Action("AuctionHistory", new { pageNumber = auctions.PageNumber - 1 })">&lt;</a>
+                </li>
+                @for (int i = auctions.PageNumber - 5; i <= auctions.PageNumber + 5; i++)
+                {
+                    if (i > 0 && i <= auctions.PageCount)
+                    {
+                        <li class="page-item @(auctions.PageNumber == i ? "disabled active" : "")">
+                            <a class="page-link" href="@Url.Action("AuctionHistory", new { pageNumber = i })">@i</a>
+                        </li>
+                    }
+                }
+                <li class="page-item @(auctions.HasNextPage ? "" : "disabled")">
+                    <a class="page-link" href="@Url.Action("AuctionHistory", new { pageNumber = auctions.PageNumber + 1 })">&gt;</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+}
