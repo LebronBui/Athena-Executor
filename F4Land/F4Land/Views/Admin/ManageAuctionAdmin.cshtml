@@ -7,13 +7,15 @@
             { AuctionStatus.Chấp_nhân, "Chấp nhận" },
             { AuctionStatus.Từ_chối, "Từ chối" },
             { AuctionStatus.Kết_thúc, "Kết thúc" },
+            { AuctionStatus.Thành_công, "Thành công" },
         };
     var statusStyle = new Dictionary<AuctionStatus, string>
         {
             { AuctionStatus.Chờ_phê_duyệt, "badge bg-primary" },
-            { AuctionStatus.Chấp_nhân, "badge bg-success" },
+            { AuctionStatus.Chấp_nhân, "badge bg-info" },
             { AuctionStatus.Từ_chối, "badge bg-danger" },
             { AuctionStatus.Kết_thúc, "badge bg-secondary" },
+            { AuctionStatus.Thành_công, "badge bg-success" },
         };
     var list = (X.PagedList.IPagedList<Auction>)ViewData["List"];
     var staff = (List<User>)ViewData["Staffs"];
@@ -45,14 +47,22 @@ Page @(list.PageCount < list.PageNumber ? 0 : list.PageNumber) of @list.PageCoun
                     @if (item.Approver != null && item.Status > (int)AuctionStatus.Chờ_phê_duyệt)
                     {
                         <td>@item.Approver?.FullName</td>
-                    } else
+                    }
+                    else
                     {
                         <td>
                             <select class="form-select form-select-sm text-center" id="staffIdSelect" data-auction-id="@item.Id">
                                 <option value=""> --Chọn nhân viên-- </option>
                                 @foreach (var i in staff)
                                 {
-                                    <option value="@i.Id" selected="@(i.Id == item.ApproverId ? "selected" : "")"> @i.FullName </option>
+                                    if (i.Id == item.ApproverId)
+                                    {
+                                        <option value="@i.Id" selected> @i.FullName </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@i.Id"> @i.FullName </option>
+                                    }
                                 }
                             </select>
                         </td>
@@ -95,7 +105,7 @@ Page @(list.PageCount < list.PageNumber ? 0 : list.PageNumber) of @list.PageCoun
         </nav>
     </div>
 }
-@section Scripts{
+@section Scripts {
     <script>
         $("#staffIdSelect").on("change", function () {
             $("#AuctionId").val($(this).data("auction-id"))
