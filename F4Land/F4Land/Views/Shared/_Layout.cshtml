@@ -93,7 +93,7 @@
                                 Số dư:&nbsp;
                                 <span class="text-danger">
                                     @{
-                                        string formattedWalletValue = user.Wallet.ToString("N1") + "đ";
+                                        string formattedWalletValue = user.Wallet.ToString("N1").TrimEnd('0').TrimEnd(',') + "đ";
                                     }
                                     @formattedWalletValue
                                 </span>
@@ -155,11 +155,11 @@
                      class="" style="width: 220px; object-fit: cover;">
                 <div class="d-flex flex-column gap-3">
                     <div class="fs-5 fw-bolder">
-                        Get F4Land on Your Phone
+                        Tải F4Land trên thiết bị di động của bạn
                     </div>
                     <div class="fs-6 fw-light" style="max-width:450px;">
-                        Download the app via text link to get instantly notified if you're outbid and receive auction
-                        reminders so you never miss out!
+                        Tải xuống ứng dụng qua liên kết văn bản để nhận được thông báo ngay lập tức nếu bạn trả giá cao hơn và nhận được đấu giá
+                        nhắc nhở để bạn không bao giờ bỏ lỡ!
                     </div>
                     <div class="d-flex gap-2">
                         <a class="btn btn-outline-none" target="_blank"
@@ -198,51 +198,47 @@
                                 <a class="text-decoration-none cursor-pointer text-white" href="/blog/">Blog</a>
                                 <div style="height: 14px; width: 1px; background-color: #fff;"></div>
                                 <a class="text-decoration-none cursor-pointer text-white"
-                                   href="/inv/about-us/">About</a>
+                                   href="/inv/about-us/">Thông tin</a>
                                 <div style="height: 14px; width: 1px; background-color: #fff;"></div>
                                 <a class="text-decoration-none cursor-pointer text-white"
-                                   href="/invaluable/contact.cfm">Contact</a>
+                                   href="/invaluable/contact.cfm">Liên hệ</a>
                                 <div style="height: 14px; width: 1px; background-color: #fff;"></div>
                                 <a class="text-decoration-none cursor-pointer text-white"
-                                   href="/inv/about-us/careers/">Careers</a>
+                                   href="/inv/about-us/careers/">Sự nghiệp</a>
                             </div>
                             <div class="mt-4 row">
                                 <div class="col-6 col-xs-6 col-sm-6 col-lg-4 text-decoration-none cursor-pointer text-white"
                                      href="/invaluable/subOverview.cfm">
-                                    Subscriptions</a>
+                                    Nhà riêng</a>
                                 </div>
                                 <div class="col-6 col-xs-6 col-sm-6 col-lg-4 text-decoration-none cursor-pointer text-white"
                                      href="/artists/">
-                                    Artist
-                                    Database</a>
+                                    Đất</a>
                                 </div>
                                 <div class="col-6 col-xs-6 col-sm-6 col-lg-4 text-decoration-none cursor-pointer text-white"
                                      href="/press">
-                                    Press</a>
+                                    Nhà mặt phố</a>
                                 </div>
                                 <div class="col-6 col-xs-6 col-sm-6 col-lg-4 text-decoration-none cursor-pointer text-white mt-2"
                                      href="/catalog/advancedSearch.cfm?srchScope=p">
-                                    Price Archive</a>
+                                    Chung cư</a>
                                 </div>
                                 <div class="col-6 col-xs-6 col-sm-6 col-lg-4 text-decoration-none cursor-pointer text-white mt-2"
                                      target="_blank" rel="noreferrer" href="/inv/sell-with-invaluable/">
-                                    Sell on
-                                    Invaluable</a>
+                                    Nhà biệt thự liền kề</a>
                                 </div>
                                 <div class="col-6 col-xs-6 col-sm-6 col-lg-4 text-decoration-none cursor-pointer text-white mt-2"
                                      href="/invaluable/help.cfm">
-                                    Help</a>
+                                    Đất nền dự án</a>
                                 </div>
                                 <div class="col-6 col-xs-6 col-sm-6 col-lg-4 text-decoration-none cursor-pointer text-white mt-2"
                                      href="/inv/auctionnews">
-                                    Auction
-                                    News</a>
+                                    Ki-ốt</a>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 mt-4">
                                     <button class="btn btn-outline-secondary d-flex gap-2 align-items-center"
                                             style="color: white !important;">
-                                        <i class="fa fa-comment"></i>Live
-                                        Chat
+                                        <i class="fa fa-comment"></i>Nhắn tin trực tiếp
                                     </button>
                                 </div>
                             </div>
@@ -253,11 +249,10 @@
                                      src="~/img/logo.jpg"
                                      alt="Invaluable Logo">
                                 <p class="mt-4">
-                                    As the world's leading online auction marketplace, thousands of auction
-                                    houses use F4Land to deepen relationships with millions of clients
-                                    around the world. Stay connected to the things you love with curated items
-                                    and auctions sent to your inbox.
-                                </p>
+                                    Là thị trường đấu giá trực tuyến hàng đầu thế giới, hàng nghìn cuộc đấu giá
+                                    nhà sử dụng Vô giá để tăng cường mối quan hệ với hàng triệu khách hàng
+                                    vòng quanh thế giới. Luôn kết nối với những thứ bạn yêu thích bằng các mục được tuyển chọn
+                                    và các cuộc đấu giá được gửi tới hộp thư đến của bạn.
                             </div>
                             <form action="/sign-up" method="post" class="input-group" style="max-width: 630px;">
                                 <div class="form-floating">
@@ -266,12 +261,11 @@
                                 </div>
                                 <button id="signup-button" type="button" class="btn"
                                         style="background-color: #43c4eb; color: white;">
-                                    Sign Up
+                                    Đăng kí
                                 </button>
                             </form>
                             <p class="mb-0">
-                                You can unsubscribe at any time. View
-                                our <a href="/inv/agreements/privacy-policy/">Privacy Policy.</a>
+                                Bạn có thể bỏ theo dõi bất cứ lúc nào. Xem <a href="/inv/agreements/privacy-policy/">các chính sách</a> của chúng tôi
                             </p>
                         </div>
                     </div>
@@ -279,8 +273,8 @@
                 <div class="d-flex align-items-center justify-content-center p-3"
                      style="border-top: 1px solid #555555;">
                     <p class="mb-0 text-white">
-                        © 1986-2024 F4Land, LLC. and participating auction houses. All Rights
-                        Reserved.
+                        © 1986-2024 F4Land, LLC. và các nhà đấu giá tham gia.
+                        Đã đăng ký Bản quyền.
                     </p>
                 </div>
             </div>
