@@ -15,6 +15,7 @@ namespace RealEstateAuction.Services
     {
         private readonly ILogger _logger;
         private readonly AuctionDAO _auctionDAO;
+        private readonly UserDAO _userDAO;
         private readonly NotificationDAO _notificationDAO;
         private readonly IUrlHelperFactory _urlHelperFactory;
 
@@ -22,6 +23,7 @@ namespace RealEstateAuction.Services
         {
             _logger = logger;
             _auctionDAO = new AuctionDAO();
+            _userDAO = new UserDAO();
             _notificationDAO = new NotificationDAO();
             _urlHelperFactory = urlHelperFactory;
         }
@@ -64,7 +66,7 @@ namespace RealEstateAuction.Services
                 {
                     notification = new Notification
                     {
-                        Description = $"Bạn đã thắng phiên đấu giá {auction.Title}",
+                        Description = $"Bạn đã thắng phiên đấu giá {auction.Title}, 10% tiền đấu giá sẽ bị giữ lại làm cọc!",
                         ToUser = user.Id,
                         Link = $"/auction-details?auctionId={auction.Id}",
                         IsRead = false,
@@ -83,6 +85,21 @@ namespace RealEstateAuction.Services
                 notifications.Add(notification);
             }
             _notificationDAO.insertList(notifications);
+
+            //return price for winner
+            var winner = _userDAO.GetUserById(winnerId);
+
+            //get the price of the winner
+            var price = _auctionDAO.GetMaxPrice(auctionId);
+
+            //keep 10% of the price as a deposit
+            var deposit = Math.Round(price * 0.1m);
+
+            //return the rest of the price to the winner
+            winner.Wallet += price - deposit;
+
+            //update the winner's wallet
+            _userDAO.UpdateUser(winner);
 
             _logger.LogInformation("Auction end at {time}", DateTime.Now);
         }
