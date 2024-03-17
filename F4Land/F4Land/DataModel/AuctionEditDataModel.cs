@@ -10,9 +10,6 @@ namespace RealEstateAuction.DataModel
         [Required(ErrorMessage = "Vui lòng nhập tiêu đề phiên đấu giá")]
         [MinLength(15, ErrorMessage = "Tiêu đề tối thiểu 15 ký tự.")]
         public string Title { get; set; }
-
-        [Required(ErrorMessage = "Vui lòng nhập giá khởi điểm")]
-        [Range(0.1, double.MaxValue, ErrorMessage = "Giá khởi điểm phải lớn hơn 0.")]
         public decimal StartPrice { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập giá kết thúc")]
