@@ -1,4 +1,5 @@
 ﻿@using RealEstateAuction.Enums
+@model RealEstateAuction.DataModel.PaymentDataModel
 @{
     Layout = "~/Views/Shared/UserLayout.cshtml";
     ViewData["Title"] = "Quản lý thanh toán";
@@ -86,8 +87,40 @@ Page @(list.PageCount < list.PageNumber ? 0 : list.PageNumber) of @(list.PageCou
                     <td class="text-center">@item.Bank?.BankAccount</td>
                     <td class="text-center">@item.UserBankAccount</td>
                     <td class="text-center">
-                        <a class="btn btn-primary btn-sm" style="width: 75px" href="#" data-bs-toggle="modal"
-                           data-bs-target="#modalPayment_@item.Id">Chi tiết</a>
+                        @if (
+                       (item.Status == (int)PaymentStatus.Reject && item.Type == (int)PaymentType.TopUp
+                       && (DateTime.Parse(item.TransactionDate.ToString()).AddDays(3) > DateTime.Now))
+                       ||
+                       (item.Status == (int)PaymentStatus.Approve && item.Type == (int)PaymentType.Withdraw
+                       && (DateTime.Parse(item.TransactionDate.ToString()).AddDays(3) > DateTime.Now))
+                       )
+                        {
+                            <div class="dropdown">
+                                <button class="btn btn-primary btn-sm dropdown-toggle" style="width: 75px" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-solid fa-bars"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                           data-bs-target="#modalPayment_@item.Id">Chi tiết</a>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        @using (Html.BeginForm("TopUpPost", "Account", FormMethod.Post))
+                                        {
+                                            <input asp-for=Action hidden value="@((int) PaymentType.Refund)" />
+                                            <input name="PaymentId" hidden value="@item.Id" />
+                                            <button class="dropdown-item text-danger" type="submit" type="submit">Hoàn tiền</button>
+                                        }
+                                    </li>
+                                </ul>
+                            </div>
+                        }
+                        else
+                        {
+                            <a class="btn btn-primary btn-sm" style="width: 75px" href="#" data-bs-toggle="modal"
+                               data-bs-target="#modalPayment_@item.Id">Chi tiết</a>
+                        }
                         <div class="modal fade" id="modalPayment_@item.Id" tabindex="-1">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
@@ -163,7 +196,6 @@ Page @(list.PageCount < list.PageNumber ? 0 : list.PageNumber) of @(list.PageCou
         }
     </tbody>
 </table>
-@await Html.PartialAsync("Modals/Payment/ConfirmStatus")
 @await Html.PartialAsync("Modals/Payment/CreatePayment")
 @if (list.PageCount > 1)
 {
