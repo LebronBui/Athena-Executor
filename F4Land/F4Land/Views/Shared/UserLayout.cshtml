@@ -1,200 +1,404 @@
-﻿@model IEnumerable<RealEstateAuction.Models.Auction>
-@using RealEstateAuction.DataModel
-@using RealEstateAuction.Enums
-@{
-    ViewData["Title"] = "Danh sách các phiên đấu giá";
-    var DataSearch = (SearchDataModel)ViewData["DataSearch"];
-    var categoryId = DataSearch.DataCategory;
-    var sort = DataSearch.DataSort;
-    var sortList = new Dictionary<int, string> {
-        { (int)AuctionSort.TitleAsc, "Tiêu Đề A-Z"  },
-        { (int)AuctionSort.TitleDes, "Tiêu Đề Z-A"  },
-        { (int)AuctionSort.StartTimeAsc, "Thời gian bắt đầu tăng dần"  },
-        { (int)AuctionSort.StartTimeDes, "Thời gian bắt đầu giảm dần"  },
-        { (int)AuctionSort.EndTimeAsc, "Thời gian kết thúc tăng dần"  },
-        { (int)AuctionSort.EndTimeDes, "Thời gian kết thúc tăng dần"  },
-        { (int)AuctionSort.StartPriceAsc, "Giá khởi điểm tăng dần"  },
-        { (int)AuctionSort.StartPriceDes, "Giá khởi điểm giảm dần"  },
-        { (int)AuctionSort.EndPriceAsc, "Giá kết thúc tăng dần"  },
-        { (int)AuctionSort.EndPriceDes, "Giá kết thúc giảm dần"  },
-    };
-    var auctionStatus = "";
-    var btnType = "";
-    var startPrice = "";
-}
-<div class="section-line"></div>
-<section id="list-auctions">
-    <div class="max-width-section py-4">
-        <h4 class="fs-3 mb-4">Danh sách đấu giá</h4>
-        <div class="section-line"></div>
-        <div class="d-flex justify-content-between align-items-center py-4">
-            <div class="fs-6 fw-semibold">
-                @Model.Count() đấu giá
-            </div>
-        </div>
-        <div class="section-line"></div>
-        <div class="d-flex gap-4">
-            <form action="/list-auction" method="get">
-                <div class="d-none d-md-block" style="width: 280px;">
-                    <div class="text-nowrap mt-2">
-                        Sắp xếp
-                    </div>
-                    <select class="form-select" name="sort">
-                        @foreach (var i in sortList)
-                        {
-                            if (i.Key == sort)
-                            {
-                                <option value="@i.Key" selected>@i.Value</option>
-                            }
-                            else
-                            {
-                                <option value="@i.Key">@i.Value</option>
-                            }
-                        }
-                    </select>
-                    <div class="py-4" style="border-bottom: 1px solid #bac4c9;">
-                        <div style="font-weight: 600; font-size: 16px;">
-                            Danh mục bất động sản
-                        </div>
-                        @foreach (var item in ViewBag.categories)
-                        {
-                            <div class="d-flex flex-column gap-2 mt-2">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="categoryId" value="@item.Id"
-                                           checked="@(categoryId.Contains(item.Id))"
-                                           id="flexRadioDefault-@item.Id">
-                                    <label class="form-check-label" for="flexRadioDefault-@item.Id">
-                                        @item.Name
-                                    </label>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                    <div class="mt-2 d-flex text-center">
-                        <button type="submit" class="btn btn-primary">
-                            Tìm kiếm
-                        </button>
-                    </div>
-                </div>
-            </form>
-            <div class="py-4 w-100">
-                <!-- Array of list auctions -->
-                <section id="array-autions">
-                    @if (Model.Count() == 0)
-                    {
-                        <div class="d-flex justify-content-center">
-                            <p class="text-danger">Không có phiên đấu giá nào</p>
-                        </div>
-                    }
-                    @foreach (var item in Model)
-                    {
-                        <div class="pt-3" style="border-bottom: 1px solid #dde2e4;">
-                            <div class="row pb-3">
-                                <div class="col-md-3 col-sm-2 col-xs-3">
-                                    <div class="w-100 ratio ratio-1x1" style="border: 1px solid #dde2e4;">
-                                        <img class="object-fit-contain"
-                                             src="@Url.Content(item.Images.ElementAt(0).Url)"
-                                             alt="">
-                                    </div>
-                                </div>
-                                <div class="col-md-9 col-sm-10 col-xs-9">
-                                    <div class="row">
-                                        <div class="col-md-8 col-sm-8 col-xs-12">
-                                            <div class="fs-6 fw-semibold truncate-2-line">
-                                                @item.Title
-                                            </div>
-                                            <div class="fs-6 fw-lighter truncate-2-line mt-1">
-                                                Người đăng: @item.User.FullName
-                                            </div>
-                                            <div class="fs-6 fw-light truncate-2-line mt-2">
-                                                Thời gian đấu giá: @item.StartTime - @item.EndTime
-                                            </div>
-                                            <div class="fs-6 fw-light truncate-2-line mt-2">
-                                                @if (item.StartPrice > 0)
-                                                {
-                                                    startPrice = item.StartPrice.ToString("N1", System.Globalization.CultureInfo.InvariantCulture) + "đ";
-                                                }
-                                                else
-                                                {
-                                                    startPrice = "Chưa xác định";
-                                                }
-                                                Giá: @startPrice - @item.EndPrice.ToString("N1", System.Globalization.CultureInfo.InvariantCulture)đ
-                                            </div>
-                                            <div class="fs-6 fw-light truncate-2-line mt-1">
-                                                @item.Address
-                                            </div>
-                                            <div class="fs-6 fw-light truncate-2-line mt-2">
-                                                Số lượng người tham gia: @item.Users.Count()
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 col-sm-4">
-                                            <div class="d-flex align-items-center">
-                                                <i class="fa-solid fa-wifi"></i>
-                                                <div class="fs-6 fw-light truncate-2-line">
-                                                    Đấu giá trực tiếp
-                                                </div>
-                                            </div>
-                                            @if (item.StartTime > DateTime.Now)
-                                            {
-                                                auctionStatus = "Sắp diễn ra";
-                                                btnType = "btn-warning";
-                                            }
-                                            else
-                                            {
-                                                auctionStatus = "Đang diễn ra";
-                                                btnType = "btn-danger";
-                                            }
-                                            @if (item.Status == (int)AuctionStatus.Chấp_nhân)
-                                            {
-                                                <a class="btn @btnType mt-3 w-100">
-                                                    @auctionStatus
-                                                </a>
-                                            }
-                                            else
-                                            {
-                                                <a class="btn btn-secondary mt-3 w-100">
-                                                    Kết thúc
-                                                </a>
-                                            }
+﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.Authentication.Cookies
+@using RealEstateAuction.DAL
 
-                                            <a class="text-decoration-none cursor-pointer mt-3" href="/auction-details?auctionId=@item.Id">
-                                                Tham gia đấu giá
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+@{
+    var user = new User();
+    @if (User.Identity.IsAuthenticated)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        user = new UserDAO().GetUserById(int.Parse(userId));
+    }
+
+    var homePage = "";
+    @if (User.IsInRole("Admin"))
+    {
+        homePage = "/admin";
+    }
+    else if (User.IsInRole("Staff"))
+    {
+        homePage = "/staff";
+    }
+    else
+    {
+        homePage = "/home";
+    }
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="~/css/styles.css" type="text/css" />
+</head>
+<body>
+    <!-- Display message here -->
+    <div id="snackbar"></div>
+    <div class="sticky-top background-color">
+        <header class="px-5 py-3 row justify-content-between border-bottom">
+            <a href="@homePage"
+               class="d-flex align-items-center col-md-2 mb-2 mb-md-0 text-dark text-decoration-none cursor-pointer">
+                <!-- LOGO -->
+                <img src="~/img/logo.jpg" alt="Invaluable" />
+            </a>
+            @if (User.FindFirstValue(ClaimTypes.Role) == "Member")
+            {
+                <div class="col-12 col-md-5 mb-2 justify-content-center mb-md-0 gap-md-5">
+                    <form action="/search" method="get" class="input-group">
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="fa-solid fa-magnifying-glass primary-color"></i>
+                            </span>
+                            <input type="text" class="form-control" placeholder="Search items & sellers" aria-label="search"
+                                   aria-describedby="basic-addon1">
+                        </div>
+                    </form>
+                </div>
+            }
+            <div class="col-md-auto justify-content-end d-flex align-items-center gap-3">
+                <div class="gap-4 d-flex align-items-center">
+                    @if (User.FindFirstValue(ClaimTypes.Role) == "Member")
+                    {
+                        <button type="button" class="btn btn-outline-none text-nowrap">
+                            <i class="fa-solid fa-heart primary-color me-1"></i>
+                            Lưu trữ
+                        </button>
+                        @await Component.InvokeAsync("Notification")
+                    }
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <!-- If DO NOT login, show this   -->
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <button type="button" class="btn btn-outline-none text-nowrap" data-bs-toggle="modal"
+                                data-bs-target="#loginModal">
+                            Đăng nhập
+                        </button>
+
+                        <button type="button" class="btn btn-outline-secondary text-nowrap" data-bs-toggle="modal"
+                                data-bs-target="#registerModal">
+                            Đăng ký
+                        </button>
+                    }
+                    else
+                    {
+                        @if (User.FindFirstValue(ClaimTypes.Role) != "Admin")
+                        {
+                            <span class="fw-bold ">
+                                Số dư:&nbsp;
+                                <span class="text-danger">
+                                    @{
+                                        string formattedWalletValue = user.Wallet.ToString("N1").TrimEnd('0').TrimEnd(',') + "đ";
+                                    }
+                                    @formattedWalletValue
+                                </span>
+                            </span>
+                        }
+                        @if (User.FindFirstValue(ClaimTypes.Role) == "Member")
+                        {
+                            <a class="btn btn-outline-secondary text-nowrap" href="/top-up">
+                                Nạp tiền
+                            </a>
+                        }
+                        <!-- If login, show this -->
+                        <div class="dropdown">
+                            <a href="#" class="d-flex align-items-center link-dark text-decoration-none cursor-pointer dropdown-toggle"
+                               id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-user me-2 primary-color"></i>
+                                Hello:&ensp;<strong>@user.FullName</strong>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/profile">Thông tin cá nhân</a></li>
+                                <li><a class="dropdown-item" href="/change-password">Đổi mật khẩu</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <form action="/logout">
+                                <li><a class="dropdown-item" href="/logout">Đăng xuất</a></li>
+                                </form>
+                            </ul>
                         </div>
                     }
-                </section>
-                <!-- this is pagination of auctions -->
-                <div class="d-flex justify-content-center align-items-center mt-4">
-                    <!-- PAGINATION-->
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-center justify-content-lg-end">
-                            @if (ViewBag.currentPage != 1)
-                            {
-                                <li class="page-item mx-1"><a class="page-link" href='/list-auction?pageNumber=@(ViewBag.currentPage-1)' aria-label="Previous"><span aria-hidden="true">«</span></a></li>
-                            }
-                            @for (var i = 1; i <= ViewBag.pageSize; i++)
-                            {
-                                @if (i == ViewBag.currentPage)
-                                {
-                                    <li class="page-item mx-1 active"><a class="page-link" href="#">@i</a></li>
-                                }
-                                else
-                                {
-                                    <li class="page-item mx-1"><a class="page-link" href="@Url.Action("ListAuction", "Home", new { pageNumber = i , sort , categoryId })">@i</a></li>
-                                }
-                            }
-                            @if (ViewBag.currentPage < ViewBag.pageSize)
-                            {
-                                <li class="page-item ms-1"><a class="page-link" href='/list-auction?pageNumber=@(ViewBag.currentPage+1)' aria-label="Next"><span aria-hidden="true">»</span></a></li>
-                            }
-                        </ul>
-                    </nav>
+                </div>
+
+            </div>
+        </header>
+    </div>
+    <main>
+        <div class="d-flex" style="margin-bottom: 100px">
+            <div class="d-flex flex-column flex-shrink-0 p-3 sidebar" style="width: 280px;">
+                <a href="/home" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                    <span class="fs-4 fw-bold">F4 Land</span>
+                </a>
+                <hr>
+                <ul class="nav nav-pills flex-column mb-auto">
+                    @if (User.FindFirstValue(ClaimTypes.Role) == "Member")
+                    {
+                        <li class="nav-item item-user-sidebar">
+                            <a href="/manage-auction" class="nav-link link-dark" aria-current="page">
+                                Quản lý đấu giá
+                            </a>
+                        </li>
+                        <li class="nav-item item-user-sidebar">
+                            <a href="/auction-histories" class="nav-link link-dark" aria-current="page">
+                                Lịch sử phiên đấu giá
+                            </a>
+                        </li>
+                        <li class="nav-item item-user-sidebar">
+                            <a href="/top-up" class="nav-link link-dark" aria-current="page">
+                                Quản lý thanh toán
+                            </a>
+                        </li>
+                        <li class="nav-item item-user-sidebar">
+                            <a href="/member/list-ticket" class="nav-link link-dark" aria-current="page">
+                                Quản lý yêu cầu hỗ trợ
+                            </a>
+                        </li>
+                    }
+                    @if (User.FindFirstValue(ClaimTypes.Role) == "Staff")
+                    {
+                        <li class="nav-item item-user-sidebar">
+                            <a href="/list-auction-staff" class="nav-link link-dark" aria-current="page">
+                                Phê duyệt đấu giá
+                            </a>
+                        </li>
+                        <li class="nav-item item-user-sidebar">
+                            <a href="/list-payment" class="nav-link link-dark" aria-current="page">
+                                Phê duyệt thanh toán
+                            </a>
+                        </li>
+                        <li class="nav-item item-user-sidebar">
+                            <a href="/list-ticket" class="nav-link link-dark" aria-current="page">
+                                Phê duyệt yêu cầu hỗ trợ
+                            </a>
+                        </li>
+                    }
+                    @if (User.FindFirstValue(ClaimTypes.Role) == "Admin")
+                    {
+                        <li class="nav-item item-user-sidebar">
+                            <a href="/manage-auction-admin" class="nav-link link-dark" aria-current="page">
+                                Quản lý phiên đấu giá
+                            </a>
+                        </li>
+
+                        <li class="nav-item item-user-sidebar">
+                            <a href="/manage-ticket" class="nav-link link-dark" aria-current="page">
+                                Quản lý yêu cầu hỗ trợ
+                            </a>
+                        </li>
+
+                        <li class="nav-item item-user-sidebar">
+                            <a href="/manage-staff" class="nav-link link-dark" aria-current="page">
+                                Quản lý nhân viên
+                            </a>
+                        </li>
+
+                        <li class="nav-item item-user-sidebar">
+                            <a href="/manage-member" class="nav-link link-dark" aria-current="page">
+                                Quản lý thành viên
+                            </a>
+                        </li>
+                    }
+
+                    <li class="nav-item item-user-sidebar">
+                        <a href="/profile" class="nav-link link-dark" aria-current="page">
+                            Thông tin cá nhân
+                        </a>
+                    </li>
+                    <li class="nav-item item-user-sidebar">
+                        <a href="/change-password" class="nav-link link-dark" aria-current="page">
+                            Thay đổi mật khẩu
+                        </a>
+                    </li>
+                    <hr>
+                    <li class="nav-item item-user-sidebar">
+                        <a href="/logout" class="nav-link link-dark" aria-current="page">
+                            Đăng xuất
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="content w-100 me-5 mb-3 mt-5 ms-3">
+                @RenderBody()
+            </div>
+        </div>
+    </main>
+    <!-- USED FOR FOOTER, COPY THIS TO SEPARATED FILE TO USE LATER -->
+    <footer>
+        <div class="d-flex flex-md-row flex-column justify-content-center align-items-center gap-3 sub-background pt-4 pb-2">
+            <img src="https://image.invaluable.com/static/invaluable/footer/footer2-devices.png" alt="footer"
+                 class="" style="width: 220px; object-fit: cover;">
+            <div class="d-flex flex-column gap-3">
+                <div class="fs-5 fw-bolder">
+                    Tải F4Land trên thiết bị di động của bạn
+                </div>
+                <div class="fs-6 fw-light" style="max-width:450px;">
+                    Tải xuống ứng dụng qua liên kết văn bản để nhận được thông báo ngay lập tức nếu bạn trả giá cao hơn và nhận được đấu giá
+                    nhắc nhở để bạn không bao giờ bỏ lỡ!
+                </div>
+                <div class="d-flex gap-2">
+                    <a class="btn btn-outline-none" target="_blank"
+                       href="https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=944415329&mt=8">
+                        <img src="https://image.invaluable.com/static/invaluable/footer/apple-store-badge.svg"
+                             alt="appstore" style="height: 40px; object-fit: contain;">
+                    </a>
+                    <a class="btn btn-outline-none" target="_blank"
+                       href="https://play.google.com/store/apps/details?id=com.invaluable.invaluable&referrer=utm_source%3DInvaluable%20Footer%26utm_medium%3Dwebsite%26utm_campaign%3DGoogle%20Play%20App%20Download">
+                        <img src="https://image.invaluable.com/static/invaluable/footer/google-play-badge.svg"
+                             alt="appstore" style="height: 40px; object-fit: contain;">
+                    </a>
                 </div>
             </div>
         </div>
+        <div class="d-flex justify-content-center align-items-center gap-4 px-2 py-4"
+             style="background-color: #43c4eb;">
+            <a target="_blank" rel="noreferrer" href="https://www.facebook.com/InvaluableOfficial/">
+                <i class="fa fa-facebook" style="color: white; font-size: 24px;"></i>
+            </a>
+            <a target="_blank" rel="noreferrer" href="https://twitter.com/invaluablelive">
+                <i class="fa fa-twitter" style="color: white; font-size: 24px;"></i>
+            </a>
+            <a target="_blank" rel="noreferrer" href="https://www.instagram.com/invaluableofficial/">
+                <i class="fa fa-instagram" style="color: white; font-size: 24px;"></i>
+            </a>
+            <a target="_blank" rel="noreferrer" href="https://www.pinterest.com/invaluable/">
+                <i class="fa fa-pinterest-p" style="color: white; font-size: 24px;"></i>
+            </a>
+        </div>
+        <div style="background-color: #222222;">
+            <div class="px-5" style="color: #fff;">
+                <div class="row py-4">
+                    <div class="col-12 col-md-5 col-lg-5">
+                        <div class="d-flex align-items-center gap-3">
+                            <a class="text-decoration-none cursor-pointer text-white" href="/blog/">Blog</a>
+                            <div style="height: 14px; width: 1px; background-color: #fff;"></div>
+                            <a class="text-decoration-none cursor-pointer text-white"
+                               href="/inv/about-us/">Thông tin</a>
+                            <div style="height: 14px; width: 1px; background-color: #fff;"></div>
+                            <a class="text-decoration-none cursor-pointer text-white"
+                               href="/invaluable/contact.cfm">Liên hệ</a>
+                            <div style="height: 14px; width: 1px; background-color: #fff;"></div>
+                            <a class="text-decoration-none cursor-pointer text-white"
+                               href="/inv/about-us/careers/">Sự nghiệp</a>
+                        </div>
+                        <div class="mt-4 row">
+                            <div class="col-6 col-xs-6 col-sm-6 col-lg-4 text-decoration-none cursor-pointer text-white"
+                                 href="/invaluable/subOverview.cfm">
+                                Nhà riêng</a>
+                            </div>
+                            <div class="col-6 col-xs-6 col-sm-6 col-lg-4 text-decoration-none cursor-pointer text-white"
+                                 href="/artists/">
+                                Đất</a>
+                            </div>
+                            <div class="col-6 col-xs-6 col-sm-6 col-lg-4 text-decoration-none cursor-pointer text-white"
+                                 href="/press">
+                                Nhà mặt phố</a>
+                            </div>
+                            <div class="col-6 col-xs-6 col-sm-6 col-lg-4 text-decoration-none cursor-pointer text-white mt-2"
+                                 href="/catalog/advancedSearch.cfm?srchScope=p">
+                                Chung cư</a>
+                            </div>
+                            <div class="col-6 col-xs-6 col-sm-6 col-lg-4 text-decoration-none cursor-pointer text-white mt-2"
+                                 target="_blank" rel="noreferrer" href="/inv/sell-with-invaluable/">
+                                Nhà biệt thự liền kề</a>
+                            </div>
+                            <div class="col-6 col-xs-6 col-sm-6 col-lg-4 text-decoration-none cursor-pointer text-white mt-2"
+                                 href="/invaluable/help.cfm">
+                                Đất nền dự án</a>
+                            </div>
+                            <div class="col-6 col-xs-6 col-sm-6 col-lg-4 text-decoration-none cursor-pointer text-white mt-2"
+                                 href="/inv/auctionnews">
+                                Ki-ốt</a>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 mt-4">
+                                <button class="btn btn-outline-secondary d-flex gap-2 align-items-center"
+                                        style="color: white !important;">
+                                    <i class="fa fa-comment"></i>Nhắn tin trực tiếp
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-7 col-lg-7">
+                        <div class="">
+                            <img class="_logo-img_a506i_11"
+                                 src="~/img/logo.jpg"
+                                 alt="Invaluable Logo">
+                            <p class="mt-4">
+                                Là thị trường đấu giá trực tuyến hàng đầu thế giới, hàng nghìn cuộc đấu giá
+                                nhà sử dụng Vô giá để tăng cường mối quan hệ với hàng triệu khách hàng
+                                vòng quanh thế giới. Luôn kết nối với những thứ bạn yêu thích bằng các mục được tuyển chọn
+                                và các cuộc đấu giá được gửi tới hộp thư đến của bạn.
+                        </div>
+                        <form action="/sign-up" method="post" class="input-group" style="max-width: 630px;">
+                            <div class="form-floating">
+                                <input type="email" class="form-control" id="floatingInput" placeholder="Email" />
+                                <label for="floatingInput" style="color: #222222;">Email</label>
+                            </div>
+                            <button id="signup-button" type="button" class="btn"
+                                    style="background-color: #43c4eb; color: white;">
+                                Đăng kí
+                            </button>
+                        </form>
+                        <p class="mb-0">
+                            Bạn có thể bỏ theo dõi bất cứ lúc nào. Xem <a href="/inv/agreements/privacy-policy/">các chính sách</a> của chúng tôi
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex align-items-center justify-content-center p-3"
+                 style="border-top: 1px solid #555555;">
+                <p class="mb-0 text-white">
+                    © 1986-2024 F4Land, LLC. và các nhà đấu giá tham gia.
+                    Đã đăng ký Bản quyền.
+                </p>
+            </div>
+        </div>
+    </footer>
     </div>
-</section>
+    <script src="https://kit.fontawesome.com/8d39de38b8.js" crossorigin="anonymous"></script>
+    <script>
+        // Check if TempData contains a message
+        var message = '@Html.Raw(TempData["Message"])';
+
+        if (message) {
+            var x = document.getElementById("snackbar");
+            x.textContent = message;
+            x.className = "show";
+            setTimeout(function () {
+                x.className = x.className.replace("show", "");
+            }, 3000);
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#carousel-starter').carousel({
+                interval: 5000
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#forgotModal').on('show.bs.modal', function () {
+                $('#loginModal').modal('hide');
+                $('#registerModal').modal('hide');
+            });
+
+            $('#loginModal').on('show.bs.modal', function () {
+                $('#forgotModal').modal('hide');
+                $('#registerModal').modal('hide');
+            });
+
+            $('#registerModal').on('show.bs.modal', function () {
+                $('#forgotModal').modal('hide');
+                $('#loginModal').modal('hide');
+            });
+        });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+    <script src="~/js/site.js"></script>
+</body>
+</html>
