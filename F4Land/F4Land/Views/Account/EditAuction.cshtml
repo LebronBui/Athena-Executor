@@ -18,13 +18,13 @@
 
             <div class="input-group mt-3">
                 <span class="input-group-text">Giá khời điểm (VNĐ)</span>
-                <input asp-for=StartPrice type="text" class="form-control" value="@Model.StartPrice.ToString("N1", System.Globalization.CultureInfo.InvariantCulture)" />
+                <input asp-for=StartPrice type="text" class="form-control" value="@Model.StartPrice.ToString().TrimEnd('0').TrimEnd(',')" />
             </div>
             @Html.ValidationMessageFor(model => model.StartPrice, "", new { @class = "text-danger" })
 
             <div class="input-group mt-3">
                 <span class="input-group-text">Giá kết thúc (VNĐ)</span>
-                <input asp-for=EndPrice type="text" class="form-control" value="@Model.EndPrice.ToString("N1", System.Globalization.CultureInfo.InvariantCulture)">
+                <input asp-for=EndPrice type="text" class="form-control" value="@Model.EndPrice.ToString().TrimEnd('0').TrimEnd(',')">
             </div>
             @Html.ValidationMessageFor(model => model.EndPrice, "", new { @class = "text-danger" })
 
