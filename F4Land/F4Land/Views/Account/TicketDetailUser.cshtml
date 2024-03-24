@@ -64,7 +64,7 @@
             }
         </div>
         @await Html.PartialAsync("Modals/ViewImage")
-    }
+    }   
 </div>
 <hr />
 
@@ -80,7 +80,7 @@
                         <span class="fw-bold">@item.User.FullName (@roles[(Roles)item.User.RoleId])</span>
                     </span>
                     <textarea type="text" class="form-control" readonly>@item.Comment</textarea>
-                </div>
+                </div>         
             </div>
         }
         else
