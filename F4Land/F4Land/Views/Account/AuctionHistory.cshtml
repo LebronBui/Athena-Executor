@@ -86,9 +86,9 @@ Page @(auctions.PageCount < auctions.PageNumber ? 0 : auctions.PageNumber) of @(
                                                 {
                                                     @foreach (var i in item.Auction.AuctionBiddings)
                                                     {
-                                                        @if (item.Winner != null && i.MemberId == item.Winner.MemberId
-                                                       && item.Winner.BiddingPrice == i.BiddingPrice
-                                                       && i.Auction.Status == (int)AuctionStatus.Kết_thúc)
+                                                        @if (item.Winner != null && i.MemberId == item.Winner.MemberId 
+                                                        && item.Winner.BiddingPrice == i.BiddingPrice
+                                                        && i.Auction.Status == (int)AuctionStatus.Kết_thúc)
                                                         {
                                                             <tr class="bg-success bg-opacity-75 text-white">
                                                                 <td>@String.Format("{0:N0}", @i.BiddingPrice)đ (Chiến Thắng)</td>
@@ -110,12 +110,12 @@ Page @(auctions.PageCount < auctions.PageNumber ? 0 : auctions.PageNumber) of @(
                                                         <td colspan="2" class="text-danger">Không có lịch sử đấu giá</td>
                                                     </tr>
                                                 }
-                                            </tbody>
+                                            </tbody>                                        
                                         </table>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                         </div>
                     </td>
                 </tr>
             }
