@@ -279,10 +279,15 @@ namespace RealEstateAuction.Controllers
 
             //get auction by Id
             Auction auction = auctionDAO.GetAuctionStaffById(auctionId);
+            var winner = auctionDAO.GetWinner(auction);
 
             //check if staff manage this auction or not
             if (auction.ApproverId == userId)
             {
+                if (winner != null)
+                {
+                    ViewData["Winner"] = winner;
+                }
                 return View(auction);
             }
             else

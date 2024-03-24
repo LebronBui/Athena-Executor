@@ -61,6 +61,7 @@ namespace RealEstateAuction.Controllers
             {
                 DataSort = Request.Query["sort"].ToString() != "" ? Int32.Parse(Request.Query["sort"]) : 0,
                 DataCategory = checkboxValues,
+                Keyword = Request.Query["keyword"].ToString().ToLower().Trim(),
             };
 
             ViewData["DataSearch"] = searchDataModel;
