@@ -4,5 +4,6 @@
     {
         public int? DataSort { get; set; }
         public List<int>? DataCategory { get; set; }
+        public string? Keyword { get; set; }
     }
 }
