@@ -63,14 +63,14 @@ Page @(list.PageCount < list.PageNumber ? 0 : list.PageNumber) of @(list.PageCou
         </tr>
     </thead>
     <tbody>
-        @if (list.Count != 0)
+        @if(list.Count != 0)
         {
             @foreach (var item in list)
             {
                 <tr>
                     <th>@item.Id</th>
                     <td>
-                        <p>@String.Format("{0:N0}", @item.Amount)</p>
+                        <p>@String.Format("{0:N0}", @item.Amount)</p>                      
                     </td>
                     <td>@item.User.FullName</td>
                     <td>@item.Code</td>
@@ -88,12 +88,12 @@ Page @(list.PageCount < list.PageNumber ? 0 : list.PageNumber) of @(list.PageCou
                     <td class="text-center">@item.UserBankAccount</td>
                     <td class="text-center">
                         @if (
-                       (item.Status == (int)PaymentStatus.Reject && item.Type == (int)PaymentType.TopUp
+                       (item.Status == (int)PaymentStatus.Reject && item.Type == (int)PaymentType.TopUp 
                        && (DateTime.Parse(item.TransactionDate.ToString()).AddDays(3) > DateTime.Now))
-                       ||
-                       (item.Status == (int)PaymentStatus.Approve && item.Type == (int)PaymentType.Withdraw
-                       && (DateTime.Parse(item.TransactionDate.ToString()).AddDays(3) > DateTime.Now))
-                       )
+                        ||
+                       (item.Status == (int)PaymentStatus.Approve && item.Type == (int)PaymentType.Withdraw 
+                       && (DateTime.Parse(item.TransactionDate.ToString()).AddDays(3) > DateTime.Now))                      
+                        )
                         {
                             <div class="dropdown">
                                 <button class="btn btn-primary btn-sm dropdown-toggle" style="width: 75px" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -114,7 +114,7 @@ Page @(list.PageCount < list.PageNumber ? 0 : list.PageNumber) of @(list.PageCou
                                         }
                                     </li>
                                 </ul>
-                            </div>
+                            </div>                         
                         }
                         else
                         {
@@ -140,7 +140,7 @@ Page @(list.PageCount < list.PageNumber ? 0 : list.PageNumber) of @(list.PageCou
                                             <tr>
                                                 <td class="text-start fw-bold">Số lượng</td>
                                                 <td>@String.Format("{0:N0}", @item.Amount)</td>
-                                            </tr>
+                                            </tr>                                          
                                             <tr>
                                                 <td class="text-start fw-bold">Trạng thái</td>
                                                 <td class="text-center fw-bolder @statusTextStyle[(PaymentStatus)item.Status]">
@@ -193,7 +193,7 @@ Page @(list.PageCount < list.PageNumber ? 0 : list.PageNumber) of @(list.PageCou
                     </td>
                 </tr>
             }
-        }
+        }       
     </tbody>
 </table>
 @await Html.PartialAsync("Modals/Payment/CreatePayment")
