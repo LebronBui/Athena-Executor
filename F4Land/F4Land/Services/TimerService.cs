@@ -51,40 +51,13 @@ namespace RealEstateAuction.Services
             timer.Dispose();
 
             //get auction by id
-            Auction auction = _auctionDAO.GetAuctionById(auctionId);
+            Auction auction = _auctionDAO.GetAuctionEndById(auctionId);
             //update status of auction to ended
             auction.Status = (int)AuctionStatus.Kết_thúc;
             //update auction to database
             _auctionDAO.EditAuction(auction);
             var winnerId = _auctionDAO.GetWinnerId(auction);
             var notifications = new List<Notification>();
-
-            foreach (var user in auction.Users)
-            {
-                var notification = new Notification();
-                if (user.Id == winnerId)
-                {
-                    notification = new Notification
-                    {
-                        Description = $"Bạn đã thắng phiên đấu giá {auction.Title}, 10% tiền đấu giá sẽ bị giữ lại làm cọc!",
-                        ToUser = user.Id,
-                        Link = $"/auction-details?auctionId={auction.Id}",
-                        IsRead = false,
-                    };
-                }
-                else
-                {
-                    notification = new Notification
-                    {
-                        Description = $"Phiên đấu giá {auction.Title} đã kết thúc",
-                        ToUser = user.Id,
-                        Link = $"/auction-details?auctionId={auction.Id}",
-                        IsRead = false,
-                    };
-                }
-                notifications.Add(notification);
-            }
-            _notificationDAO.insertList(notifications);
 
             //return price for winner
             var winner = _userDAO.GetUserById(winnerId);
@@ -101,6 +74,37 @@ namespace RealEstateAuction.Services
             //update the winner's wallet
             _userDAO.UpdateUser(winner);
 
+            foreach (var bidding in auction.AuctionBiddings)
+            {
+                var notification = new Notification();
+                if (bidding.MemberId == winnerId)
+                {
+                    notification = new Notification
+                    {
+                        Description = $"Bạn đã thắng phiên đấu giá {auction.Title}, 10% tiền đấu giá sẽ bị giữ lại làm cọc!",
+                        ToUser = bidding.MemberId,
+                        Link = $"/auction-details?auctionId={auction.Id}",
+                        IsRead = false,
+                    };
+                }
+                else
+                {
+                    var userEnd = _userDAO.GetUserById(bidding.MemberId);
+
+                    userEnd.Wallet += bidding.BiddingPrice;
+
+                    _userDAO.UpdateUser(userEnd);
+                    notification = new Notification
+                    {
+                        Description = $"Phiên đấu giá {auction.Title} đã kết thúc",
+                        ToUser = bidding.MemberId,
+                        Link = $"/auction-details?auctionId={auction.Id}",
+                        IsRead = false,
+                    };
+                }
+                notifications.Add(notification);
+            }
+            _notificationDAO.insertList(notifications);
             _logger.LogInformation("Auction end at {time}", DateTime.Now);
         }
 
