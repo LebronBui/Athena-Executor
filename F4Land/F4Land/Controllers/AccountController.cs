@@ -30,6 +30,7 @@ namespace RealEstateAuction.Controllers
         private readonly CategoryDAO categoryDAO;
         private IMapper _mapper;
         private Pagination pagination;
+        private NotificationDAO notificationDAO;
 
         public AccountController(IMapper mapper)
         {
@@ -42,6 +43,7 @@ namespace RealEstateAuction.Controllers
             ticketDAO = new TicketDAO();
             auctionBiddingDAO = new AuctionBiddingDAO();
             categoryDAO = new CategoryDAO();
+            notificationDAO = new NotificationDAO();
         }
 
         [HttpGet]
@@ -636,6 +638,45 @@ namespace RealEstateAuction.Controllers
                 auctionBidding.TimeBidding = DateTime.Now;
 
                 bool isSuccess = auctionBiddingDAO.AddAuctionBidding(auctionBidding);
+                Auction auctionEnd = auctionDAO.GetAuctionEndById(biddingDataModel.AuctionId);
+                if (auctionEnd != null && auctionEnd.Status == (int)AuctionStatus.Kết_thúc)
+                {
+                    var winnerId = auctionDAO.GetWinnerId(auction);
+                    var notifications = new List<Notification>();
+
+                    foreach (var bidding in auction.AuctionBiddings)
+                    {
+                        var notification = new Notification();
+                        if (bidding.MemberId == winnerId)
+                        {
+                            notification = new Notification
+                            {
+                                Description = $"Bạn đã thắng phiên đấu giá {auction.Title}, 10% tiền đấu giá sẽ bị giữ lại làm cọc!",
+                                ToUser = bidding.MemberId,
+                                Link = $"/auction-details?auctionId={auction.Id}",
+                                IsRead = false,
+                            };
+                        }
+                        else
+                        {
+                            var userEnd = userDAO.GetUserById(bidding.MemberId);
+
+                            userEnd.Wallet += bidding.BiddingPrice;
+
+                            userDAO.UpdateUser(userEnd);
+                            notification = new Notification
+                            {
+                                Description = $"Phiên đấu giá {auction.Title} đã kết thúc",
+                                ToUser = bidding.MemberId,
+                                Link = $"/auction-details?auctionId={auction.Id}",
+                                IsRead = false,
+                            };
+                        }
+                        notifications.Add(notification);
+                    }
+                    notificationDAO.insertList(notifications);
+                }
+
                 //Check user bidding successfull
                 if (isSuccess)
                 {
