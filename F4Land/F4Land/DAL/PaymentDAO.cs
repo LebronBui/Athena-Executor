@@ -103,8 +103,19 @@ namespace RealEstateAuction.DAL
 
         public Payment getPaymentRefund(int id)
         {
-            return context.Payments.Where(x => x.Status == (int)PaymentStatus.Approve && x.Type == (int)PaymentType.TopUp).SingleOrDefault(p => p.Id == id);
+            return context.Payments.Where(p =>
+                (p.Status == (int)PaymentStatus.Reject && p.Type == (int)PaymentType.TopUp
+                && (p.TransactionDate <= DateTime.Now.AddDays(3)))
+                ||
+                (p.Status == (int)PaymentStatus.Approve && p.Type == (int)PaymentType.Withdraw
+                && (p.TransactionDate <= DateTime.Now.AddDays(3)))
+                ).SingleOrDefault(p => p.Id == id);
         }
+
+        //public Payment getPaymentRefund(int id)
+        //{
+        //    return context.Payments.Where(x => x.Status == (int) PaymentStatus.Approve && x.Type == (int) PaymentType.TopUp).SingleOrDefault(p => p.Id == id);
+        //}
 
         public bool insert(Payment payment)
         {

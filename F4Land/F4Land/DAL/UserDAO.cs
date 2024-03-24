@@ -1,159 +1,124 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using NuGet.Protocol.Plugins;
-using RealEstateAuction.DAL;
-using RealEstateAuction.DataModel;
+﻿using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using RealEstateAuction.Enums;
 using RealEstateAuction.Models;
+using X.PagedList;
 
-namespace RealEstateAuction.Controllers
+namespace RealEstateAuction.DAL
 {
-    public class AdminController : Controller
+    public class UserDAO
     {
-        private readonly UserDAO userDAO;
-        private readonly BankDAO bankDAO;
-        private readonly TicketDAO ticketDAO;
-
-        public AdminController(IMapper mapper)
+        private readonly RealEstateContext context;
+        public UserDAO()
         {
-            userDAO = new UserDAO();
-            bankDAO = new BankDAO();
-            ticketDAO = new TicketDAO();
+            context = new RealEstateContext();
         }
-        public IActionResult Index()
+        public User GetUserByEmail(string email)
         {
-            return View();
+            return context.Users.SingleOrDefault(u => u.Email.Equals(email));
         }
-
-        [Authorize(Roles = "Admin")]
-        [HttpGet("manage-ticket")]
-        public IActionResult ManageTicket(int? page)
+        public User GetUserById(int id)
         {
-            int PageNumber = page ?? 1;
-            ViewData["List"] = ticketDAO.listTicket(PageNumber);
-
-            return View();
+            return context.Users.SingleOrDefault(u => u.Id.Equals(id));
         }
-
-        [Authorize(Roles = "Admin")]
-        [HttpGet("manage-ticket/{id}")]
-        public IActionResult TicketDetailAdmin(int id)
+        public User GetUserByEmailAndPassword(string email, string password)
         {
-            ViewData["Ticket"] = ticketDAO.ticketDetail(id);
-            ViewData["Staffs"] = userDAO.GetStaff();
-            return View();
+            return context.Users.SingleOrDefault(u => u.Email.Equals(email) && u.Password.Equals(password) && u.Status == (Byte)Status.Active);
         }
-
-        [Authorize(Roles = "Admin")]
-        [HttpPost("assign-ticket")]
-        public IActionResult AssignTicket([FromForm] AssignTicketDataModel assignTicketData)
+        public bool AddUser(User user)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var ticket = ticketDAO.ticketDetail(int.Parse(assignTicketData.TicketId.ToString()));
-                ticket.StaffId = int.Parse(assignTicketData.StaffId.ToString());
-                ticketDAO.update(ticket);
-                TempData["Message"] = "Bàn giao yêu cầu thành công";
+                context.Users.Add(user);
+                context.SaveChanges();
+                return true;
             }
-            else
+            catch (Exception)
             {
-                TempData["Message"] = "Bàn giao yêu cầu thất bại";
+                return false;
             }
-            return RedirectToAction("ManageTicket");
+        }
+        public bool UpdateUser(User user)
+        {
+            try
+            {
+                context.Users.Update(user);
+                context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public bool DeleteUser(User user)
+        {
+            try
+            {
+                context.Users.Remove(user);
+                context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpGet("manage-staff")]
-        public IActionResult ManageStaff(int? page)
+        public void UpdatePassword(string email, string newPwd)
         {
-            int PageNumber = page ?? 1;
-
-            return View(userDAO.GetStaff(PageNumber));
+            try
+            {
+                var user = GetUserByEmail(email);
+                user.Password = newPwd;
+                context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpPost("create-staff")]
-        public IActionResult CreateStaff()
+        //Get random staff
+        public User GetRandomStaff()
         {
-            string fullName = Request.Form["fullName"];
-            string email = Request.Form["email"];
-            string pwd = Request.Form["pwd"];
-            string phone = Request.Form["phone"];
-            string date = Request.Form["dob"];
-
-            User user = new User()
+            try
             {
-                FullName = fullName,
-                Email = email,
-                Password = pwd,
-                Phone = phone,
-                Dob = DateTime.Parse(date),
-                RoleId = (int)Roles.Staff,
-                Address = "",
-                Wallet = 0,
-                Status = (int)Status.Active,
-            };
+                //Get user with roleId is staff ( staff = 2 )
+                List<User> staffs = context.Users.Where(x => x.RoleId == (int)Roles.Staff).ToList();
 
-            var exist = userDAO.GetUserByEmail(email);
-            if (exist != null)
-            {
-                TempData["Message"] = "Email already exists!";
-                ViewBag.User = user;
+                Random rand = new Random();
+                // Generate a random index within the bounds of the list
+                int randomIndex = rand.Next(0, staffs.Count);
+
+                //get random staff
+                User staff = staffs[randomIndex];
+
+                return staff;
             }
-            else
+            catch (Exception ex)
             {
-                var result = userDAO.AddUser(user);
-                if (result)
-                {
-                    TempData["Message"] = "Register successful!";
-                }
-                else
-                {
-                    TempData["Message"] = "Register fail!";
-                }
+                throw new Exception(ex.Message);
             }
-
-            return RedirectToAction("ManageStaff");
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpPost("update-user")]
-        public IActionResult UpdateUser()
+        public List<User> GetStaff()
         {
-            string curentUrl = HttpContext.Request.Headers["Referer"];
-
-            var staff = userDAO.GetUserById(Int32.Parse(Request.Form["id"]));
-            if (staff == null)
-            {
-                TempData["Message"] = "Thay đổi thất bại!";
-            }
-            else
-            {
-                staff.Status = Byte.Parse(Request.Form["status"]);
-                var result = userDAO.UpdateUser(staff);
-                Console.WriteLine(result);
-                if (result)
-                {
-                    TempData["Message"] = "Thay đổi thành công!";
-                }
-                else
-                {
-                    TempData["Message"] = "Thay đổi thất bại!";
-                }
-            }
-
-            return Redirect(curentUrl);
+            return context.Users.Where(x => x.RoleId == (int)Roles.Staff).ToList();
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpGet("manage-member")]
-        public IActionResult ManageMember(int? page)
+        public IPagedList<User> GetStaff(int page)
         {
-            int PageNumber = page ?? 1;
+            return context.Users.Where(x => x.RoleId == (int)Roles.Staff).ToPagedList(page, 10);
+        }
 
-            return View(userDAO.GetMember(PageNumber));
+        public User GetStaffDetail(int id)
+        {
+            return context.Users.Where(x => x.Id == id).SingleOrDefault();
+        }
+
+        public IPagedList<User> GetMember(int page)
+        {
+            return context.Users.Where(x => x.RoleId == (int)Roles.Member).ToPagedList(page, 10);
         }
     }
 }
