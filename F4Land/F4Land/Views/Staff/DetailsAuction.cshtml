@@ -3,6 +3,7 @@
 @{
     Layout = "~/Views/Shared/UserLayout.cshtml";
     ViewData["Title"] = "Cập nhật phiên đấu giá";
+    var winner = (AuctionBidding)ViewData["Winner"];
 }
 <h2>Cập nhật phiên đấu giá</h2>
 <hr>
@@ -99,6 +100,54 @@
                 <a class="btn btn-primary mt-3" onclick="GoBack()">Quay lại</a>
             </div>
 
+        </div>
+
+        <div class="col-6">
+            <div class="w-100 border border-2 rounded-3">
+                <div class="d-flex justify-content-center">
+                    <h3 class="text-danger">Người chiến thắng: @winner?.Member.FullName</h3>
+                </div>
+                <table class="table mb-3">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Họ và tên</th>
+                            <th>Số điện thoại</th>
+                            <th>Số tiền đặt</th>
+                            <th>Thời gian đặt</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (winner != null)
+                        {
+                            <tr>
+                                <td>
+                                    <!--Get the first image of auciton-->
+                                    <img src="https://st3.depositphotos.com/9998432/13335/v/450/depositphotos_133352156-stock-illustration-default-placeholder-profile-icon.jpg" height="100" width="100">
+                                </td>
+                                <td>
+                                    @winner.Member.FullName
+                                </td>
+                                <td>
+                                    @winner.Member.Phone
+                                </td>
+                                <td>
+                                    @winner.BiddingPrice.ToString("N1")đ
+                                </td>
+                                <td>
+                                    @winner.TimeBidding
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td class="text-danger text-center" colspan="5">Không có người chiến thắng</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
 
     </div>
