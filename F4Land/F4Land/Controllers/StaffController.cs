@@ -4,7 +4,6 @@ using RealEstateAuction.DAL;
 using RealEstateAuction.DataModel;
 using RealEstateAuction.Enums;
 using RealEstateAuction.Models;
-using System.Reflection.Metadata;
 using System.Security.Claims;
 
 namespace RealEstateAuction.Controllers

@@ -6,7 +6,7 @@ using RealEstateAuction.AutoMapperProfile;
 using RealEstateAuction.DAL;
 using RealEstateAuction.Services;
 using RealEstateAuction.ViewComponents;
-using System.Web.Mvc;
+
 internal class Program
 {
     private static void Main(string[] args)
