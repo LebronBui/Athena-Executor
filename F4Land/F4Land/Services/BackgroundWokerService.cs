@@ -30,6 +30,7 @@ namespace RealEstateAuction.Services
                 {
                     //Get all auctions that are ending in 1 minute
                     List<Auction> ending = auctionDAO.GetAuctionsEndingIn1Minute();
+                    Console.WriteLine(ending.Count);
                     //Change status of auction to ended that incomming in 1 minutes
                     _timerService.EndAuction(ending);
                 });

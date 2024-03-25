@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using RealEstateAuction.DAL;
 using RealEstateAuction.Enums;
 using RealEstateAuction.Models;
+using System.Reflection;
 using System.Security.Policy;
 using System.Text;
 using System.Threading;
-using System.Web.Mvc;
 
 namespace RealEstateAuction.Services
 {
@@ -56,29 +56,23 @@ namespace RealEstateAuction.Services
             auction.Status = (int)AuctionStatus.Kết_thúc;
             //update auction to database
             _auctionDAO.EditAuction(auction);
-            var winnerId = _auctionDAO.GetWinnerId(auction);
             var notifications = new List<Notification>();
-
-            //return price for winner
-            var winner = _userDAO.GetUserById(winnerId);
+            var notificationForUser = new Notification();
 
             //get the price of the winner
-            var price = _auctionDAO.GetMaxPrice(auctionId);
-
+            var winnerPrice = auction.AuctionBiddings.Max(x => x.BiddingPrice);
             //keep 10% of the price as a deposit
-            var deposit = Math.Round(price * 0.1m);
+            var deposit = Math.Round(winnerPrice * 0.1m);
+            //return the rest of the price to the winner              
 
-            //return the rest of the price to the winner
-            winner.Wallet += price - deposit;
-
-            //update the winner's wallet
-            _userDAO.UpdateUser(winner);
-
+            Console.WriteLine($"bidding count: {auction.AuctionBiddings.Count()}");
             foreach (var bidding in auction.AuctionBiddings)
             {
+                Console.WriteLine($"bidding price: {bidding.BiddingPrice}, name: {bidding.Member.FullName}");
                 var notification = new Notification();
-                if (bidding.MemberId == winnerId)
+                if (bidding.BiddingPrice == winnerPrice)
                 {
+                    bidding.Member.Wallet += winnerPrice - deposit;
                     notification = new Notification
                     {
                         Description = $"Bạn đã thắng phiên đấu giá {auction.Title}, 10% tiền đấu giá sẽ bị giữ lại làm cọc!",
@@ -89,11 +83,9 @@ namespace RealEstateAuction.Services
                 }
                 else
                 {
-                    var userEnd = _userDAO.GetUserById(bidding.MemberId);
+                    bidding.Member.Wallet += bidding.BiddingPrice;
 
-                    userEnd.Wallet += bidding.BiddingPrice;
-
-                    _userDAO.UpdateUser(userEnd);
+                    _userDAO.UpdateUser(bidding.Member);
                     notification = new Notification
                     {
                         Description = $"Phiên đấu giá {auction.Title} đã kết thúc",
@@ -104,7 +96,17 @@ namespace RealEstateAuction.Services
                 }
                 notifications.Add(notification);
             }
+
+            notificationForUser = new Notification
+            {
+                Description = $"Phiên đấu giá {auction.Title} đã kết thúc",
+                ToUser = auction.User.Id,
+                Link = $"/auction-details?auctionId={auction.Id}",
+                IsRead = false,
+            };
+
             _notificationDAO.insertList(notifications);
+            _notificationDAO.insert(notificationForUser);
             _logger.LogInformation("Auction end at {time}", DateTime.Now);
         }
 
