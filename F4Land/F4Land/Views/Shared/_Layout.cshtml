@@ -1,6 +1,7 @@
 ﻿@using System.Security.Claims
 @using Microsoft.AspNetCore.Authentication.Cookies
 @using RealEstateAuction.DAL
+@using RealEstateAuction.DataModel
 
 @{
     var user = new User();
@@ -23,6 +24,7 @@
     {
         homePage = "/home";
     }
+    var DataSearch = (SearchDataModel)ViewData["DataSearch"];
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -49,12 +51,12 @@
             </a>
 
             <div class="col-12 col-md-5 mb-2 justify-content-center mb-md-0 gap-md-5">
-                <form action="/search" method="get" class="input-group">
+                <form action="/list-auction" method="get" class="input-group">
                     <div class="input-group">
                         <span class="input-group-text" id="basic-addon1">
                             <i class="fa-solid fa-magnifying-glass primary-color"></i>
                         </span>
-                        <input type="text" class="form-control" placeholder="Search items & sellers" aria-label="search"
+                        <input type="text" class="form-control" value="@(DataSearch?.Keyword ?? "")" name="keyword" placeholder="Tìm kiếm theo phiên đấu giá và chủ phiên" aria-label="search"
                                aria-describedby="basic-addon1">
                     </div>
                 </form>
