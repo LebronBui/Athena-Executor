@@ -644,8 +644,11 @@ namespace RealEstateAuction.Controllers
                     var winnerId = auctionDAO.GetWinnerId(auction);
                     var notifications = new List<Notification>();
 
+                    Console.WriteLine(auction.AuctionBiddings.Count());
+
                     foreach (var bidding in auction.AuctionBiddings)
                     {
+                        Console.WriteLine(bidding.BiddingId);
                         var notification = new Notification();
                         if (bidding.MemberId == winnerId)
                         {

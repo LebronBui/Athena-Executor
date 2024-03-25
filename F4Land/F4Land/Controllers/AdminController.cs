@@ -114,7 +114,7 @@ namespace RealEstateAuction.Controllers
             }
             catch (Exception ex)
             {
-                TempData["Message"] = "Bàn giao thất bại";
+                TempData["Message"] = "Đã có lỗi xảy ra, xin vui lòng thử lại";
             }
 
             return RedirectToAction("ManageAuctionAdmin");
