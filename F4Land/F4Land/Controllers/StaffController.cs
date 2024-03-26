@@ -386,8 +386,7 @@ namespace RealEstateAuction.Controllers
             //get auction by Id
             Auction auction = auctionDAO.GetAuctionById(auctionId);
 
-            //check status
-            if (status == 5)
+            if (auction.AuctionBiddings.Count > 0)
             {
                 //get the price of winner
                 var price = auctionDAO.GetMaxPrice(auctionId);
@@ -396,66 +395,91 @@ namespace RealEstateAuction.Controllers
 
                 //get the winner
                 var winner = userDAO.GetUserById(winnerId);
-
-                //return the 10% of winner price fee
-                winner.Wallet += Math.Round(price * 0.1m);
-
-                //update user
-                userDAO.UpdateUser(winner);
-
-                //update status of auction
-                auction.Status = byte.Parse(status.ToString());
-
-                //update auction
-                bool flag = auctionDAO.EditAuction(auction);
-
-                //check if update auction success
-                if (flag)
-                {
-                    TempData["Message"] = "Cập nhật thành công!";
-                }
-                else
-                {
-                    TempData["Message"] = "Cập nhật thất bại";
-                }
-            }
-            else
-            {
-                //get the price of winner
-                var price = auctionDAO.GetMaxPrice(auctionId);
 
                 //take 10% of the price as a deposit
                 var deposit = Math.Round(price * 0.1m);
 
-                //keep 5% of deposit for the system
-                var systemFee = Math.Round(deposit * 0.05m);
-                Console.WriteLine(price + " " + deposit);
-                //get the winner id
-                var winnerId = auctionDAO.GetWinnerId(auction);
-
-                //get the winner
-                var winner = userDAO.GetUserById(winnerId);
-
-                //return the rest of the deposit to the winner
-                winner.Wallet += deposit - systemFee;
-
-                //update user
-                userDAO.UpdateUser(winner);
-
-                //update status of auction
-                auction.Status = byte.Parse(status.ToString());
-
-                //update auction
-                bool flag = auctionDAO.EditAuction(auction);
-                if (flag)
+                //check status
+                if (status == 5)
                 {
-                    TempData["Message"] = "Cập nhật thành công!";
+                    //return the 10% of winner price fee
+                    winner.Wallet += deposit;
+
+                    auction.Approver.Wallet -= deposit;
+
+                    userDAO.UpdateUser(auction.Approver);
+
+                    //update user
+                    userDAO.UpdateUser(winner);
+
+                    //update status of auction
+                    auction.Status = byte.Parse(status.ToString());
+
+                    //update auction
+                    bool flag = auctionDAO.EditAuction(auction);
+
+                    //check if update auction success
+                    if (flag)
+                    {
+                        var notification = new Notification
+                        {
+                            Description = $"Hoàn thành bàn giao phiên đấu giá {auction.Title}, hoàn lại cọc",
+                            ToUser = winnerId,
+                            Link = $"/auction-details?auctionId={auction.Id}",
+                            IsRead = false,
+                        };
+                        notificationDAO.insert(notification);
+                        TempData["Message"] = "Cập nhật thành công!";
+                    }
+                    else
+                    {
+                        TempData["Message"] = "Cập nhật thất bại";
+                    }
                 }
                 else
                 {
-                    TempData["Message"] = "Cập nhật thất bại";
+                    //keep 5% of deposit for the system
+                    var systemFee = Math.Round(deposit * 0.05m);
+                    Console.WriteLine(price + " " + deposit);
+
+                    //return the rest of the deposit to the winner
+                    winner.Wallet += deposit - systemFee;
+
+                    auction.Approver.Wallet -= deposit - systemFee;
+
+                    userDAO.UpdateUser(auction.Approver);
+
+                    //update user
+                    userDAO.UpdateUser(winner);
+
+                    //update status of auction
+                    auction.Status = byte.Parse(status.ToString());
+
+                    //update auction
+                    bool flag = auctionDAO.EditAuction(auction);
+                    if (flag)
+                    {
+                        var notification = new Notification
+                        {
+                            Description = $"Từ chối bàn giao phiên đấu giá {auction.Title}, hoàn lại 95% tiền cọc",
+                            ToUser = winnerId,
+                            Link = $"/auction-details?auctionId={auction.Id}",
+                            IsRead = false,
+                        };
+                        notificationDAO.insert(notification);
+                        TempData["Message"] = "Cập nhật thành công!";
+                    }
+                    else
+                    {
+                        TempData["Message"] = "Cập nhật thất bại";
+                    }
                 }
             }
+            else
+            {
+                TempData["Message"] = "Phiên đấu giá không có người tham gia đặt giá";
+            }
+
 
             return Redirect("list-auction-staff");
         }
