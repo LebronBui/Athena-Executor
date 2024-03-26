@@ -28,14 +28,21 @@ namespace RealEstateAuction.Services
                 // End the auctions that are ending in 1 minutes
                 Task endAuctionsTask = Task.Run(() =>
                 {
-                    //Get all auctions that are ending in 1 minute
-                    List<Auction> ending = auctionDAO.GetAuctionsEndingIn1Minute();
-                    Console.WriteLine(ending.Count);
-                    //Change status of auction to ended that incomming in 1 minutes
-                    _timerService.EndAuction(ending);
+                    try
+                    {
+                        //Get all auctions that are ending in 1 minute
+                        List<Auction> ending = auctionDAO.GetAuctionsEndingIn1Minute();
+                        Console.WriteLine($"{DateTime.Now}, Number of auctions: " + ending.Count);
+                        //Change status of auction to ended that incomming in 1 minutes
+                        _timerService.EndAuction(ending);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
                 });
 
-                //Wait for 1 hour to repeat the process
+                //Wait for 1 min to repeat the process
                 await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
             }
         }
