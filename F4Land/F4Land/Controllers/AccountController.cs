@@ -612,12 +612,6 @@ namespace RealEstateAuction.Controllers
                 //Update status of auction to end
                 auction.Status = (int)AuctionStatus.Kết_thúc;
 
-                //keep 10% of the price as a deposit
-                var deposit = biddingDataModel.BiddingPrice * 0.1m;
-
-                //return the rest of the price to the winner
-                user.Wallet += biddingDataModel.BiddingPrice - deposit;
-
                 //Update Auction to database
                 bool isSuccess = auctionDAO.EditAuction(auction);
             }
@@ -652,6 +646,15 @@ namespace RealEstateAuction.Controllers
                         var notification = new Notification();
                         if (bidding.MemberId == winnerId)
                         {
+                            //Keep 10% price as deposit
+                            var deposit = bidding.BiddingPrice * 0.1m;
+                            //return the rest of the price to the winner
+                            auction.Approver.Wallet += deposit;
+                            user.Wallet += bidding.BiddingPrice - deposit;
+
+                            userDAO.UpdateUser(auction.Approver);
+                            userDAO.UpdateUser(user);
+
                             notification = new Notification
                             {
                                 Description = $"Bạn đã thắng phiên đấu giá {auction.Title}, 10% tiền đấu giá sẽ bị giữ lại làm cọc!",
