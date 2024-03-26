@@ -137,6 +137,7 @@ namespace RealEstateAuction.DAL
                 .Include(a => a.User)
                 .Include(a => a.Users)
                 .Include(a => a.AuctionBiddings)
+                .Include(a => a.Approver)
                 .OrderBy(a => a.Id)
                 .FirstOrDefault(a => a.Id == id
                                 && a.DeleteFlag == false);
@@ -166,13 +167,12 @@ namespace RealEstateAuction.DAL
             if (auction != null)
             {
                 auction.AuctionBiddings.Clear();
-                Console.WriteLine($"bidding count: {auction.AuctionBiddings.Count()}");
+                Console.WriteLine($"bidding count after clean: {auction.AuctionBiddings.Count()}");
                 Console.WriteLine($"user count: {auction.Users.Count()}");
                 if (auction.Users.Count > 0)
                 {
                     foreach (var user in auction.Users)
                     {
-                        Console.WriteLine($"bidding count: {auction.AuctionBiddings.Count()}");
                         var nearestBidding = context.AuctionBiddings
                             .Include(a => a.Member)
                             .Where(ab => ab.MemberId == user.Id && ab.AuctionId == auction.Id)
@@ -180,6 +180,7 @@ namespace RealEstateAuction.DAL
                             .FirstOrDefault();
                     }
                 }
+                Console.WriteLine($"bidding count after modified: {auction.AuctionBiddings.Count()}");
             }
             return auction ?? null;
         }
@@ -218,6 +219,7 @@ namespace RealEstateAuction.DAL
         {
             return context.Auctions.Where(a => a.ApproverId == staffId && a.DeleteFlag == false)
                                    .Include(a => a.Images)
+                                   .Include(a => a.AuctionBiddings)
                                    .OrderBy(a => a.Status)
                                    .Skip((pagination.PageNumber - 1) * pagination.RecordPerPage)
                                    .Take(pagination.RecordPerPage)
