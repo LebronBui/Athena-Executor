@@ -73,7 +73,7 @@
                             <a class="btn btn-danger btnStatus" data-bs-toggle="modal" data-bs-target="#modalRejectAuction" data-id="@item.Id"
                                data-status="@((int)AuctionStatus.Từ_chối)">Từ chối</a>
                         }
-                        @if (item.Status == 4)
+                        @if (item.Status == 4 && item.AuctionBiddings.Count > 0)
                         {
                             <a class="btn btn-success btnStatus" href="/confirm-auction?auctionId=@item.Id&status=5">Thành công</a>
                             <a class="btn btn-danger btnStatus" href="/confirm-auction?auctionId=@item.Id&status=6">Thất bại</a>
@@ -93,7 +93,7 @@
         <ul class="pagination justify-content-center justify-content-lg-end">
             @if (ViewBag.currentPage != 1)
             {
-                <li class="page-item mx-1"><a class="page-link" href='/manage-auction?pageNumber=@(ViewBag.currentPage-1)' aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                <li class="page-item mx-1"><a class="page-link" href='/list-auction-staff?pageNumber=@(ViewBag.currentPage-1)' aria-label="Previous"><span aria-hidden="true">«</span></a></li>
             }
             @for (var i = 1; i <= ViewBag.pageSize; i++)
             {
@@ -103,12 +103,12 @@
                 }
                 else
                 {
-                    <li class="page-item mx-1"><a class="page-link" href='/manage-auction?pageNumber=@i'>@i</a></li>
+                    <li class="page-item mx-1"><a class="page-link" href='/list-auction-staff?pageNumber=@i'>@i</a></li>
                 }
             }
             @if (ViewBag.currentPage < ViewBag.pageSize)
             {
-                <li class="page-item ms-1"><a class="page-link" href='/manage-auction?pageNumber=@(ViewBag.currentPage+1)' aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                <li class="page-item ms-1"><a class="page-link" href='/list-auction-staff?pageNumber=@(ViewBag.currentPage+1)' aria-label="Next"><span aria-hidden="true">»</span></a></li>
             }
         </ul>
     </nav>
